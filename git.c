@@ -8,5 +8,3 @@ int main() {
     system("git push doc main");
     return 0;
 }
-
-
