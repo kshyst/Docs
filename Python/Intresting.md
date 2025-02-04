@@ -139,3 +139,133 @@ z , y , x = tuple1
 ```python
 dict([('sape', 4139), ('guido', 4127), ('jack', 4098)])
 ```
+
+## Some Looping Techniques
+
+> - use items() method to loop over key-value pairs :
+
+```python
+knights = {'gallahad': 'the pure', 'robin': 'the brave'}
+for k, v in knights.items():
+    print(k, v)
+```
+
+> - use enumerate() to get index and value of list : 
+
+```python
+for i, v in enumerate(['tic', 'tac', 'toe']):
+    print(i, v)
+```
+
+> - use zip() to loop over two or more sequences at the same time :
+
+```python
+questions = ['name', 'quest', 'favorite color']
+answers = ['lancelot', 'the holy grail', 'blue']
+for q, a in zip(questions, answers):
+    print('What is your {0}?  It is {1}.'.format(q, a))
+```
+
+> - use reversed() to loop over a sequence in reverse :
+
+```python
+for i in reversed(range(1, 10, 2)):
+    print(i)
+```
+
+> - use sorted() to loop over a sequence in sorted order and set() to eliminate duplicates :
+
+```python
+basket = ['apple', 'orange', 'apple', 'pear', 'orange', 'banana']
+for f in sorted(set(basket)):
+    print(f)
+```
+
+## More on Conditions
+> - short circuit operations are "and" and "or" , they evaluate from left to right and return the value of the last expression evaluated
+> - "not" has the highest priority among them
+> - walrus operator := assigns values to variables as part of a larger expression
+
+```python
+# walrus example
+n = 0
+while (n := n + 1) < 10:
+    print(n)
+
+# is equivalent to
+    
+n = 0
+while n < 10:
+    n += 1
+    print(n)
+
+```
+
+## Modules
+
+> - Can use global variables without interrupting users variables
+> - "from fibo import * " imports all names except those beginning with an underscore (_) , "from fibo import fib" imports only fib
+
+### about __name__ == "__main__"
+>That means that by adding this code at the end of your module:
+
+```python
+     if __name__ == "__main__":
+         import sys
+         fib(int(sys.argv[1]))
+```
+> you can make the file usable as a script as well as an importable module, because the code that parses the command line only runs if the module is executed as the “main” file:
+
+```python
+python fibo.py 50
+0 1 1 2 3 5 8 13 21 34
+```
+
+### Importing with *
+> - import * does not import items whose name starts with an underscore
+> - f a package’s __init__.py code defines a list named __all__, it is taken to be the list of module names that should be imported when from package import * is encountered.
+
+```python
+__all__ = ["echo", "surround", "reverse"]
+```
+
+> Be aware that submodules might become shadowed by locally defined names. For example, if you added a reverse function to the sound/effects/__init__.py file, the from sound.effects import * would only import the two submodules echo and surround, but not the reverse submodule, because it is shadowed by the locally defined reverse function:
+
+```python
+__all__ = [
+    "echo",      # refers to the 'echo.py' file
+    "surround",  # refers to the 'surround.py' file
+    "reverse",   # !!! refers to the 'reverse' function now !!!
+]
+
+def reverse(msg: str):  # <-- this name shadows the 'reverse.py' submodule
+    return msg[::-1]    #     in the case of a 'from sound.effects import *'
+```
+
+> If \_\_all__ is not defined, the statement from sound.effects import * does not import all submodules from the package sound.effects into the current namespace; it only ensures that the package sound.effects has been imported (possibly running any initialization code in __init__.py) and then imports whatever names are defined in the package. This includes any names defined (and submodules explicitly loaded) by __init__.py. It also includes any submodules of the package that were explicitly loaded by previous import statements.
+
+> Example :
+
+```python
+import sound.effects.echo
+import sound.effects.surround
+from sound.effects import *
+```
+
+### Module search path
+> - searches the current directory
+> - looks in PYTHONPATH
+> - looks in installation-dependent default
+
+> After initialization, Python programs can modify sys.path. The directory containing the script being run is placed at the beginning of the search path, ahead of the standard library path. This means that scripts in that directory will be loaded instead of modules of the same name in the library directory.
+
+
+## Built-in Exceptions List
+
+> - BaseException : the base class for all built-in exceptions
+> - SystemExit : raised by sys.exit() function
+> - KeyboardInterrupt : raised when the user hits the interrupt key (Ctrl+C or Delete)
+> - Exception : the base class for all built-in exceptions
+> - StopIteration : raised by next() function to indicate that there is no further item to be returned by iterator
+> - GeneratorExit : raised when a generator is closed
+> - SystemExit : raised by sys.exit() function
