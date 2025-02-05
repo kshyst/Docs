@@ -196,3 +196,12 @@ $ pip install virtualenvwrapper
 $ export WORKON_HOME=~/Envs
 $ source /usr/local/bin/virtualenvwrapper.sh
 ```
+
+> Basic usage :
+
+```shell
+
+mkvirtualenv project_folder
+workon project_folder
+mkproject project_folder
+```
