@@ -436,6 +436,31 @@ Hello, Alice!
 Something is happening after the function is called.
 ```
 
+> Decorating a function changes the function's identity to the wrapper function.
+> 
+> To fix this problem python provides a tool called __funtools.wraps__ to fix this issue.
+
+
+```python
+from functools import wraps
+
+def my_decorator(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        print("Something is happening before the function is called.")
+        result = func(*args, **kwargs)
+        print("Something is happening after the function is called.")
+        return result
+    return wrapper
+
+@my_decorator
+def say_hello(name):
+    print(f"Hello, {name}!")
+    
+print(say_hello.__name__)
+
+```
+
 ### Different Types of Decorators
 
 > - Function Decorators: These are the most common type of decorators in Python. They are applied directly to functions using the @decorator_name syntax.
@@ -445,6 +470,7 @@ Something is happening after the function is called.
 > - Static Method Decorators: These decorators are used to define static methods in classes. They are defined using the @staticmethod decorator before the method definition.
 > - Class Method Decorators: These decorators are used to define class methods in classes. They are defined using the @classmethod decorator before the method definition.
 > - Decorators with Arguments: Decorators can also take arguments. In this case, you need to define an additional function that returns the actual decorator. This allows you to pass arguments to the decorator function.
+
 
 
 ## Format function
@@ -487,7 +513,7 @@ print(obj.my_method())  # Output: Patched method
 ## Map Filters and Reduce
 
 > - map() applies a function to all the items in an input_list : map(function_to_apply, list_of_inputs)
-> - filter() constructs an iterator from elements of an iterable for which a function returns true.
+> - filter() creates a list of elements for which a function returns true.
 
 ### map()
 
@@ -504,3 +530,95 @@ squared = []
 for i in items:
     squared.append(i**2)
 ```
+
+> another example :
+
+```python
+def multiply(x):
+    return (x*x)
+def add(x):
+    return (x+x)
+
+funcs = [multiply, add]
+for i in range(5):
+    value = list(map(lambda x: x(i), funcs))
+    print(value)
+```
+
+> Output :
+
+```text
+[0, 0]
+[1, 2]
+[4, 4]
+[9, 6]
+[16, 8]
+```
+
+### filter()
+
+```python
+number_list = range(-5, 5)
+less_than_zero = list(filter(lambda x: x < 0, number_list))
+print(less_than_zero)
+```
+
+> is equivalent to :
+
+```python
+number_list = range(-5, 5)
+less_than_zero = []
+for i in number_list:
+    if i < 0:
+        less_than_zero.append(i)
+print(less_than_zero)
+```
+
+### reduce()
+
+> Reduce is a really useful function for performing some computation on a list and returning the result. It applies a rolling computation to sequential pairs of values in a list. For example, if you wanted to compute the product of a list of integers.
+
+```python
+from functools import reduce
+product = reduce((lambda x, y: x * y), [1, 2, 3, 4])
+```
+
+> is equivalent to :
+
+```python
+
+product = 1
+for i in [1, 2, 3, 4]:
+    product *= i
+```
+
+### Difference between map() and reduce()
+
+> - map() applies a function to all the items in an input_list. A new list is returned which contains items returned by that function for each item.
+> - reduce() applies a rolling computation to sequential pairs of values in a list. For example, if you wanted to compute the product of a list of integers, you could use reduce() to perform the computation.
+
+
+## Python Debugger
+
+> Python provides a built-in debugger module called pdb. It is a powerful tool for debugging and analyzing code. You can use it to set breakpoints, step through code, and inspect variables.
+
+> To start the debugger, you can run your script with the -m pdb option:
+
+```shell
+
+python -m pdb my_script.py
+
+```
+
+> Once the debugger is running, you can use the following commands to control the debugger:
+> - h or help: Display a list of available commands.
+> - l or list: Show the current line of code being executed
+> - n or next: Execute the current line of code and move to the next line
+> - c or continue: Continue running the code until the next breakpoint is encountered
+> - q or quit: Exit the debugger
+> - p or print: Print the value of a variable
+> - s or step: Step into a function call
+> - r or return: Continue running the code until the current function returns
+> - b or break: Set a breakpoint at a specific line number
+> - w or where: Show the current call stack
+
