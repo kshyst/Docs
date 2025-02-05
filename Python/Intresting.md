@@ -100,9 +100,19 @@ parrot(**d)
 > - Flexibility: *args and **kwargs allow you to pass a variable number of arguments to a function. This can be useful when you don't know in advance how many arguments will be passed to the function.
 > - Decorators: *args and **kwargs are commonly used in decorators to pass arguments to the decorated function without knowing the exact number of arguments in advance.
 
-## List Comprehensions
+## Comprehensions
+
+> Comprehensions are constructs that allow sequences to be built from other sequences.
+
+### List Comprehensions
 
 > List comprehensions provide a concise way to create lists. Common applications are to make new lists where each element is the result of some operation applied to each member of another sequence or iterable, or to create a subsequence of those elements that satisfy a certain condition.
+
+#### Blueprint
+
+```python
+variable = [out_exp for out_exp in input_list if out_exp == 2]
+```
 
 ```python
 squares = []
@@ -113,6 +123,55 @@ squares = list(map(lambda x: x**2, range(10)))
 
 squares = [x**2 for x in range(10)]
 ```
+
+### Dictionary Comprehensions
+
+> Dictionary comprehensions are similar, but they construct dictionaries instead of lists. A dictionary comprehension looks like this:
+
+#### Blueprint
+```python
+{v: k for k, v in some_dict.items()}
+```
+
+```python
+squares = {x: x**2 for x in range(10)}
+```
+
+> another example:
+
+```python
+mcase = {'a': 10, 'b': 34, 'A': 7, 'Z': 3}
+
+mcase_frequency = {
+    k.lower(): mcase.get(k.lower(), 0) + mcase.get(k.upper(), 0)
+    for k in mcase.keys()
+}
+
+# mcase_frequency == {'a': 17, 'z': 3, 'b': 34}
+```
+
+### Set Comprehensions
+
+> They are also similar to list comprehensions. The only difference is that they use braces {}. Here is an example:
+
+```python
+squared = {x**2 for x in [1, 1, 2]}
+print(squared)
+# Output: {1, 4}
+```
+
+### Generator Comprehensions
+
+> Generator comprehensions are similar to list comprehensions, but they return a generator object instead of a list. This means that they generate values on-the-fly instead of storing them in memory. Generator comprehensions are created using parentheses () instead of square brackets [].
+
+```python
+gen = (x**2 for x in range(100))
+print(gen)
+
+for x in gen:
+    print(x)
+```
+
 
 ## About Tuple
 > This code is tuple ! :
@@ -621,4 +680,19 @@ python -m pdb my_script.py
 > - r or return: Continue running the code until the current function returns
 > - b or break: Set a breakpoint at a specific line number
 > - w or where: Show the current call stack
+
+## File Handling
+
+> to make sure that the file gets closed whether an exception occurs or not, pack it into a with statement:
+
+```python
+with open('photo.jpg', 'r+') as f:
+    jpgdata = f.read()
+```
+
+> - If you want to read the file, pass in r
+> - If you want to read and write the file, pass in r+
+> - If you want to overwrite the file, pass in w
+> - If you want to append to the file, pass in a
+
 
