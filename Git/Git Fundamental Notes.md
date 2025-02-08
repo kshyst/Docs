@@ -84,4 +84,55 @@ index 0000000..d3f70b9
 +### commit --amend
 ```
 
-# hi
+## Stash
+
+> The git stash command takes your uncommitted changes (both staged and unstaged), saves them away for later use, and then reverts them from your working copy. 
+
+```shell
+git stash
+git stash list
+git stash apply
+git stash drop
+git stash pop
+```
+
+### what will be stashed and what not
+
+> will stash
+> - changes that have been added to your index (staged changes)
+> - changes made to files that are currently tracked by Git (unstaged changes)
+
+> will not stash
+> - new files in your working directory that Git has not yet started tracking
+> - files that have been ignored by Git
+
+> add -u for stashing untracked files
+
+```shell
+
+git stash -u
+```
+> add -a for stashing all files
+
+```shell
+
+git stash -a
+```
+
+### Popping Stashes
+
+> by default it works like a stack
+> but you can specify which stash to pop
+
+```shell
+git stash pop stash@{2}
+```
+
+### show
+
+> shows the changes in a stash
+
+```shell
+git stash show -p stash@{2}
+```
+
