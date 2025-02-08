@@ -136,3 +136,38 @@ git stash pop stash@{2}
 git stash show -p stash@{2}
 ```
 
+### partial stash
+
+> you can stash only some files
+
+
+> - / for seaching a hunk by regex
+> - ? help
+> - q quit
+> - y stage this hunk
+> - n do not stage this hunk
+> - s split the hunk
+
+```shell
+git stash -p
+```
+
+### Create a branch from stash
+
+> If the changes on your branch diverge from the changes in your stash, you may run into conflicts when popping or applying your stash. Instead, you can use git stash branch to create a new branch to apply your stashed changes to:
+
+```shell
+
+git stash branch add-stylesheet stash@{1}
+Switched to a new branch 'add-stylesheet'
+On branch add-stylesheet
+Changes to be committed:
+
+    new file:   style.css
+
+Changes not staged for commit:
+
+    modified:   index.html
+
+Dropped refs/stash@{1} (32b3aa1d185dfe6d57b3c3cc3b32cbf3e380cc6a)
+``` 
