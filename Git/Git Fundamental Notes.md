@@ -397,3 +397,34 @@ git rebase --onto main feature1 feature2
      \
       o---o---o---o---o  featureA
 ```
+
+
+## Reflog
+
+> The git reflog command is a Git utility tool that is used to manage the reference logs in a Git repository. The reference logs are used to store the history of the HEAD and the branch tips. The git reflog command is used to view the reference logs and to manage the reference logs in a Git repository.
+
+```shell
+
+git reflog
+```
+
+### How to view reflog for specific branch
+
+```shell
+
+git reflog master
+```
+
+### How to undo a git rebase using reflog
+
+> The git reflog command can be used to undo a git rebase operation. The reflog command will display the
+> history of the HEAD and the branch tips. The reflog command can be used to find the commit hash of the
+> commit before the rebase operation. The git reset command can then be used to reset the HEAD to the commit
+> before the rebase operation.
+
+```shell
+
+git reflog
+git reset --hard HEAD@{1}
+```
+
