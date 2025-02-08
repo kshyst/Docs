@@ -6,16 +6,13 @@
 ### commit --amend
 > will modify the last commit. Instead of creating a new commit, staged changes will be added to the previous commit. This command will open up the system's configured text editor and prompt to change the previously specified commit message.
 
-## Log
+## Status
 
-> ou can view all commits across all branches by executing :
+> git status command output displays changes between the Commit History and the Staging Index. Let us examine the Staging Index content at this point.
 
-```shell
 
-git log --branches=*
-```
 
-## diff
+### diff
 
 > Diffing is a function that takes two input data sets and outputs the changes between them.
 
@@ -178,7 +175,7 @@ Changes not staged for commit:
     modified:   index.html
 
 Dropped refs/stash@{1} (32b3aa1d185dfe6d57b3c3cc3b32cbf3e380cc6a)
-``` 
+```
 
 ## Tags
 
@@ -284,4 +281,119 @@ Would remove the following items:
 *** Commands ***
     1: clean                2: filter by pattern    3: select by numbers    4: ask each             5: quit                 6: help
 What now>
+```
+
+## Revert
+
+> The git revert command can be considered an 'undo' type command, however, it is not a traditional undo operation. Instead of removing the commit from the project history, it figures out how to invert the changes introduced by the commit and appends a new commit with the resulting inverse content. This prevents Git from losing history, which is important for the integrity of your revision history and for reliable collaboration.
+
+### How it works exactly
+
+> The git revert command is used for undoing changes to a repository's commit history. Other 'undo' commands like, git checkout and git reset, move the HEAD and branch ref pointers to a specified commit. Git revert also takes a specified commit, however, git revert does not move ref pointers to this commit. A revert operation will take the specified commit, inverse the changes from that commit, and create a new "revert commit". The ref pointers are then updated to point at the new revert commit making it the tip of the branch.
+
+### Common options
+
+> -n, --no-commit: This option will revert the changes but will not create a new commit. This is useful for reverting changes before committing them.
+> -e, --edit: This option will open the commit message in the default text editor. This allows you to modify the commit message before committing the revert.
+> --no-edit: This option will revert the changes and create a new commit with the default commit message. This is the default behavior.
+
+### Revert vs Reset
+
+> Reverting has two important advantages over resetting. First, it doesn’t change the project history, which makes it a “safe” operation for commits that have already been published to a shared repository. For details about why altering shared history is dangerous.
+
+
+> Second, git revert is able to target an individual commit at an arbitrary point in the history, whereas git reset can only work backward from the current commit. For example, if you wanted to undo an old commit with git reset, you would have to remove all of the commits that occurred after the target commit, remove it, then re-commit all of the subsequent commits. Needless to say, this is not an elegant undo solution.
+
+
+
+## Reset
+
+> The git reset command is a complex and versatile tool for undoing changes. It has three primary forms of invocation. These forms correspond to command line arguments --soft, --mixed, --hard. The three arguments each correspond to Git's three internal state management mechanism's, The Commit Tree (HEAD), The Staging Index, and The Working Directory.
+
+
+### --hard
+
+> This is the most direct, DANGEROUS, and frequently used option. When passed --hard The Commit History ref pointers are updated to the specified commit. Then, the Staging Index and Working Directory are reset to match that of the specified commit. Any previously pending changes to the Staging Index and the Working Directory gets reset to match the state of the Commit Tree. This means any pending work that was hanging out in the Staging Index and Working Directory will be lost.
+
+
+### --mixed
+
+> This is the default option. When passed --mixed The Commit History ref pointers are updated to the specified commit. Then, the Staging Index is reset to match that of the specified commit. The Working Directory is not affected. This means any pending changes in the Working Directory are left alone. The changes that were in the Staging Index are reset to match the specified commit.
+
+
+### --soft
+
+> When passed --soft The Commit History ref pointers are updated to the specified commit. The Staging Index and Working Directory are not affected. This means any pending changes in the Staging Index and Working Directory are left alone. The changes that were in the Commit Tree are reset to match the specified commit.
+
+
+### differences
+> git reset --mixed: Resets the HEAD and updates the staging area, but leaves the working directory unchanged.
+
+>git reset --soft: Only resets the HEAD, leaving both the staging area and the working directory unchanged.
+
+>git reset --hard: Resets the HEAD, updates the staging area, and resets the working directory to match the specified commit.
+
+
+## RM
+
+> The git rm command can be used to remove individual files or a collection of files. The primary function of git rm is to remove tracked files from the Git index. Additionally, git rm can be used to remove files from both the staging index and the working directory. There is no option to remove a file from only the working directory. The files being operated on must be identical to the files in the current HEAD. If there is a discrepancy between the HEAD version of a file and the staging index or working tree version, Git will block the removal. This block is a safety mechanism to prevent removal of in-progress changes.
+
+### Undoing a git rm
+
+> Executing git rm is not a permanent update. The command will update the staging index and the working directory. These changes will not be persisted until a new commit is created and the changes are added to the commit history. This means that the changes here can be "undone" using common Git commands.
+
+```shell
+
+git reset HEAD <file>
+
+git checkout -- <file>
+```
+
+## Branches
+
+> Git branches are effectively a pointer to a snapshot of your changes. When you want to add a new feature or fix a bug—no matter how big or how small—you spawn a new branch to encapsulate your changes. This makes it harder for unstable code to get merged into the main code base, and it gives you the chance to clean up your future's history before merging it into the main branch.
+
+> Deleting a branch on shared repository
+
+```shell
+
+git push origin --delete crazy-experiment
+```
+
+## Rebase
+
+> The git rebase command is used to reapply commits on top of another base tip. This is useful for local branches that are not shared or for rewriting the commit history of a shared branch. The git rebase command is an alternative to the git merge command.
+
+### Interactive Rebase
+
+> The git rebase command can be used with the -i or --interactive flag to interactively reapply commits on top of another base tip. This flag allows you to selectively choose which commits to reapply.
+
+```shell
+
+git rebase -i HEAD~3
+```
+
+### --onto
+
+```shell
+
+git rebase --onto main feature1 feature2
+```
+> from this 
+```shell
+   o---o---o---o---o  main
+        \
+         o---o---o---o---o  featureA
+              \
+               o---o---o  featureB
+```
+
+> to this
+
+```shell
+                      o---o---o  featureB
+                     /
+    o---o---o---o---o  main
+     \
+      o---o---o---o---o  featureA
 ```
