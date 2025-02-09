@@ -696,3 +696,34 @@ with open('photo.jpg', 'r+') as f:
 > - If you want to append to the file, pass in a
 
 
+## Pickling and Unpickling
+
+> Pickling is the Python term for serializing an object, which entails transforming it into a binary representation that can be stored in a file or communicated over a network. Python has built-in functions for the pickling objects in the pickle module.
+
+```python
+
+import pickle
+
+# An arbitrary collection of objects supported by pickle.
+data = {
+    'a': [1, 2.0, 3, 4+6j],
+    'b': ("character string", b"byte string"),
+    'c': {None, True, False}
+}
+
+with open('data.pickle', 'wb') as f:
+    # Pickle the 'data' dictionary using the highest protocol available.
+    pickle.dump(data, f, pickle.HIGHEST_PROTOCOL)
+
+```
+
+## Static types
+
+> Python is a dynamically typed language, which means that the type of a variable is determined at runtime. However, Python 3.5 introduced a new feature called type hints that allows you to add type information to your code. This can help you catch errors early and make your code easier to understand.
+
+```python
+
+def greeting(name: str) -> str:
+    return 'Hello, ' + name
+
+```

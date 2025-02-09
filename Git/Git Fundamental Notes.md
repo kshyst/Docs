@@ -1,10 +1,21 @@
 # Some Notes About Git
 
+## Interesting Notes
+
 ### commit -a
 > Commit a snapshot of all changes in the working directory. This only includes modifications to tracked files (those that have been added with git add at some point in their history).
 
 ### commit --amend
 > will modify the last commit. Instead of creating a new commit, staged changes will be added to the previous commit. This command will open up the system's configured text editor and prompt to change the previously specified commit message.
+
+### --dry-run
+
+> The --dry-run option is used to simulate the git command without actually executing it. This option is useful for testing the effects of a git command without making any changes to the repository.
+
+```shell
+
+git commit --dry-run
+```
 
 ## Status
 
@@ -427,4 +438,139 @@ git reflog master
 git reflog
 git reset --hard HEAD@{1}
 ```
+
+
+## Remote
+
+> The git remote command is a Git utility used to manage remote repositories. The git remote command is used to create, view, and delete connections to other repositories. The git remote command is used to manage the remote repositories that are associated with a Git repository.
+
+
+### Prune
+
+> deletes any local branch that isn't available in remote repository
+
+```shell
+
+git remote prune origin
+```
+
+### Show
+
+> high level information about the remote repository
+
+```shell
+
+git remote show origin
+```
+
+
+## Fetch
+
+> The git fetch command is used to retrieve commits from a remote repository's branch
+
+```shell
+
+git fetch origin
+```
+
+### Fetching a specific branch
+
+```shell
+
+git fetch origin master
+```
+
+### Fetching all branches
+
+```shell
+
+git fetch --all
+```
+
+## Pull
+
+> The git pull command is used to fetch and download content from a remote repository and immediately update the local repository to match that content. The git pull command is actually a combination of two other commands, git fetch followed by git merge. In the first stage of operation git pull will execute a git fetch scoped to the local branch that HEAD is pointed at. Once the content is downloaded, git pull will enter a merge workflow. A new merge commit will be-created and HEAD updated to point at the new commit.
+
+```shell
+
+git pull origin master
+```
+
+### Pulling a specific branch
+
+
+```shell
+
+git pull origin master
+```
+
+
+```shell
+
+## Squash
+
+> Git squash is the process of taking a series of commits and merge them into a single commit. This technique is especially useful when a feature branch has numerous small, incremental commits that clutter the commit history. By squashing these commits, you can present a more polished and cohesive history to your collaborators.
+
+> merge the changes in feature branch into current branch
+
+```shell
+
+git merge --squash feature-branch
+```
+
+> Squashing using rebase 
+
+```shell
+
+git rebase -i HEAD~3
+```
+
+> this code will open an editor with the last 3 commits
+
+```shell
+
+pick 1a2b3c4 Commit message 1
+pick 5e6f7g8 Commit message 2
+pick 9h0i1j2 Commit message 3
+```
+
+> change the commits to squash
+
+```shell
+
+pick 1a2b3c4 Commit message 1
+squash 5e6f7g8 Commit message 2
+squash 9h0i1j2 Commit message 3
+```
+
+> save and close the editor
+
+> this will open another editor to edit the commit message
+
+### Squashing from detached head
+
+> If you are in a detached HEAD state, you can squash commits using the git rebase command. The git rebase command is used to reapply commits on top of another base tip. This is useful for local branches that are not shared or for rewriting the commit history of a shared branch.
+> the new commit wont be referenced by any branch and is on a detached head state
+
+```shell
+
+## Detached Head
+
+> A detached HEAD in Git is the state a repository is in when the HEAD points to a specific commit instead of a branch. This means that any changes made in a detached HEAD state will not be referenced by any branch and will be lost if the HEAD moves to another commit.
+
+> To save the commits in a detached HEAD state, you can create a new branch that points to the current commit. This will allow you to reference the commits later.
+
+```shell
+
+git checkout -b new-branch
+#or
+git switch -c new-branch
+```
+
+## About Merge
+
+> The git merge command is used to combine changes from one branch into another. This command is typically used to merge changes from a feature branch into the main branch. The git merge command is a powerful tool that can be used to combine changes from different branches.
+
+> - when merging branch x into branch y it means that = git merge = while you are checked out on branch y
+> - the head of the branch y will shift into the merge commit but the head of branch x will not change
 
