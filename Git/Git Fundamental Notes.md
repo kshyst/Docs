@@ -300,3 +300,261 @@ What now>
 > Second, git revert is able to target an individual commit at an arbitrary point in the history, whereas git reset can only work backward from the current commit. For example, if you wanted to undo an old commit with git reset, you would have to remove all of the commits that occurred after the target commit, remove it, then re-commit all of the subsequent commits. Needless to say, this is not an elegant undo solution.
 
 
+
+## Reset
+
+> The git reset command is a complex and versatile tool for undoing changes. It has three primary forms of invocation. These forms correspond to command line arguments --soft, --mixed, --hard. The three arguments each correspond to Git's three internal state management mechanism's, The Commit Tree (HEAD), The Staging Index, and The Working Directory.
+
+
+### --hard
+
+> This is the most direct, DANGEROUS, and frequently used option. When passed --hard The Commit History ref pointers are updated to the specified commit. Then, the Staging Index and Working Directory are reset to match that of the specified commit. Any previously pending changes to the Staging Index and the Working Directory gets reset to match the state of the Commit Tree. This means any pending work that was hanging out in the Staging Index and Working Directory will be lost.
+
+
+### --mixed
+
+> This is the default option. When passed --mixed The Commit History ref pointers are updated to the specified commit. Then, the Staging Index is reset to match that of the specified commit. The Working Directory is not affected. This means any pending changes in the Working Directory are left alone. The changes that were in the Staging Index are reset to match the specified commit.
+
+
+### --soft
+
+> When passed --soft The Commit History ref pointers are updated to the specified commit. The Staging Index and Working Directory are not affected. This means any pending changes in the Staging Index and Working Directory are left alone. The changes that were in the Commit Tree are reset to match the specified commit.
+
+
+### differences
+> git reset --mixed: Resets the HEAD and updates the staging area, but leaves the working directory unchanged.
+
+>git reset --soft: Only resets the HEAD, leaving both the staging area and the working directory unchanged.
+
+>git reset --hard: Resets the HEAD, updates the staging area, and resets the working directory to match the specified commit.
+
+
+## RM
+
+> The git rm command can be used to remove individual files or a collection of files. The primary function of git rm is to remove tracked files from the Git index. Additionally, git rm can be used to remove files from both the staging index and the working directory. There is no option to remove a file from only the working directory. The files being operated on must be identical to the files in the current HEAD. If there is a discrepancy between the HEAD version of a file and the staging index or working tree version, Git will block the removal. This block is a safety mechanism to prevent removal of in-progress changes.
+
+### Undoing a git rm
+
+> Executing git rm is not a permanent update. The command will update the staging index and the working directory. These changes will not be persisted until a new commit is created and the changes are added to the commit history. This means that the changes here can be "undone" using common Git commands.
+
+```shell
+
+git reset HEAD <file>
+
+git checkout -- <file>
+```
+
+## Branches
+
+> Git branches are effectively a pointer to a snapshot of your changes. When you want to add a new feature or fix a bug—no matter how big or how small—you spawn a new branch to encapsulate your changes. This makes it harder for unstable code to get merged into the main code base, and it gives you the chance to clean up your future's history before merging it into the main branch.
+
+> Deleting a branch on shared repository
+
+```shell
+
+git push origin --delete crazy-experiment
+```
+
+## Rebase
+
+> The git rebase command is used to reapply commits on top of another base tip. This is useful for local branches that are not shared or for rewriting the commit history of a shared branch. The git rebase command is an alternative to the git merge command.
+
+### Interactive Rebase
+
+> The git rebase command can be used with the -i or --interactive flag to interactively reapply commits on top of another base tip. This flag allows you to selectively choose which commits to reapply.
+
+```shell
+
+git rebase -i HEAD~3
+```
+
+### --onto
+
+```shell
+
+git rebase --onto main feature1 feature2
+```
+> from this 
+```shell
+   o---o---o---o---o  main
+        \
+         o---o---o---o---o  featureA
+              \
+               o---o---o  featureB
+```
+
+> to this
+
+```shell
+                      o---o---o  featureB
+                     /
+    o---o---o---o---o  main
+     \
+      o---o---o---o---o  featureA
+```
+
+
+## Reflog
+
+> The git reflog command is a Git utility tool that is used to manage the reference logs in a Git repository. The reference logs are used to store the history of the HEAD and the branch tips. The git reflog command is used to view the reference logs and to manage the reference logs in a Git repository.
+
+```shell
+
+git reflog
+```
+
+### How to view reflog for specific branch
+
+```shell
+
+git reflog master
+```
+
+### How to undo a git rebase using reflog
+
+> The git reflog command can be used to undo a git rebase operation. The reflog command will display the
+> history of the HEAD and the branch tips. The reflog command can be used to find the commit hash of the
+> commit before the rebase operation. The git reset command can then be used to reset the HEAD to the commit
+> before the rebase operation.
+
+```shell
+
+git reflog
+git reset --hard HEAD@{1}
+```
+
+
+## Remote
+
+> The git remote command is a Git utility used to manage remote repositories. The git remote command is used to create, view, and delete connections to other repositories. The git remote command is used to manage the remote repositories that are associated with a Git repository.
+
+
+### Prune
+
+> deletes any local branch that isn't available in remote repository
+
+```shell
+
+git remote prune origin
+```
+
+### Show
+
+> high level information about the remote repository
+
+```shell
+
+git remote show origin
+```
+
+
+## Fetch
+
+> The git fetch command is used to retrieve commits from a remote repository's branch
+
+```shell
+
+git fetch origin
+```
+
+### Fetching a specific branch
+
+```shell
+
+git fetch origin master
+```
+
+### Fetching all branches
+
+```shell
+
+git fetch --all
+```
+
+## Pull
+
+> The git pull command is used to fetch and download content from a remote repository and immediately update the local repository to match that content. The git pull command is actually a combination of two other commands, git fetch followed by git merge. In the first stage of operation git pull will execute a git fetch scoped to the local branch that HEAD is pointed at. Once the content is downloaded, git pull will enter a merge workflow. A new merge commit will be-created and HEAD updated to point at the new commit.
+
+```shell
+
+git pull origin master
+```
+
+### Pulling a specific branch
+
+
+```shell
+
+git pull origin master
+```
+
+
+```shell
+
+## Squash
+
+> Git squash is the process of taking a series of commits and merge them into a single commit. This technique is especially useful when a feature branch has numerous small, incremental commits that clutter the commit history. By squashing these commits, you can present a more polished and cohesive history to your collaborators.
+
+> merge the changes in feature branch into current branch
+
+```shell
+
+git merge --squash feature-branch
+```
+
+> Squashing using rebase 
+
+```shell
+
+git rebase -i HEAD~3
+```
+
+> this code will open an editor with the last 3 commits
+
+```shell
+
+pick 1a2b3c4 Commit message 1
+pick 5e6f7g8 Commit message 2
+pick 9h0i1j2 Commit message 3
+```
+
+> change the commits to squash
+
+```shell
+
+pick 1a2b3c4 Commit message 1
+squash 5e6f7g8 Commit message 2
+squash 9h0i1j2 Commit message 3
+```
+
+> save and close the editor
+
+> this will open another editor to edit the commit message
+
+### Squashing from detached head
+
+> If you are in a detached HEAD state, you can squash commits using the git rebase command. The git rebase command is used to reapply commits on top of another base tip. This is useful for local branches that are not shared or for rewriting the commit history of a shared branch.
+> the new commit wont be referenced by any branch and is on a detached head state
+
+```shell
+
+## Detached Head
+
+> A detached HEAD in Git is the state a repository is in when the HEAD points to a specific commit instead of a branch. This means that any changes made in a detached HEAD state will not be referenced by any branch and will be lost if the HEAD moves to another commit.
+
+> To save the commits in a detached HEAD state, you can create a new branch that points to the current commit. This will allow you to reference the commits later.
+
+```shell
+
+git checkout -b new-branch
+#or
+git switch -c new-branch
+```
+
+## About Merge
+
+> The git merge command is used to combine changes from one branch into another. This command is typically used to merge changes from a feature branch into the main branch. The git merge command is a powerful tool that can be used to combine changes from different branches.
+
+> - when merging branch x into branch y it means that = git merge = while you are checked out on branch y
+> - the head of the branch y will shift into the merge commit but the head of branch x will not change
+
