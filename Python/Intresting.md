@@ -727,3 +727,36 @@ def greeting(name: str) -> str:
     return 'Hello, ' + name
 
 ```
+
+## Call by reference object in python
+
+> python is neither pass by value nor pass by reference , it passes the arguments based on the type. if it's immutable it's pass by value and if it's mutable it's pass by reference
+
+## Built-ins
+
+> The builtins module provides direct access to all built-in identifiers in Python. For example, builtins.open is the full name for the built-in open() function. Python has many built-in functions and types available directly.
+
+## extend() vs append()
+
+> The append() method adds a single item to a list, while extend() adds each element of an iterable to the list. append() adds a whole object, whereas extend() concatenates the first list with another list/iterable.
+
+## Closure
+
+> A closure is created when a function (the inner function) is defined within another function (the outer function) and the inner function references variables from the outer function. Closures are useful when you need a function to retain state across multiple calls, without using global variables.
+
+```python
+
+def fun(a):
+    # Outer function that remembers the value of 'a'
+    def adder(b):
+        # Inner function that adds 'b' to 'a'
+        return a + b
+    return adder  # Returns the closure
+
+# Create a closure that adds 10 to any number
+val = fun(10)
+
+# Use the closure
+print(val(5))  
+print(val(20))  
+```

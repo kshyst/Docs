@@ -348,7 +348,7 @@ git checkout -- <file>
 
 > Git branches are effectively a pointer to a snapshot of your changes. When you want to add a new feature or fix a bug—no matter how big or how small—you spawn a new branch to encapsulate your changes. This makes it harder for unstable code to get merged into the main code base, and it gives you the chance to clean up your future's history before merging it into the main branch.
 
-> Deleting a branch on shared repository
+> Deleting a branch on shared repository , if you delete a branch on the local it wont be deleted on the shared repository because its now a different branch like b1 and origin/b1
 
 ```shell
 
@@ -480,16 +480,65 @@ git fetch --all
 git pull origin master
 ```
 
-### Pulling a specific branch
+### Pulling while having new branches or different commits on master and same branches
 
+> in git config you can choose from 3 type of behaviour to use when pulling
+> 
+> - rebase
+> - merge
+> - ff or fast-forward
 
 ```shell
 
-git pull origin master
+git config --global pull.rebase true
+
+git config --global pull.ff only
+
+git config --global pull.merge true
+#or
+git config --global pull.rebase false
 ```
 
 
+## Push
+
+> The git push command is used to upload local repository content to a remote repository. Pushing is how you transfer commits from your local repository to a remote repo. It's the counterpart to git fetch, but whereas fetching imports commits to local branches, pushing exports commits to remote branches.
+
 ```shell
+
+git push origin master
+```
+
+> to push all branches and tags use :
+
+```shell
+
+git push origin --all
+```
+
+### Pushing to bare repositories
+
+> A bare repository is a repository that does not have a working directory. It is used to store the history of a project without the need for a working directory. Bare repositories are typically used as a central repository for a project that is shared among multiple developers.
+
+
+### Force pushing
+
+> Git prevents you from overwriting the central repository’s history by refusing push requests when they result in a non-fast-forward merge. So, if the remote history has diverged from your history, you need to pull the remote branch and merge it into your local one, then try pushing again.
+> 
+> he --force flag overrides this behavior and makes the remote repository’s branch match your local one, deleting any upstream changes that may have occurred since you last pulled.
+
+```shell
+
+git push origin master --force
+```
+
+### Push deleting a branch
+
+```shell
+
+git branch -D branch_name
+git push origin :branch_name
+```
 
 ## Squash
 
@@ -558,3 +607,91 @@ git switch -c new-branch
 > - when merging branch x into branch y it means that = git merge = while you are checked out on branch y
 > - the head of the branch y will shift into the merge commit but the head of branch x will not change
 
+### Fast forward merge
+
+> A fast-forward merge is a type of merge operation in Git that allows you to move the branch pointer to a new commit without creating a new merge commit. This type of merge is possible when the branch being merged has not diverged from the branch you are merging into. In this case, Git can simply move the branch pointer forward to the new commit.
+
+![ff merge](img/ffmerge.png)
+
+> for not fast forwarding while fast forwarding is possible use :
+
+```shell
+
+git merge --no-ff feature-branch
+```
+
+### 3-way merge
+
+> A 3-way merge is a type of merge operation in Git that creates a new merge commit to combine changes from two branches. This type of merge is used when the branches being merged have diverged from each other. In a 3-way merge, Git compares the two branches and the common ancestor commit to create a new merge commit that combines the changes from both branches.
+
+```shell
+
+git merge feature-branch
+```
+
+### Merge conflicts
+
+> If the two branches you're trying to merge both changed the same part of the same file, Git won't be able to figure out which version to use. When such a situation occurs, it stops right before the merge commit so that you can resolve the conflicts manually.
+
+>The great part of Git's merging process is that it uses the familiar edit/stage/commit workflow to resolve merge conflicts. When you encounter a merge conflict, running the git status command shows you which files need to be resolved.
+
+#### there are 2 types of conflicts
+
+> - failed to start the merging process :
+>> A merge will fail to start when Git sees there are changes in either the working directory or staging area of the current project. Git fails to start the merge because these pending changes could be written over by the commits that are being merged in. When this happens, it is not because of conflicts with other developer's, but conflicts with pending local changes. The local state will need to be stabilized using git stash, git checkout, git commit or git reset.
+> - Git fails during the merge
+>> A failure DURING a merge indicates a conflict between the current local branch and the branch being merged. This indicates a conflict with another developers code. Git will do its best to merge the files but will leave things for you to resolve manually in the conflicted files.
+
+#### Tools to use when merge fails to start
+
+> - git checkout # to discard changes in working directory
+> - git reset # to discard changes in staging area
+
+#### Tools to use when merge fails during the merge
+
+> - git mergetool # to open a visual merge tool
+> - git diff # to see the differences between the files
+> - git merge --abort # to abort the merge
+> - git add # to stage the resolved files
+> - git commit # to commit the resolved files
+> - git reset # to unstage the resolved files
+
+### Merge Strategies
+
+> git merge will automatically select a merge strategy unless explicitly specified. The git merge and git pull commands can be passed an -s (strategy) option. The -s option can be appended with the name of the desired merge strategy. If not explicitly specified, Git will select the most appropriate merge strategy based on the provided branches. The following is a list of the available merge strategies.
+
+> - recursive: This operates on two heads. Recursive is the default merge strategy when pulling or merging one branch. Additionally this can detect and handle merges involving renames, but currently cannot make use of detected copies. This is the default merge strategy when pulling or merging one branch.
+
+> - resolve:This can only resolve two heads using a 3-way merge algorithm. It tries to carefully detect cris-cross merge ambiguities and is considered generally safe and fast.
+
+> - octopus: The default merge strategy for more than two heads. When more than one branch is passed octopus is automatically engaged. If a merge has conflicts that need manual resolution octopus will refuse the merge attempt. It is primarily used for bundling similar feature branch heads together.
+
+> - ours: The Ours strategy operates on multiple N number of branches. The output merge result is always that of the current branch HEAD. The "ours" term implies the preference effectively ignoring all changes from all other branches. It is intended to be used to combine history of similar feature branches.
+
+> - subtree: This is an extension of the recursive strategy. When merging A and B, if B is a child subtree of A, B is first updated to reflect the tree structure of A, This update is also done to the common ancestor tree that is shared between A and B.
+
+
+
+## Cherry-picking
+
+> git cherry-pick is a powerful command that enables arbitrary Git commits to be picked by reference and appended to the current working HEAD. Cherry picking is the act of picking a commit from a branch and applying it to another. git cherry-pick can be useful for undoing changes. For example, say a commit is accidently made to the wrong branch. You can switch to the correct branch and cherry-pick the commit to where it should belong.
+
+### Why use cherry-picking
+
+> git cherry-pick is a useful tool but not always a best practice. Cherry picking can cause duplicate commits and many scenarios where cherry picking would work, traditional merges are preferred instead.
+
+#### Team collaboration
+
+> Often times a team will find individual members working in or around the same code. Maybe a new product feature has a backend and frontend component. There may be some shared code between to two product sectors. Maybe the backend developer creates a data structure that the frontend will also need to utilize. The frontend developer could use git cherry-pick to pick the commit in which this hypothetical data structure was created. This pick would enable the frontend developer to continue progress on their side of the project.
+
+#### Bug hotfixes
+
+> When a bug is discovered it is important to deliver a fix to end users as quickly as possible. For an example scenario,say a developer has started work on a new feature. During that new feature development they identify a pre-existing bug. The developer creates an explicit commit patching this bug. This new patch commit can be cherry-picked directly to the main branch to fix the bug before it effects more users.
+
+#### Undoing changes and restoring lost commits
+
+> Sometimes a feature branch may go stale and not get merged into main. Sometimes a pull request might get closed without merging. Git never loses those commits and through commands like git log and git reflog they can be found and cherry picked back to life.
+
+### cherry pick with --no-commit 
+
+> The --no-commit option will execute the cherry pick but instead of making a new commit it will move the contents of the target commit into the working directory of the current branch.
