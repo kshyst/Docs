@@ -89,3 +89,87 @@ Content-Type: text/html
 ### Responses
 
 ![responses](https://mdn.github.io/shared-assets/images/diagrams/http/overview/http-response.svg)
+
+#### Response status codes
+
+> here is a useful website to learn about all status codes
+> 
+> [status codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status)
+> 
+> - 100 - 199 : Informational responses
+> - 200 - 299 : Success responses
+> - 300 - 399 : Redirection responses
+> - 400 - 499 : Client error responses
+> - 500 - 599 : Server error responses
+
+
+## HTTP Headers
+
+### Request Headers 
+
+> A request header is an HTTP header that can be used in an HTTP request to provide information about the request context, so that the server can tailor the response. For example, the Accept-* headers indicate the allowed and preferred formats of the response. Other headers can be used to supply authentication credentials (e.g. Authorization), to control caching, or to get information about the user agent or referrer, etc.
+> 
+> Not all headers that can appear in a request are referred to as request headers by the specification. For example, the Content-Type header is referred to as a representation header.
+>
+> [List Of Request Headers](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers)
+
+### Request Methods
+
+#### Connect
+
+> The CONNECT method establishes a tunnel to the server identified by the target resource. It is often used to establish a secure SSL/TLS connection to a server that requires such a connection.
+
+#### Delete
+
+> The DELETE method deletes the specified resource.
+
+
+#### Get
+
+> The GET method requests a representation of the specified resource. Requests using GET should only retrieve data.
+
+
+#### Head
+
+> The HEAD method asks for a response identical to that of a GET request, but without the response body.
+
+
+#### Options
+
+> The OPTIONS method is used to describe the communication options for the target resource.
+
+
+#### Patch
+
+> The PATCH method is used to apply partial modifications to a resource.
+
+
+#### Post
+
+> The POST HTTP method sends data to the server. The type of the body of the request is indicated by the Content-Type header.
+
+#### Put
+
+> The PUT HTTP method creates a new resource or replaces a representation of the target resource with the request content.
+
+```HTTP
+PUT /new.html HTTP/1.1
+Host: example.com
+Content-type: text/html
+Content-length: 16
+
+<p>New File</p>
+```
+
+#### Trace
+
+> The TRACE method performs a message loop-back test along the path to the target resource.
+
+### Response Headers
+
+> A response header is an HTTP header that can be used in an HTTP response and that doesn't relate to the content of the message. Response headers, like Age, Location or Server are used to give a more detailed context of the response.
+>
+> Not all headers appearing in a response are categorized as response headers by the specification. For example, the Content-Type header is a representation header indicating the original type of data in the body of the response message (prior to the encoding in the Content-Encoding representation header being applied). However, "conversationally" all headers are usually referred to as response headers in a response message.
+>
+> [Response Headers](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers)
+
