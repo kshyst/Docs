@@ -170,3 +170,95 @@ class Child(Parent1, Parent2):
 child = Child('Alice', 'Bob', 'Charlie', 'David')
 print(child.greet())  # Output: Hi, I am Alice Bob Charlie David
 ```
+
+## Polymorphism
+
+Polymorphism is the ability of an object to take on multiple forms. In Python, polymorphism allows objects of different classes to be treated as objects of a common superclass.
+Polymorphism allows methods to have the same name but behave differently based on the object’s context. It can be achieved through method overriding or overloading.
+
+### Type of Polymorphism
+
+1. Compile-time Polymorphism (Method Overloading)
+2. Run-time Polymorphism (Method Overriding)
+
+## Encapsulation
+
+Encapsulation is the process of wrapping data (variables) and methods (functions) into a single unit called a class. It restricts direct access to some of the object's components, which prevents the accidental modification of data.
+A class is an example of encapsulation as it encapsulates all the data that is member functions, variables, etc.
+
+### Private Variables
+
+In Python, private variables can be created by prefixing the variable name with two underscores (`__`). This makes the variable name mangled, which means it can't be accessed directly from outside the class.
+
+```python
+
+class Person:
+    def __init__(self, name, age):
+        self.__name = name
+        self.__age = age
+
+    def display(self):
+        return f'Name: {self.__name}, Age: {self.__age}'
+
+person = Person('Alice', 30)
+print(person.display())  # Output: Name: Alice, Age: 30
+print(person.__name)  # AttributeError: 'Person' object has no attribute '__name'
+```
+
+### Public Variables
+
+Public variables are accessible from outside the class. In Python, all variables are public by default.
+
+### Protected Variables
+
+In Python, protected variables can be created by prefixing the variable name with a single underscore (`_`). This indicates that the variable should not be accessed directly from outside the class. But can be accessed from a subclass.
+
+```python
+
+class Person:
+    def __init__(self, name, age):
+        self._name = name
+        self._age = age
+
+    def display(self):
+        return f'Name: {self._name}, Age: {self._age}'
+```
+
+## Abstraction
+Abstraction hides the internal implementation details while exposing only the necessary functionality. It helps focus on “what to do” rather than “how to do it.”
+
+### Types of Abstraction
+
+1. Partial Abstraction - Abstract class contains both abstract and concrete methods.
+2. Full Abstraction - Abstract class contains only abstract methods.
+
+```python
+from abc import ABC, abstractmethod
+
+class Dog(ABC):  # Abstract Class
+    def __init__(self, name):
+        self.name = name
+
+    @abstractmethod
+    def sound(self):  # Abstract Method
+        pass
+
+    def display_name(self):  # Concrete Method
+        print(f"Dog's Name: {self.name}")
+
+class Labrador(Dog):  # Partial Abstraction
+    def sound(self):
+        print("Labrador Woof!")
+
+class Beagle(Dog):  # Partial Abstraction
+    def sound(self):
+        print("Beagle Bark!")
+
+# Example Usage
+dogs = [Labrador("Buddy"), Beagle("Charlie")]
+for dog in dogs:
+    dog.display_name()  # Calls concrete method
+    dog.sound()  # Calls implemented abstract method
+```
+
+Why Use It: Abstraction ensures consistency in derived classes by enforcing the implementation of abstract methods.
