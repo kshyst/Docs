@@ -66,4 +66,24 @@ LIMIT num_limit OFFSET num_offset;
 
 If the two tables have asymmetric data, which can easily happen when data is entered in different stages, then we would have to use a LEFT JOIN, RIGHT JOIN or FULL JOIN instead to ensure that the data you need is not left out of the results.
 
+```sql
+SELECT column, another_column, …
+FROM mytable
+INNER/LEFT/RIGHT/FULL JOIN another_table 
+    ON mytable.id = another_table.matching_id
+WHERE condition(s)
+ORDER BY column, … ASC/DESC
+LIMIT num_limit OFFSET num_offset;
+```
+
+## Expressions
+
+Use expressions to write more complex logic on column values in a query. These expressions can use mathematical and string functions along with basic arithmetic to transform values when the query is executed.
+
+```sql
+SELECT particle_speed / 2.0 AS half_particle_speed
+FROM physics_data
+WHERE ABS(particle_position) * 10.0 > 500;
+```
+
 
