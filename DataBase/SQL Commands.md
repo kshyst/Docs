@@ -206,3 +206,27 @@ RENAME COLUMN column_to_be_changed TO new_column_name;
 ```sql
 DROP TABLE IF EXISTS mytable;
 ```
+
+## Applying foreign key when creating a column
+
+```sql
+CREATE TABLE orders (
+    order_id INTEGER PRIMARY KEY,
+    customer_id INTEGER REFERENCES customers(customer_id)
+);
+```
+
+### In case you want to add a foreign key to an existing table
+
+```sql
+ALTER TABLE orders
+ADD FOREIGN KEY (customer_id) REFERENCES customers(customer_id);
+```
+
+### Removing a foreign key
+
+```sql
+ALTER TABLE orders
+DROP CONSTRAINT orders_customer_id_fkey;
+```
+
