@@ -1,5 +1,7 @@
 # Entity Relationship Model
 
+[Useful Website for ER Diagram](https://www.softwareideas.net/chen-er-diagram-erd)
+
 It's a model used to describe the relationships between entities in a database. The ER data model specifies enterprise schema that represents the overall logical structure of a database graphically.
 
 ## Why use ER Model?
@@ -27,7 +29,7 @@ It's a model used to describe the relationships between entities in a database. 
 
 ![ER Model Components](https://media.geeksforgeeks.org/wp-content/uploads/20230428090323/Introduction-to-ER-Model-1-768.webp)
 
-## Types of Relationships
+## Types of Relationshipsh 
 
 - One-to-One: One entity is associated with only one entity.
 - One-to-Many: One entity is associated with many entities.
@@ -45,3 +47,8 @@ It's a model used to describe the relationships between entities in a database. 
 - Foreign Key: A foreign key is a column or group of columns in a relational database table that provides a link between data in two tables. It acts as a cross-reference between tables because it references the primary key of another table.
 
 ![Primary and Foreign Key](https://d8it4huxumps7.cloudfront.net/uploads/images/65044910e1123_primary_key_versus_foreign_key_02.jpg?d=2000x2000)
+
+## Recursive Entity and Relationship
+
+- Recursive Entity: A recursive entity is an entity that is related to itself. It is used to represent a relationship between instances of the same entity set.
+- Recursive Relationship: A recursive relationship is a relationship between instances of the same entity set. It is used to represent relationships between instances of the same entity set.
