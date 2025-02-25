@@ -217,3 +217,7 @@ BCNF is based on functional dependencies that consider all candidate keys in a r
 
 Functional dependencies (FD) define relationships between attributes within a relational database. An FD states that the value of one column determines the value of another related column. FDs are very important because they guide the process of normalization by identifying dependencies and ensuring data is appropriately distributed across tables.
 
+## DDL
+
+
+DDL (Data Definition Language) is a family of SQL language elements used to define database structure (including operations with databases, tables, columns, indexes, views, stored procedures, constraints).
