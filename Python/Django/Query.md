@@ -62,3 +62,8 @@ Django offers a powerful and intuitive way to “follow” relationships in look
 Blog.objects.filter(entry__headline__contains="Lennon")
 ```
 
+## F Expression
+
+Django supports the use of addition, subtraction, multiplication, division, modulo, and power arithmetic with F() objects, both with constants and with other F() objects. To find all the blog entries with more than twice as many comments as pingbacks, we modify the query:
+
+

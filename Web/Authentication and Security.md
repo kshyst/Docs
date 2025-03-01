@@ -75,6 +75,7 @@
 > 
 > The same-origin security policy forbids cross-origin access to resources. But CORS gives web servers the ability to say they want to opt into allowing cross-origin access to their resources.
 
+>Cross-Origin Resource Sharing (CORS) is an HTTP-header based mechanism that allows a server to specify who can access its resources from a different origin, effectively permitting or restricting web pages to request resources from different domains, schemes, or ports. This is necessary for browsers to safely allow cross-origin requests while maintaining security.
 #### CORS Headers
 
 > - **Access-Control-Allow-Origin**: This header specifies which origins are allowed to access the resource. It can be set to a specific origin, *, or null.

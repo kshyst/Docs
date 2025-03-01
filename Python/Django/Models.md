@@ -103,3 +103,7 @@ class MyPerson(Person):
 ```
 
 The MyPerson class operates on the same database table as its parent Person class. In particular, any new instances of Person will also be accessible through MyPerson, and vice-versa:
+
+## Save with commit = False in django
+
+when saving form with commit = false it returns an instance of the object from the form and lets you modify it before saving it to the database
