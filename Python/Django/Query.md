@@ -66,4 +66,8 @@ Blog.objects.filter(entry__headline__contains="Lennon")
 
 Django supports the use of addition, subtraction, multiplication, division, modulo, and power arithmetic with F() objects, both with constants and with other F() objects. To find all the blog entries with more than twice as many comments as pingbacks, we modify the query:
 
+## Q Expression
 
+The ‘Q’ object is essentially a container for a single query expression, such as a filter condition, which can then be combined with other query expressions using logical operators such as AND, OR, and NOT. The ‘Q’ object allows you to build complex queries that are not easily achievable using standard query expressions.
+
+you can save this Q(age__gt=18) objects and use them later
