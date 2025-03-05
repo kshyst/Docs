@@ -141,7 +141,7 @@ Content-Type: text/html
 
 #### Patch
 
-> The PATCH method is used to apply partial modifications to a resource.
+> The PATCH method is used to apply partial modifications to a resource. If we want to update but not sending all of the contents , only the one that we wish to edit.
 
 
 #### Post
@@ -150,7 +150,7 @@ Content-Type: text/html
 
 #### Put
 
-> The PUT HTTP method creates a new resource or replaces a representation of the target resource with the request content.
+> The PUT HTTP method creates a new resource or replaces a representation of the target resource with the request content. Fully updates the resource by sending all of the data.
 
 ```HTTP
 PUT /new.html HTTP/1.1

@@ -60,6 +60,10 @@ In this example, every instance of ProtectedView will have login protection. The
 
 The decorators will process a request in the order they are passed to the decorator. In the example, never_cache() will process the request before login_required().
 
+## What is reversing 
+
+In Django, you can use the reverse() function to generate URLs from view names. This function allows you to look up the URL by supplying the name of the view, essentially going from "view name" to "URL". Additionally, reverse_lazy() is useful in scenarios where you want to delay the URL resolution until it is needed, such as in class-based views. Remember to double-check your view names and URLs to ensure they match correctly.
+
 ## reverse() and reverse_lazy()
 
 The reverse() and reverse_lazy() functions are both used for URL reversing in Django, but they have key differences. reverse() returns a string representing the URL immediately, making it suitable for use in functions. In contrast, reverse_lazy() returns a lazy object, which means it will evaluate to the URL string when needed, making it useful when the URLConf is not available at the time of calling, such as in class-based views.
