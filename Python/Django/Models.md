@@ -107,3 +107,6 @@ The MyPerson class operates on the same database table as its parent Person clas
 ## Save with commit = False in django
 
 when saving form with commit = false it returns an instance of the object from the form and lets you modify it before saving it to the database
+
+# ?
+use ? in order and the ordering will be random?
