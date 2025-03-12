@@ -49,7 +49,6 @@
 back
 ```
 
-
 همچنین برای خروج از leader board menu و بازگشت به main menu دستور
 
     back
@@ -133,6 +132,7 @@ username doesn't exist!
 password is incorrect!
 ```
 
+
 *در صورتی که کاربر با خطایی مواجه نشد، با موفقیت وارد می‌شود و پس از چاپ پیام زیر، وارد منوی اصلی می‌شود.*
 ```
 user logged in successfully
@@ -172,7 +172,6 @@ leaderboard
 
 برای شروع کردن بازی لازم دستور زیر را وارد کرده و چند یوزر حریف را به اختیار برای بازی کردن انتخاب کنید. توجه کنید که انتخاب کردن یوزر حریف اختیاری است و میتوانید بین 0 تا 4 یوزر موجود را که از پیش ثبت‌نام کرده‌اند انتخاب کنیم.
 باقی بازیکنان بازی به صورت مهمان و با آیدی‌های guest1 , guest2 ... در می‌آیند.
-
 ```
 play <user1> <user2> <user3> <user4>
 ```
@@ -199,20 +198,24 @@ guest2
 select between available users
 ```
 
+
 اگر یوزر تکراری در لیست واردشده وجود داشت خطای زیر:
 ```
 users must be distinct
 ```
+
 
 اگر یکی از یوزرهای وارد شده همان یوزری باشد که با آن لاگین کرده‌ایم خطای زیر:
 ```
 you can't choose urself
 ```
 
+
 در نهایت اگر خطایی رخ نداد پس از چاپ پیغام زیر وارد game menu می‌شوید:
 ```
 aghaaz faAliat
 ```
+
 
 ---
 # منوی لیدربورد (Leaderboard Menu)
@@ -226,6 +229,7 @@ aghaaz faAliat
 show ranking
 ```
 
+
 خروجی:
 ```
 Leaderboard:
@@ -237,12 +241,14 @@ Leaderboard:
 .
 ```
 
+
 توجه شود که بازیکنان guest در رنکینگ نباید باشند.
 
 با دستور زیر تاریخچه بازی‌ها چاپ می‌شود. باید 5 بازی اخیر به ترتیب جدیدترین به قدیمی‌ترین چاپ شود.
 ```
 show history
 ```
+
 
 خروجی:
 ```
@@ -263,6 +269,7 @@ History:
 .
 .
 ```
+
 
 باید در خروجی لیست یوزرهای بازی کرده، به ترتیبی که در بخش game menu گفته می‌شود چاپ شوند. همچنین کشوری که آن را کنترل کرده‌اند در جلوی آن‌ها نوشته شود. در آخر نیز، امتیازی که از آن بازی کسب کردند را می‌نویسیم.
 
@@ -280,6 +287,7 @@ detail4
 detail5
 ```
 
+
 تعداد عبارت های "-" 4 تا است.
 
 اگر هیستوری‌ای برای نمایش وجود نداشت خالی می‌گذاریم:
@@ -291,7 +299,6 @@ History:
 # منوی بازی (Game Menu)
 
 در ابتدای بازی هر بازیکن به ترتیب گفته شده (ابتدا بازیکن لاگین شده -> بازیکنان انتخابی -> مهمانان) باید کشور خود را انتخاب کنند. انتخاب کشور بین گزینه های زیر است:
-
 ```
 German Reich
 United States
@@ -299,7 +306,6 @@ Soviet Union
 Japan
 United Kingdom
 ```
-
 
 در شروع بازی عبارت زیر به ازای هر بازیکن چاپ می‌شود و بازیکنان کشور خود را انتخاب می‌کنند.
 
@@ -312,14 +318,12 @@ choosing country for <username>:
 ## **خطاها**
 
 اگر اسم کشور انتخابی بین ۵ عبارت بالا نبود:
-
 ```
 wrong country name
 ```
 
 
 اگر بازیکنی کشور تکراری انتخاب بکند:
-
 ```
 country already taken
 ```
@@ -334,15 +338,12 @@ country already taken
 switch player <username>
 ```
 
-
 ## **خطاها**
 
 اگر یوزرنیم وارد شده ناموجود بود:
-
 ```
 player doesn't exist
 ```
-
 
 اگر بازیکن اسم خودش را وارد کرد:
 
@@ -350,11 +351,13 @@ player doesn't exist
 you can't switch to yourself
 ```
 
+
 اگر خطایی رخ نداد:
 
 ```
 switched to <username>
 ```
+
 
 ---
 ## کشور‌ها (Countries)
@@ -447,8 +450,9 @@ switched to <username>
  با دستور زیر اطلاعات کشور ذکر شده را چاپ می‌کنید:
 
 ```
- show detail <country-name>
+show detail <country-name>
 ```
+
 
 اطلاعات مربوط به کشور ذکر شده باید به صورت زیر چاپ شود.
 
@@ -467,6 +471,7 @@ faction : <faction-names-seperated-by-comma>
 puppet : <puppet-names-seperated-by-comma>
 ```
 
+
 ```
 German Reich
 leader : hitler
@@ -479,50 +484,60 @@ faction : nazi,nazgol,nazanin,nanaz
 puppet : United States,Soviet Union,Japan
 ```
 
+
 در هر بخش اگر مقداری برای چاپ وجود نداشت، آن را خالی بگذارید. مثلا اگر کشور عضو جناحی نبود:
 ```
 faction :
 ```
+
 
 اگر اسم کشور جزء گزینه‌های موجود نبود :
 ```
 country doesn't exist
 ```
 
+
 با دستور زیر باید نام کشوری که مالک تایل است چاپ شود.
 ```
 tile owner <index>
 ```
+
 
 خروجی نمونه برای ایندکس ۴۴ :
 ```
 German Reich
 ```
 
+
 با دستور زیر همسایه‌های زمینی تایل به صورت مرتب‌شده باید چاپ شود.
 ```
 tile neighbors <index>
 ```
+
 
 خروجی نمونه‌ برای ایندکس ۲۲:
 ```
 16 , 21 , 28 , 43
 ```
 
+
 با دستور زیر همسایه‌های دریایی تایل به صورت مرتب‌شده باید چاپ شوند.
 ```
 tile sea neighbors <index>
 ```
+
 
 خروجی نمونه برای ایندکس ۸:
 ```
 35 , 36 , 54
 ```
 
+
 اگر تایل همسایه‌ی دریایی نداشت:
 ```
 no sea neighbors
 ```
+
 
 تمامی دستورات تایل فوق برای اطمینان‌سازی از درست ساخته شدن مپ توسط شماست که تست کیس مربوطه برای چک کردن داده خواهد شد.
 
@@ -531,20 +546,24 @@ no sea neighbors
 show weather <tile-index>
 ```
 
+
 خروجی:
 ```
 <weather-name>
 ```
+
 
 با دستور زیر نوع ترین تایل چاپ می‌شود.
 ```
 show terrain <tile-index>
 ```
 
+
 خروجی:
 ```
 <terrain-name>
 ```
+
 
 با دستور زیر لیست گردان‌های موجود در تایل گفته‌شده چاپ می‌شود. این دستور یک تفاوت با دستورات بالا دارد و این است که فقط روی تایل‌های کشور خودمان و کشورهای پاپت و کشورهای هم‌جناح کار می‌کند‌. دستورهای قبلی محدودیتی نداشتند.
 
@@ -553,6 +572,7 @@ show terrain <tile-index>
 ```
 show battalions <tile-index>
 ```
+
 
 ```
 infantry:
@@ -572,6 +592,7 @@ navy:
 <battalion-name> <level> <power> <capture-ratio>
 ```
 
+
 لیست گردان‌ها در هر بخش باید به صورت لکسوگرافی روی اسم‌ها باشد.
 
 اگر گردانی برای نمایش وجود نداشت، باز هم new line را رعایت کنید.
@@ -588,6 +609,7 @@ can't show battalions
 show factories <tile-index>
 ```
 
+
 ```
 fuel refinery:
 <name> <production-left>
@@ -602,6 +624,7 @@ sulfur factory:
 <name> <production-left>
 ```
 
+
 میزان production left در واقع میزان توانایی ماکزیمم استخراج آن کارخانه منهای میزان استخراج شده تا الان است.
 
 لیست کارخانه‌ها در هر بخش باید به صورت لکسوگرافی روی اسم‌ها باشد.
@@ -610,6 +633,7 @@ sulfur factory:
 ```
 can't show factories
 ```
+
 
 در هر دستور مربوط به تایل اگر ایندکس تایل وجود نداشت پیام زیر چاپ شود:
 ```
@@ -644,26 +668,31 @@ tile doesn't exist
 set terrain <tile-index> <terrain-name>
 ```
 
+
 #### **خطاها**
 اگر بازیکن کنونی صاحب تایل انتخابی نباشد:
 ```
 you don't own this tile
 ```
 
+
 اگر اسم ترین وارد شده اشتباه بود و جز 5 تا گزینه ممکن نبود:
 ```
 terrain doesn't exist
 ```
+
 
 اگر یک بار در طول بازی دستور set terrain برای یک تایل اجرا شده باشد و سعی شود دوباره عوض شود باید ارور زیر را چاپ کنید:
 ```
 you can't change terrain twice
 ```
 
+
 اگر هیچکدام از خطا های بالا رخ نداد:
 ```
 terrain set successfully
 ```
+
 
 ### آب و هوا (Weather)
 
@@ -683,6 +712,7 @@ terrain set successfully
 set weather <tile-index> <weather-name>
 ```
 
+
 #### **خطاها**
 
 اگر بازیکن کنونی صاحب تایل انتخابی نباشد:
@@ -690,16 +720,19 @@ set weather <tile-index> <weather-name>
 you don't own this tile
 ```
 
+
 اگر اسم آب و هوای وارد شده اشتباه بود و جزء گزینه‌های ممکن نبود:
 ```
 weather doesn't exist
 ```
+
 
 اگر هیچکدام از خطاهای بالا رخ نداد.
 
 ```
 weather set successfully
 ```
+
 
 در ابتدای بازی همه‌ی تایل‌ها sunny هستند.
 
@@ -711,6 +744,7 @@ panzer
 airforce
 navy
 ```
+
 
 هر گردان دو نوع مادیفایر دارد که روی امتیازی که از حملات می‌گیرد یا از دست می‌دهد تاثیر خود را می‌گذارد:
 
@@ -747,6 +781,7 @@ navy
 power = battalion_power * terrain_modifier * weather_modifier
 ```
 
+
 این مقدار قدرت برای یک گردان است. مقدار قدرت کل جمع قدرت گردان‌ها است.
 
 درصد ترین و آب و هوا برای navy بی‌تاثیر است. 
@@ -757,6 +792,7 @@ power = battalion_power * terrain_modifier * weather_modifier
 ```
 each_panzer_germany += (panzer1_usa_power * capture_percentage + panzer2_usa_power * capture_percentage)/ 2
 ```
+
 
 در نهایت تایل مربوطه کشور آمریکا به تصاحب آلمان درمی‌آید (owner) اش عوض می‌شود و کنترل آن به دست بازیکنی که آلمان را کنترل می‌کند می‌افتد.
 
@@ -777,6 +813,7 @@ each_panzer_germany += (panzer1_usa_power * capture_percentage + panzer2_usa_pow
 add battalion <tile-index> <battalion-type> <name>
 ```
 
+
 مقدار name دلخواه است و صرفا نباید بین هیچکدام از گردان های آن تایل تکراری باشد. حتی اگر آن گردان نوعش فرق کند.
 
 #### **خطاها**
@@ -786,30 +823,36 @@ add battalion <tile-index> <battalion-type> <name>
 tile is unavailable
 ```
 
+
 اگر نوع گردان جز چهار حالت ممکن نبود:
 ```
 you can't use imaginary battalions
 ```
+
 
 اگر اسم گردان در همان تایل تکراری بود:
 ```
 battalion name already taken
 ```
 
+
 اگر توانایی مالی ساخت گردان را نداشتید:
 ```
 daddy USA plz help us
 ```
+
 
 اگر از آن نوع گردان در آن تایل ۳ تا وجود داشت دیگر نمی‌‌توانید از آن نوع گردان در آن تایل بسازید. اگر به ماکسیمم رسیده بودید:
 ```
 you can't add this type of battalion anymore
 ```
 
+
 در غیر این صورت:
 ```
 battalion set successfully
 ```
+
 
 #### جابه‌جایی گردان به تایل های دیگر
 
@@ -817,6 +860,7 @@ battalion set successfully
 ```
 move battalion <tile-index> <battalion-name> <destination-tile-index>
 ```
+
 
 در بخش نام گردان باید نام دلخواهی که برای گردان انتخاب کردید را بگذارید.
 
@@ -827,10 +871,12 @@ move battalion <tile-index> <battalion-name> <destination-tile-index>
 tile is unavailable
 ```
 
+
 اگر گردانی با اسم برگزیده وجود نداشت:
 ```
 no battalion with the given name
 ```
+
 
 اگر در تایل هدف درحال حاضر 3 تا از آن نوع گردان وجود داشته باشد (یعنی به مقدار ماکسیمم رسیده باشیم) باید ارور زیر را دریافت کنیم:
 
@@ -838,15 +884,18 @@ no battalion with the given name
 maximum battalion of this type in destination exists
 ```
 
+
 اگر در تایل هدف گردانی هم‌اسم گردان ما وجود داشت (از هر نوع) ارور زیر را دریافت می‌کنیم:
 ```
 battalion name is already taken in this tile
 ```
 
+
 در غیر این صورت:
 ```
 battalion moved successfully
 ```
+
 
 #### ارتقای گردان‌ها
 
@@ -881,25 +930,30 @@ battalion moved successfully
 upgrade battalion <tile-index> <battalion-name>
 ```
 
+
 اگر تایل داده شده جزء تایل‌های کشور خودمان و هم‌جناح و پاپت نبود:
 ```
 can't upgrade battalions on this tile
 ```
+
 
 اگر گردان با نام داده شده در آن تایل وجود نداشت:
 ```
 no battalion with the given name
 ```
 
+
 اگر گردان داده شده در حال حاضر در سطح سه است:
 ```
 battalion is on highest level
 ```
 
+
 اگر منابع کافی برای آپگرید را نداشتید:
 ```
 aww you can't upgrade your battalion
 ```
+
 
 در غیر این صورت:
 ```
@@ -924,15 +978,18 @@ aww you can't upgrade your battalion
 create faction <name>
 ```
 
+
 اگر اسم جناح تکراری بود:
 ```
 faction name already taken
 ```
 
+
 در غیر این صورت :
 ```
 faction created successfully
 ```
+
 
 کشور بازیکنی که روی آن هستیم به صورت خودکار عضو این جناح می‌شود.
 
@@ -942,15 +999,18 @@ faction created successfully
 join faction <faction-name>
 ```
 
+
 اگر جناح وارد شده وجود نداشت:
 ```
 faction doesn't exist
 ```
 
+
 در غیر این صورت :
 ```
 <player-country-name> joined <faction-name>
 ```
+
 
 #### خروج از جناح 
 
@@ -959,15 +1019,18 @@ faction doesn't exist
 leave faction <faction-name>
 ```
 
+
 اگر  عضو جناحی با نام داده‌شده نباشید پیام زیر:
 ```
 your country isn't in this faction
 ```
 
+
 در غیر این صورت:
 ```
 <country-name> left <faction-name>
 ```
+
 
 در تمامی دستورات بالا کشور مد نظر کشوری است که بازیکنی که نوبتش است آن را کنترل می‌کند.
 
@@ -979,6 +1042,7 @@ steel factory
 sulfur factory
 fuel refinery
 ```
+
 
 هر کارخانه با مصرف مقداری از جمعیت کشور یا همان man power مقداری منابع استخراج می‌کند. میزان استخراج بر حسب man power در جدول زیر آمده است. همچین هر کارخانه یک حداکثر میزان استخراج دارد که بعد از رسیدن به این مقدار ماکسیمم، کارخانه تخریب و از آن تایل حذف می‌شود.
 
@@ -996,6 +1060,7 @@ fuel refinery
 build factory <tile-index> <factory-type> <name>
 ```
 
+
 مقدار name دلخواه است.
 
 در هر تایل از یک نوع فکتوری حداکثر ۳ تا می‌‌توان ساخت یعنی ۳ تا فولاد ۳ تا گوگرد و ۳ تا سوخت. اگر سعی شود بیشتر ساخته شود باید ارور بدهیم.
@@ -1006,25 +1071,30 @@ build factory <tile-index> <factory-type> <name>
 invalid tile
 ```
 
+
 اگر نوع کارخانه اشتباه بود و جزء ۳ گزینه بالا نبود:
 ```
 invalid factory type
 ```
+
 
 اگر توان مالی ساخت کارخانه را نداشتیم:
 ```
 not enough money to build factory
 ```
 
+
 اگر در حال حاضر ۳ تا کارخانه از آن نوع موجود باشد:
 ```
 factory limit exceeded
 ```
 
+
 در غیر این صورت:
 ```
 factory built successfully
 ```
+
 
 منابع مورد نیاز برای ساخت کارخانه همواره از کشور بازیکن کنونی کم می‌شود و کاری به کشورهای پاپت و هم‌جناح ندارد.
 
@@ -1041,6 +1111,7 @@ factory built successfully
 run factory <tile-index> <name> <man-power-count>
 ```
 
+
 مقدار name همان اسم دلخواهی است که به کارخانه موقع ساختن داده‌اید.
 
 #### **خطا‌ها**
@@ -1050,15 +1121,18 @@ run factory <tile-index> <name> <man-power-count>
 invalid tile
 ```
 
+
 اگر اسم داده‌شده برای کارخانه در آن تایل وجود نداشت:
 ```
 this tile doesn't contain this factory
 ```
 
+
 اگر مقدار man power داده شده را نداشتیم:
 ```
 you are poor!
 ```
+
 
 اگر مقدار برداشتی عبور کرد از ماکسیمم حدی که از کارخانه می‌تواند برداشت کند، به همان مقدار که می‌توانیم برداشت می‌کنیم و سپس کارخانه را حذف می‌کنیم.
 
@@ -1069,6 +1143,7 @@ you are poor!
 factory extracted <extraction-amount> of <resource-type>
 ```
 
+
 مقدار منابع دریافتی برابر است با manpower * production per manpower. اگر منابع بین کمونیست‌های هم‌جناح تقسیم شد باید همان مقداری که استخراج کرده‌ایم را بنویسیم. نه مقداری که بعد از تقسیم دریافت می‌کنیم.
 
 ---
@@ -1076,7 +1151,7 @@ factory extracted <extraction-amount> of <resource-type>
 ## مکانیک‌های بازی
 
 ### حمله به کشورهای دیگر
-
+![attack](https://s33.picofile.com/file/8483356192/maxresdefault.jpg)
 قابلیت حمله به کشورهای دیگر هم از کشور خود پلیر و هم از کشورهای پاپت آن قابل انجام است.
 حمله با گردان‌های infantry و panzer فقط از مرزهای زمینی قابل انجام است. حمله با گردان navy فقط از مرزهای دریایی قابل انجام است. حمله با airforce محدودیتی ندارد. :)
 
@@ -1084,6 +1159,7 @@ factory extracted <extraction-amount> of <resource-type>
 ```
 attack <our-tile-index> <enemy-tile-index> <battalion-type>
 ```
+
 
 همانطور که در بخش battalion توضیح داده شد، حمله بین گردان‌های هم‌جنس برگزار می‌شود. در این دستور با وارد کردن نوع گردان مورد نظر، بین گردان‌های هم‌جنس آن در تایل حریف جنگ برقرار می‌شود.
 
@@ -1161,7 +1237,6 @@ loser : <loser-country-name>
 draw
 ```
 
-
 ---
 ### جنگ داخلی (Civil War)
 کانسپت جنگ داخلی مانند جنگ عادی است با این تفاوت که بین تایل‌های یک کشور انجام می‌شود. تاثیرات این حملات بر میزان ثبات کشور بیشتر است. تاثیرات اسارت پس از جنگ باقی است ولی تاثیرات ثبات متفاوت است.
@@ -1214,7 +1289,6 @@ civil war ended. <winner-tile-index> won.
 ```
 man dige harfi nadaram.
 ```
-
 
 ---
 ### پاپت (Puppet)
@@ -1323,8 +1397,10 @@ leader doesn't exist
 با دستور زیر بازی را تمام می‌کنید و وارد منوی اصلی می‌شوید:
 ```
 sadagha allah ol aliol azim
-```
+``` 
 
+امیدوارم از این تمرین لذت برده باشید. لایک و کامنت و سابسکرایب فراموش نشه.
+![nazi army](https://s33.picofile.com/file/8483355150/download.jpg)
 ## تست‌کیس‌ها
 [Menu Test Case In](https://s33.picofile.com/file/8483338984/2_in.txt.html)
 
