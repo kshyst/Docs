@@ -1,0 +1,11 @@
+# Twelve Factor Apps
+
+- **Code Repository**
+- **Dependencies and Libraries** : To be declared in the containers.
+- **Configuration as Variables** : Like saving different env file for staging, production, etc.
+- **Backing Services** : Like databases, queues, etc.
+- **Build, Release, Run** : The build is the process of creating a deployable artifact from the source code. The release is the process of deploying the artifact to a production environment. The run is the process of executing the application in the production environment.
+- **Stateless Processes** : The application should be stateless, meaning that it should not rely on any external state or data. This allows the application to be easily scaled and deployed in a distributed environment. For Example if you have a web application that stores user sessions in memory, you will need to use a distributed cache like Redis or Memcached to store the sessions. This allows the application to be easily scaled and deployed in a distributed environment.
+- **Port Binding** : The application should be self-contained and should not rely on any external services or libraries. This allows the application to be easily deployed and run in a variety of environments. For example, if you have a web application that relies on a database, you will need to use a database driver that is compatible with the application. This allows the application to be easily deployed and run in a variety of environments.
+- **Concurrency** : The application should be able to handle multiple requests at the same time. This allows the application to be easily scaled and deployed in a distributed environment. For example, if you have a web application that handles multiple requests at the same time, you will need to use a load balancer to distribute the requests across multiple servers. This allows the application to be easily scaled and deployed in a distributed environment. How the process starts and how it kills the process is important here.
+- **Logs** : The application should be able to log all requests and responses. This allows the application to be easily monitored and debugged. For example, if you have a web application that logs all requests and responses, you will need to use a logging library that is compatible with the application. This allows the application to be easily monitored and debugged.
