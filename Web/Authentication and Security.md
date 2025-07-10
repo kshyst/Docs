@@ -127,28 +127,6 @@
 
 ## JWT and Session  
 
-### JWT (JSON Web Token)
-
-> The server generates a token that the client stores and presents with each request. It's a stateless method, meaning the server doesn't need to keep a record of the token.
-
-![JWT](https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Ffydm4uic65eaiv956hyp.png)
-
-#### JWT Structure
-
-> - **Header**: Specifies the token type (JWT) and the signing algorithm (e.g., HMAC SHA256).
-> - **Payload**: Contains the claims, which are statements about an entity (e.g., user data).
-> - **Signature**: Ensures the token hasn't been tampered with and can be verified using the secret key.
-
-HMAC stands for hash based message authentication code
-
-![JWT Structure](https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fxceigflhs68dw1yzm26e.jpg)
-
-#### JWT Advantages
-
-> - **Scalability**: Due to their stateless nature, JWTs are ideal for distributed systems.
-> - **Flexibility**: They can be used across different domains and applications.
-> - **Security**: When properly implemented, they provide a secure way to handle user authentication.
-
 ### Session-Based Authentication
 
 > it's stateful. The server creates a session for the user and stores session data on the server-side. The client holds only a session identifier, typically in a cookie.
