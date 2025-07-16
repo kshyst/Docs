@@ -55,4 +55,28 @@ However, binary protocols used ing HTTP/2 and HTTP/3 are more compact in terms o
 
 ### Headers are long
 
+Each HTTP/1 request and response includes many headers and also there is no reusing procedure.
+
+![headers](img/header.webp)
+
+## Workaround these problems
+
+- ### Domain Sharding:
+    Developers move some of the api's under different domains so that browsers can open more than 6 connections per domain.
+- ### CSS Spriting
+    Combining multiple images into a single image file to reduce the number of HTTP requests.
+
+## HTTP/2
+- More efficient use of network resources by  allowing multiple concurrent exchanges on the same connection.
+- Header field compression
+- Prioritizing of requests
+
+### Terminology of HTTP/2
+- **Stream**: A bidirectional flow of bytes within a connection, identified by a stream identifier.
+- **Message**: A complete sequence of frames that form a request or response.
+- **Frame**: The smallest unit of communication in HTTP/2, each containing a frame header which at minimum identifies which stream it belongs to.
+
+Frames -> Messages -> Streams -> A single TCP connection
+
+**It is widely supported by many browsers.**
 
