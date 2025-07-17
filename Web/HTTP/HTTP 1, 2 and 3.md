@@ -99,3 +99,6 @@ Another powerful new feature of HTTP/2 is the ability of the server to send mult
 ![compa](img/comp.webp)
 
 ## HTTP/2 Problems
+
+### TCP head-of-line-blocking
+
