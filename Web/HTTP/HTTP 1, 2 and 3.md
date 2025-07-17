@@ -80,3 +80,22 @@ Frames -> Messages -> Streams -> A single TCP connection
 
 **It is widely supported by many browsers.**
 
+### Multiplexing and Streams in HTTP/2
+
+The streams of HTTP/2 is a bi-directional sequence of frames that share a common identifier (stream id). The client and server break down the HTTP message into independent frames, interleaves them and reassembles it at the other end. A single TCP connection can have hundreds of streams.
+
+![frame](img/frame.webp)
+
+![stream](img/stream.webp)
+
+Interleaving fixes HOL problem.
+
+Reducing header sizes using HPACK improves performance and eases caching
+
+### Server Push
+
+Another powerful new feature of HTTP/2 is the ability of the server to send multiple responses for a single client request. That is, in addition to the response to the original request, the server can push additional resources to the client without the client having to request each one explicitly.
+
+![compa](img/comp.webp)
+
+## HTTP/2 Problems
