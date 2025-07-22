@@ -30,3 +30,6 @@ A table is in 5NF if it cannot be decomposed into smaller tables without losing 
 
 Consider a table where (StudentID, Language, Hobby) are attributes. If a student can have multiple hobbies and languages, a multi-valued dependency exists. To resolve this, split the table into separate tables for Languages and Hobbies.
 
+## 6NF (Domain-Key Normal Form)
+
+6NF is a theoretical normal form that deals with temporal data and is not commonly used in practice. It ensures that all constraints on the data are expressed in terms of domain and key constraints, allowing for the representation of time-varying data without redundancy.
