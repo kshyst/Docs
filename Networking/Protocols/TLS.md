@@ -14,7 +14,7 @@ First here is the wireshark of normal HTTP communication.
 2. exchanging data
 3. termination
 
-![tls1](img/tls1.png)
+![tls1](../img/tls1.png)
 
 Here is HTTP with TLS
 
@@ -22,7 +22,7 @@ Here is HTTP with TLS
 2. starting TLS session
 3. rest of the story using TLS
 
-![tls2](img/tls2.png)
+![tls2](../img/tls2.png)
 
 
 If we have the key for encryption, wireshark can show the decrypted data on go.

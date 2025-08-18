@@ -11,11 +11,11 @@ Popular commands:
 
 Ping command sends an ICMP request with type `8`
 
-![ping1](img/ping1.png)
+![ping1](../img/ping1.png)
 
 The receiver responds with Echo reply with ICPM type `0`
 
-![ping2](img/ping2.png)
+![ping2](../img/ping2.png)
 
 This command only pings 4 times.
 ```shell

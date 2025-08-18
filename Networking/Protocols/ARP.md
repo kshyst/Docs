@@ -10,7 +10,7 @@ Devices on the same Ethernet network don't need to have each others MAC addresse
 
 Consider this scenario: You connect your device to a network, and if the network has a DHCP server, your device is automatically configured to use a specific gateway (router) and DNS server. Consequently, your device knows the IP address of the DNS server to resolve any domain name; moreover, it knows the IP address of the router when it needs to send packets over the Internet. In all this scenario, no MAC addresses are revealed. However, two devices on the same Ethernet cannot communicate without knowing each other’s MAC addresses.
 
-![mac](img/mac.png)
+![mac](../img/mac.png)
 
 1. Destination MAC address
 2. Source MAC address

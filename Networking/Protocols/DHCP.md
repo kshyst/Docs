@@ -10,7 +10,7 @@ DHCP is an application level protocol based on UDP for configuring these.
 
 The server listens on UDP port 67 and client sends on UDP port 68.
 
-![dora](img/dora.svg)
+![dora](../img/dora.svg)
 
 
 To use DHCP the following procedure is followed:
