@@ -10,3 +10,5 @@
 **SPOF** : `Single Point Of Failure`
 
 **PCAP** : `Packet CAPtures`
+
+**PCI DSS** : `Payment Card Industry Data Security Standard`
