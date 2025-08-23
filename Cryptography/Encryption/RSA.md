@@ -10,7 +10,7 @@ Public key is known to all correspondents and is used for encryption.
 While private key is used for encryption.
 
 
-![rsa](img/rsa.png)
+![rsa](../img/rsa.png)
 
 IRL the p and q would be more than 300 digits.
 
