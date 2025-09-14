@@ -11,4 +11,5 @@
 - **Hash Value:** a fixed-size string or characters that is computed by a hash function
 - **Hash Function:** takes an input of an arbitrary size and returns an output of fixed length, i.e., a hash value.
 - **Password salting:** refers to adding a salt, i.e., a random value, to the password before it is hashed.
-
+- **MIME:** Multipurpose Internet Mail Extensions. Internet standard that extends the format of email messages to support text in character sets other that ASCII as well as attachments like audio, video, images ...
+- 
