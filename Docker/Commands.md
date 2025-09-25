@@ -1,4 +1,4 @@
-# Commands
+# Working with images
 
 ### Listing All the downloaded images
 ```shell
@@ -70,6 +70,16 @@ docker image save -o nginx_backup.tar nginx
 docker image save -o images_backup.tar ubuntu nginx redis
 ```
 
+### Tagging images
+
+Setting tag or specifying version before pushing to registry
+
+```shell
+docker image tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]
+docker image tag ubuntu:20.04 myrepo/ubuntu:latest
+docker image tag nginx myrepo/nginx:v2.0
+```
+
 ### Load images
 
 ```shell
@@ -98,3 +108,156 @@ docker search --filter is-official=true mongo
 ```
 
 ![commands](img/7.png)
+
+# Working with Containers
+
+These are same
+
+```shell
+docker container ls
+docker ps
+```
+
+### Running containers
+This creates and run a new container 
+
+```shell
+docker container run nginx
+docker container run -d -p 8080:80 nginx
+docker container run -d --name mynginx -e ENV_VAR=production nginx
+```
+
+- `--name` for specifying container's name
+- `-d` for running in background
+- `-e` for setting env variables
+- `-v` for setting volume
+- `-p` for mapping ports
+- `--rm` will remove the running instance of the container and it's resources
+
+### Logging containers
+
+```shell
+docker container logs mycontainer
+docker container logs -f mycontainer
+docker container logs --tail 10 mycontainer
+```
+
+- `-f` for live logging
+- `--tail` only shows certain amount of last lines
+- `-t` adds timestamps to logs
+
+### Stopping
+
+Dockers sends SIGTERM to all processes in the container before stopping it. By using `-t` we can specify time before sending SIGKILL
+
+```shell
+docker container stop mycontainer
+docker container stop container1 container2
+```
+
+### Removing 
+
+```shell
+docker container rm mycontainer
+docker container rm container1 container2
+docker container rm -f mycontainer
+```
+
+- `-f` for forcing running
+- `-v` also removes the volumes connected to the container
+
+### Stats
+
+```shell
+docker container stats
+docker container stats mycontainer
+docker container stats --no-stream
+```
+
+### Exec 
+
+```shell
+docker container exec
+```
+
+- `-i` for interactive
+- `-t` for specifying TTY
+
+```shell
+docker container exec -it mycontainer bash
+docker container exec mycontainer ls /app
+```
+
+![](img/8.png)
+
+### Attach
+
+Connects the I/O of 2 containers. To exit without stop use `CTRL + Q` and `CTRL + P`
+
+### Commiting container
+
+Creates an image from the current state of the container
+
+- `-m` for message
+- `-` for author
+
+```shell
+docker container commit mycontainer myimage:latest
+```
+
+### Copying file 
+
+```shell
+docker container cp mycontainer:/path/to/file /local/path
+docker container cp /local/path mycontainer:/path/to/file
+```
+
+### Diff
+
+Shows list of deleted and changed and added files in container
+
+```shell
+docker container diff mycontainer
+```
+
+### Kill
+
+Sends SIGKILL by default and can change the killing signal with `-s`.
+
+```shell
+docker container kill -s SIGTERM mycontainer
+```
+
+### Port
+
+Shows the ports
+
+```shell
+docker container port mycontainer
+```
+
+### Top
+
+It's like `ps` in linux
+
+```shell
+docker container top mycontainer
+```
+
+### Update
+
+Can update the resources allocated to a container
+
+```shell
+docker container update --memory 512m --cpus 1 mycontainer
+```
+
+### Wait
+
+This waits until a container stops and prints the output.
+
+```shell
+docker container wait mycontainer
+```
+
+![](img/9.png)
