@@ -131,8 +131,10 @@ docker container run -d --name mynginx -e ENV_VAR=production nginx
 - `-d` for running in background
 - `-e` for setting env variables
 - `-v` for setting volume
-- `-p` for mapping ports
-- `--rm` will remove the running instance of the container and it's resources
+- `-p` for mapping ports first one is host and second one is inside the container
+- `--rm` will remove the running instance of the container and it's resources once it stopped
+
+> Any argument before the image name will be passed as image setting and any argument after image name will be passed as flags for ENTRYPOINT
 
 ### Logging containers
 
@@ -199,7 +201,7 @@ Connects the I/O of 2 containers. To exit without stop use `CTRL + Q` and `CTRL 
 Creates an image from the current state of the container
 
 - `-m` for message
-- `-` for author
+- `a` for author
 
 ```shell
 docker container commit mycontainer myimage:latest
@@ -261,3 +263,39 @@ docker container wait mycontainer
 ```
 
 ![](img/9.png)
+
+## Additional Docker Commands
+
+### Scout
+
+For checking out an image for possible vulnerabilities and security concerns.
+
+```shell
+docker scout [OPTIONS] IMAGE
+docker scout ubuntu:latest
+```
+
+### Plugin 
+
+For managing plugins
+
+```shell
+docker plugin [OPTIONS] COMMAND
+docker plugin install <plugin-name>
+```
+
+### Init
+
+Creating isolated environments for running the containers faster
+
+```shell
+docker init [OPTIONS] IMAGE
+```
+
+### Debug
+
+Debuging the container
+
+```shell
+docker debug [OPTIONS] CONTAINER
+```
