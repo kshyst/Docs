@@ -299,3 +299,5 @@ Debuging the container
 ```shell
 docker debug [OPTIONS] CONTAINER
 ```
+
+![m](img/10.png)

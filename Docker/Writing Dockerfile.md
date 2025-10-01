@@ -122,6 +122,7 @@ Usage in docker commands is like:
 
 ```shell
 docker build --build-arg VERSION=22.04 -t myimage .
+
 ```
 
 ## Using Multi-stage Build
@@ -167,3 +168,28 @@ The `ENV` will set environmental variable inside the container.
 Then it will copy the lock files from previous stage and then only installs the requirements needed for production. Then it copies the built application to the new stage.
 
 The `HEALTHCHECK` command will run the CMD after it to check if the container works correctly or nay
+
+## Multi-platform build
+
+Sometimes you want to build an application on multiple platforms or environments
+
+Using `docker buildx` you can build your applicaion on multiple platforms
+
+```shell
+docker buildx build --platform linux/amd64,linux/arm64,windows/amd64 -t my-app .
+```
+
+> If you want to build on arm but your device is on amd, docker will use `QEMU` to simulate arm architecture.
+
+# Best Practices On Writing Dockerfile
+
+### Use cache build
+
+Avoid doing unnecessary changes and docker will use cache to build
+
+### Pinning base images
+
+Using exact version and Digest instead of latest
+
+A Docker image digest is a unique, cryptographic identifier (SHA-256 hash) representing the content of a Docker image. Unlike tags, which can be reused or changed, a digest is immutable and ensures that the exact same image is pulled every time. This guarantees consistency across different environments and deployments.
+
