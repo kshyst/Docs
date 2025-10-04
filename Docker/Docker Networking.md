@@ -88,3 +88,6 @@ There are 2 types for this:
 ### None
 
 No network. Only has loopback
+
+## Default Networks
+
