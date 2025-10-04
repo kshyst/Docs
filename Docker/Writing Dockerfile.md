@@ -193,3 +193,14 @@ Using exact version and Digest instead of latest
 
 A Docker image digest is a unique, cryptographic identifier (SHA-256 hash) representing the content of a Docker image. Unlike tags, which can be reused or changed, a digest is immutable and ensures that the exact same image is pulled every time. This guarantees consistency across different environments and deployments.
 
+### Using pipes
+
+Doing this will activate pipes and more debugging features
+
+```dockerfile
+RUN set -o pipefail && wget -O - https://some.site | wc -l > /number
+```
+
+### Using ENV and EXPOSE
+
+Very clear
