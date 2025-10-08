@@ -230,3 +230,33 @@ ALTER TABLE orders
 DROP CONSTRAINT orders_customer_id_fkey;
 ```
 
+## Having
+
+`HAVING` is used because `WHERE` can't be used with aggregated functions.
+
+```sql
+SELECT column_name(s)
+FROM table_name
+WHERE condition
+GROUP BY column_name(s)
+HAVING condition
+ORDER BY column_name(s);
+```
+
+## UNION
+
+Used to combine results of multiple `SELECT` queries.
+
+*It automatically removes duplicate rows*
+
+```sql
+SELECT column_name(s) FROM table1
+UNION
+SELECT column_name(s) FROM table2;
+```
+
+Requirements for `UNION` to work:
+
+- Every `SELECT` statement within `UNION` must have the same number of columns
+- The columns must also have similar data types
+- The columns in every `SELECT` statement must also be in the **same order**
