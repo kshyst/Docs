@@ -53,6 +53,33 @@ networks:
   blog-net:
 ```
 
+### Some Explaining
+
+```yml
+version: '3.8'
+
+services:
+  web:
+    image: nginx
+    ports:
+      - "8080:80"
+    environment:
+      NODE_ENV: production
+  database:
+    image: postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: secret
+    volumes:
+      - db_data:/var/lib/postgresql/data
+```
+
+- version: the version of docker compose we are using
+- services: an object that defines various services we are using
+- web and database are service names.
+- image defines image, ports define list of port bindings, environment defines env variables
+- volumes define where should the volumes be stored
+
 ## Commands
 
 ### up
