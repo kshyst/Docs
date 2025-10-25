@@ -74,11 +74,67 @@ services:
       - db_data:/var/lib/postgresql/data
 ```
 
-- version: the version of docker compose we are using
-- services: an object that defines various services we are using
+- `version`: the version of docker compose we are using
+- `services`: an object that defines various services we are using
 - web and database are service names.
 - image defines image, ports define list of port bindings, environment defines env variables
 - volumes define where should the volumes be stored
+- `restart:` always, no, on-failure, unless-stopped. First one always restarts when container is stopped and on-failure only restarts when container failed.
+- `logging:` 
+```    
+logging:
+  driver: "json-file"
+  options:
+  max-size: "10m"
+```
+- `healthcheck:` Lets you define a command for health checking on certain interval.
+```yaml
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      retries: 3
+```
+- `build:` Builds the specified image with the given dockerfile, context should be the path to where the dockerfile is and dockerfile is the name of the dockerfile, args are the arguments for building
+```yaml
+    build:
+      context: ./path/to/context
+      dockerfile: Dockerfile.custom
+      args:
+        - APP_VERSION=1.0.0
+```
+- `external_links:` Lets you connect to containers outside of the compose, useful when you wanna use containers on different machine
+```yaml
+    external_links:
+      - "some_external_container"
+```
+- `platform:` Specify platform
+```yml
+    platform: linux/amd64 
+```
+- `command:` Runs default command
+```yaml
+    command: ["nginx", "-g", "daemon off;"] 
+```
+- `tmpfs:` Temp storage defining
+```yaml
+    tmpfs:
+      - /tmp 
+```
+- `secrets:` Defining secrets
+```yml
+services:
+  web:
+    secrets:
+      - my_secret
+secrets:
+  my_secret:
+    file: ./my_secret.txt
+```
+- `ulimits:` Define limits on resources, nproc is the number of processing units.
+```yml
+    ulimits:
+      nproc: 1024
+```
 
 ## Commands
 
