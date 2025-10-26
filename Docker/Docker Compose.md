@@ -135,6 +135,23 @@ secrets:
     ulimits:
       nproc: 1024
 ```
+- `cpus:` Define number of processing units for the container
+```yml
+  cpus: "0.5"
+```
+- `mem_limit:` Limit memory
+```yaml
+    mem_limit: 512m 
+```
+- `sysctls:` Kernel parameters
+```yml
+    sysctls:
+      net.ipv4.ip_forward: 1
+```
+- `pid:` Set specific pid for the container in the host machine
+```yaml
+    pid: host 
+```
 
 ## Commands
 
