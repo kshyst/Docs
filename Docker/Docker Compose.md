@@ -160,3 +160,27 @@ secrets:
 ```shell
 docker compose up
 ```
+
+Live logs
+
+```shell
+docker compose logs -f
+```
+
+Images mentioned inside the docker compose file will be built
+
+```shell
+docker compose build
+```
+
+Running a command inside a container of a compose 
+
+```shell
+docker compose exec web ls /usr/share/nginx/html
+```
+
+Prints the yml file among with possible errors
+
+```shell
+docker compose config
+```
