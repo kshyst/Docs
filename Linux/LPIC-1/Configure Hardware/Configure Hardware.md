@@ -47,3 +47,32 @@ cd /proc/sys/net/ipv4
 # power settings
 cd /proc/acpi
 ```
+
+### ls in hardware usage
+
+**lspci**: Shows PCI devices that are connected.
+
+**lsusb**: Shows usb devices
+
+**lsblk**: Shows block devices
+
+**lshw**: Hardware
+
+**lsmod**: All OSs need drives to work with hardware. Linux doesn't load all modules to kernel at the same time. Instead, it uses kernel modules. Loadable kernel modules with `.ko` extension and are used to extend the drivers to the linux kernel. `lsmod` to see loaded modules on kernel.
+
+Deleting and installing module:
+
+```shell
+# removing
+rmmod <modname>
+
+#installing
+insmod <modaddress>
+#or
+modprobe <modname>
+```
+
+To load modules on system boot do one of these:
+
+- add their name to the `/etc/modules` file. (deprecated)
+- add their config files to the `/etc/modprobe.d/` directory.
