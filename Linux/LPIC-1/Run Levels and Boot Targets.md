@@ -65,7 +65,7 @@ Entering GUI
 sudo systemctl isolate graphical.target
 ```
 
-![isolate](../img/isolate.png)
+![isolate](img/isolate.png)
 
 ## SysV runlevels
 
