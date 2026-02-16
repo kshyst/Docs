@@ -312,4 +312,29 @@ fi
 ### END /etc/grub.d/41_custom ###
 ```
 
+### Grub2 Commands
+
+For BIOS(Legacy) systems:
+
+- `grub-install /dev/sda` will do the installation
+- `grub2-mkconfig` or `grub-mkconfig` will read the configuration files from `/etc/grub.d/` and `/etc/default/grub` and creates the `grub.cfg`
+
+For UEFI systems:
+```shell
+sudo grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
+```
+
+and for updating configs:
+
+```shell
+grub2-mkconfig > /boot/grub2/grub.cfg
+#or
+grub2-mkconfig -o /boot/grub2/grub.cfg
+#or
+update-grub
+```
+
+### Kernel Parameters
+
+![](img/kernel_params.png)
 
