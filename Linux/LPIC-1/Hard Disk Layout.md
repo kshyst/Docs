@@ -105,3 +105,4 @@ This partition should be accessible by BIOS/UEFI during boot (No network drive).
 On UEFI systems, there is a `/boot/efi` mount point called EFI (Extensible Firmware Interface) system partition or ESP. This contains the bootloader and kernel and should be accessible by the UEFI firmware during boot.
 
 
+### Swaps
