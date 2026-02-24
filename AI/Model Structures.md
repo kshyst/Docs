@@ -41,4 +41,45 @@ Temperature is a hyperparameter that controls the randomness and creativity of t
 | **General Chat** | Medium (0.5 - 0.7) | A balance between coherence and sounding natural. |
 | **Poetry / Brainstorming** | High (0.8 - 1.0+) | You want unique ideas and are willing to accept some mistakes. |
 
+---
 
+## Other Parameters
+
+We may have access to certain parameters based on the model or api we are using.
+
+### Frequency Penalty
+
+This parameter penalizes a token based on how many times it has already appeared in the text (both the prompt and the generated output so far).
+
+- If a word has been used 0 times, there is no penalty.
+- If a word has been used 5 times, the penalty is high.
+
+Higher value means that the model is discouraged from repeating the exact same words or phrases over and over. This is useful for preventing “loops” where the model gets stuck saying the same thing.
+
+### Presence Penalty
+
+The model’s tendency to introduce new topics versus staying on existing ones.
+
+This parameter penalizes a token based on whether it has appeared at least once in the text so far. Unlike Frequency Penalty, it doesn’t care how many times it appeared, only that it appeared.
+
+**Higher Value**: The model is encouraged to move on to new topics.
+
+### Stop Sequences
+
+It controls when the model should forcefully stop generating text.
+
+You define a specific set of characters, words, or tokens. As soon as the model generates one of these “Stop Sequences,” the generation process cuts off immediately—even if the model hasn’t finished its sentence or reached its maximum token limit.
+
+Common Usage is in Q&A systems.
+
+LLMs are trained to predict the next pattern. If you give it a pattern like this:
+
+- User: Q: What is the capital of Iran?
+
+- Model: A: Tehran.
+
+Without a stop sequence, the model might look at the pattern “Q… A…” and decide to continue the pattern by generating a fake question on the next line:
+
+- Model Output: A: Tehran. \n Q: What is the population? \n A: …
+
+To prevent this, you can set the **Newline character (\n)** or the **text “Q:”** as a Stop Sequence. This tells the model: _“Answer the question, but as soon as you try to start a new line or a new question, STOP.”_
