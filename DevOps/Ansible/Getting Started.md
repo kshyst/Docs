@@ -98,3 +98,49 @@ ansible-playbook -i inventory.ini setup-web.yml
 ```
 
 If you run the exact same command a second time, Ansible will report ok instead of changed because of idempotency
+
+## Step 4: Dynamic Variables
+
+Ansible allows you to make your playbooks dynamic using variables. Variables in Ansible are referenced using double curly braces: `{{ variable_name }}`
+
+```yaml
+---
+- name: Setup Web Servers with Variables
+  hosts: webservers
+  become: yes
+  
+  # Define variables for this specific play
+  vars:
+    web_package: apache2
+    welcome_message: "Welcome to my Automated Server!"
+
+  tasks:
+    - name: Install the web package
+      apt:
+        name: "{{ web_package }}"
+        state: present
+
+    - name: Deploy custom index file
+      copy:
+        content: "<h1>{{ welcome_message }}</h1>"
+        dest: /var/www/html/index.html
+```
+
+## Step Five: Gathering Facts
+
+When a playbook runs, the very first thing you usually see in the output is:
+
+```shell
+TASK [Gathering Facts]
+```
+
+Ansible automatically connects to the managed nodes and runs a hidden module called setup. This gathers hundreds of variables about the target system (OS, IP addresses, disk space, memory).
+
+To use these facts:
+
+```yaml
+    - name: Show the operating system
+      debug:
+        msg: "This server is running {{ ansible_distribution }} version {{ ansible_distribution_version }}"
+```
+
