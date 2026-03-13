@@ -22,7 +22,7 @@ sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(l
 ### Update and install.
 ```bash
 sudo apt-get update
-sudo apt-get install vagrant
+sudo apt-get install Vagrant
 sudo apt-get install packer
 ```
 
@@ -32,13 +32,13 @@ sudo apt-get install packer
 ### Using Public Boxes
 ### Adding a bento box to Vagrant
 ```bash
-vagrant box add --provider virtualbox bento/ubuntu-22.04
-vagrant box add --provider virtualbox bento/debian-12
+Vagrant box add --provider virtualbox bento/ubuntu-22.04
+Vagrant box add --provider virtualbox bento/debian-12
 ```
 
 ### Create a Vagrantfile
 ```bash
-vagrant init bento/ubuntu-22.04
+Vagrant init bento/ubuntu-22.04
 ```
 
 ### Using a bento box in a Vagrantfile
