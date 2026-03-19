@@ -74,3 +74,14 @@ Use `-K` to always be asked for password when become : yes
 ```shell
 ansible-playbook -i inventory.ini deploy-fastapi.yml -K
 ```
+
+### Writing loops
+
+
+```yaml
+    - name: Configure Pip Mirror
+      command: "pip config set global.{{ item.key }} {{ item.value }}"
+      loop:
+        - { key: 'index-url', value: 'https://mirror-pypi.runflare.com/simple' }
+        - { key: 'trusted-host', value: 'mirror-pypi.runflare.com' }
+```

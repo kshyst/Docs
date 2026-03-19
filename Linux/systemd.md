@@ -7,3 +7,11 @@ systemd is usually not invoked directly by the user, but is installed as the /sb
 
 
 The main command used to introspect and control systemd is `systemctl`.
+
+The main command to see logs of a daemon process is `journalctl`.
+
+### Logs of a service
+
+```shell
+journalctl -u nginx.service
+```
