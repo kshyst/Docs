@@ -69,6 +69,22 @@ tar -I zstd -cvf archive.tar.zst /path/to/directory
 tar -xvf archive.tar.gz
 ```
 
+### cpio
+
+Gets list of files and creates an archive
+
+Used mostly for نوار مغناطیسی
+
+```shell
+# Archiving
+ls | cpio -o > allfiles.cpio
+ls | cpio -o > allfiles.cpio
+# UnArchiving
+# i for input and d for that if we have folders, it makes directory for them
+cpio -id < allfiles.cpio
+```
+
+
 ## Archiving + Compressing
 
 ### zip (.zip)
