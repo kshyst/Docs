@@ -25,7 +25,7 @@ Unified Extensible Firmware Interface
 
 - Modern
 - Specifies a special disk partition for the bootloader called EFI System Partition(ESP)
-- ESP is FAT and mounted on `/boot/efi` and bootloader files has `/efi` extension.
+- ESP is FAT and mounted on `/boot/efi` and bootloader files has `.efi` extension.
 
 > Check `/sys/firmware/efi` to see firmware
 
