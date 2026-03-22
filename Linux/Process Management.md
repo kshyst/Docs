@@ -1,5 +1,33 @@
 # Process Management
 
+Process Types:
+
+- `D` :    uninterruptible sleep (usually IO)
+- `I` :    Idle kernel thread
+- `R` :    running or runnable (on run queue)
+- `S` :    interruptible sleep (waiting for an event to complete)
+- `T` :    stopped by job control signal
+- `t` :    stopped by debugger during the tracing
+- `W` :    paging (not valid since the 2.6.xx kernel)
+- `X` :    dead (should never be seen)
+- `Z` :    defunct ("zombie") process, terminated but not reaped by its parent
+
+Additional Characters that displays:
+
+- `<` :   high-priority (not nice to other users)
+- `N` :   low-priority (nice to other users)
+- `L` :   has pages locked into memory (for real-time and custom IO)
+- `s` :   is a session leader
+- `l` :   is multi-threaded (using CLONE_THREAD, like NPTL pthreads do)
+- `+` :   is in the foreground process group
+
+#### Zombie Process
+
+Finished and returned something, but the parent process
+hasn't read the return. Process is dead but the return value still exists. 
+Doesn't put pressure on system. It is just bad programming problem.
+
+
 ## Manipulating processes
 
 ### bg, fg and jobs
@@ -121,33 +149,42 @@ watch ls
 
 shows uptime
 
-## Multiplexer
+## Change Process Priorities
 
-### screen
+### nice
 
-idc
+Niceness is `-20` to `19`
 
-tmux is better
+The you are nicer, the lower is the priority
 
-### tmux
+If CPU is struggling, i will give more power to lower nicenesses
 
-commands work with `CTRL + B`
+- -20 : ANGRY
+- 19 : SUPER NICE
 
-- `%`: Splits the screen vertically
-- `"`: Splits the screen horizontally
-- `ARROW KEYS`: Move between screens
-- `d`: Detach from tmux
-- `c`: Creates a new window
-- `{window number}`: Switches to wanted window
-- `t`: Turns screen into clock
-
-#### commands
+Example: You are backupping system using tar, Its better to give high niceness 
 
 ```shell
-# Starts tmux
-tmux
-# Lists
-tmux ls
-# Attach
-tmux attach -t 0
+# Run ls with 14 niceness
+nice -n 14 ls
+# Default niceness is 10
+nice ls
+# Without nice is 0
+ls
+```
+
+> Not root users cant give minus niceness
+> 
+> `nice: cannot set niceness: Permission denied`
+
+### renice
+
+renices
+
+Without sudo, you can only add to the niceness
+
+```shell
+renice -n 10 3783
+# Nice renice
+pgrep xeyes | xargs renice -n 19 
 ```

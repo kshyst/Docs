@@ -135,6 +135,12 @@ sed 's/salam/hello/' salam.txt
 # changes globally meaning if there were multiple of salam in one line it will
 # change all of them to hello, not just the first one.
 sed 's/salam/hello/g' salam.txt
+
+# Use regex
+sed -r 's/(A|B)/C/g'
+
+# Suppress the output
+sed -rn 's/(A|B)/C/g'
 ```
 
 ### wc
