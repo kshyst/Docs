@@ -72,6 +72,22 @@ More flags:
 ```shell
 find . -mmin +100000 -exec echo "yooooo {}" \;
 # Actually useful usage :
-find . -name "*.htm" -exec mv "{} {}" \;
+find . -name "*.htm" -exec mv "{} {}l" \;
 find . -empty -exec rm '{}' \; 
+```
+
+### locate
+
+Faster find. It creates a database using `updatedb` everyday from all the files and dirs in the system. 
+
+The update package is called `plocate` on debian systems.
+
+The configuration is under `/etc/updatedb.conf` or `/etc/syconfig/locate`
+
+```shell
+plocate docker
+# same as
+find . "*docker*"
+
+sudo updatedb
 ```
