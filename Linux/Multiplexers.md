@@ -17,6 +17,12 @@ commands work with `CTRL + B`
 - `c`: Creates a new window
 - `{window number}`: Switches to wanted window
 - `t`: Turns screen into clock
+- `&`: Kills current window
+- `x`: Kills current pane
+- `l`: Moves to previously selected window
+- `;`: Moves to previously active pane
+- `w`: Chooses window interactively. Very useful
+
 
 #### commands
 

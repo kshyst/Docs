@@ -19,6 +19,9 @@ After partitioning disk we need to give each partition a file system.
 
 * **CoW**: Copy-on-Write. Instead of traditional journaling, these file systems write new data to a new location before updating the pointers, offering excellent protection against data corruption.
 
+> inodes: Contain information about files. Permissions, owner, size, modification time and etc. inode number is unique in a particular filesystem and is also called files serial number
+> . Sometimes it may happen that inode memory fills but normal file memory doesn't. modern filesystems prevent this.
+
 
 
 ### Commands
@@ -34,3 +37,48 @@ ls -l /sbin/mk*
 mkfs # For filesystem
 mkswap # For swap
 ```
+
+### du and df
+
+`du` is disk usage, `df` is disk free
+
+```shell
+df -h
+# Shows inodes too
+df -ih
+```
+
+```shell
+du -h
+# Summary
+du -hs
+# depth
+du -h --max-depth 1
+```
+
+## Checking Filesystem
+
+### fsck
+
+File system check
+
+```shell
+# all of them
+ls /sbin/*fsck*
+
+# Normal
+sudo fsck /dev/nvme0n1p4
+
+# Automatic
+sudo fsck -ay /dev/nvme0n1p4
+```
+
+
+## Mounting and Unmounting
+
+`/etc/fstab` has static file system information
+
+External drives are mounted under `/media`
+
+
+
