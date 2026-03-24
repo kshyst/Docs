@@ -1,0 +1,17 @@
+site_name: kshyst docs
+theme:
+  name: readthedocs
+  font: false
+  highlightjs: false
+docs_dir: 'Docs'
+site_dir: '../site_build'
+
+plugins:
+  - exclude:
+      glob:
+        - "node_modules/*"   # Stops scanning JS packages
+        - "venv/*"           # Stops scanning Python environments
+        - ".venv/*"
+        - ".git/*"           # Stops scanning Git history
+        - "__pycache__/*"
+        - "*.py"             # Ignores python source files

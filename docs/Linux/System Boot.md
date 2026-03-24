@@ -79,78 +79,12 @@ You can see the process hierarchy using:
 pstree
 ```
 
+### systemd-run
 
-### systemd
-
-#### Units
-Made around *units*. A unit can be a service, group of services or and action. Units have a name, type, and a configuration file. 
-
-There are 12 types of units:
-
-- automount
-- device
-- mount
-- path
-- scope
-- service
-- slice
-- snapshot
-- socket
-- swag
-- target
-- timer
-
-We use `systemctl` to work with these units and `journalctl` to see logs
+Run a service without needing to enable it
 
 ```shell
-systemctl list-units
-systemctl list-units --type=target
-systemctl get-default # default targets
-systemctl list-unit-files
-systemctl cat boot.mount
+# Runs every 2 hours
+systemd-run --on-active="2hours" --unit="helloworld.service"
+systemd-run --on-active="2hours" helloworld.sh
 ```
-
-Units can be found in:
-
-- `/etc/systemd/system/`
-- `/run/systemd/system/`
-- `/usr/lib/systemd/system`
-
-
-Working with services:
-```shell
-systemctl stop sshd
-systemctl start sshd
-systemctl status sshd
-systemctl is-active sshd
-systemctl is-failed sshd
-systemctl restart sshd
-systemctl reload sshd
-systemctl enable sshd
-systemctl disable sshd
-systemctl daemon-reload sshd
-```
-
-Using journalctl:
-
-```shell
-journalctl # show all journal
-journalctl --no-pager # do not use less
-journalctl -n 10 # only 10 lines
-journalctl -S -1d # last 1 day
-journalctl -xe # last few logs
-journalctl -u ntp # only ntp unit
-journalctl _PID=1234
-```
-
-### SysV
-
-Control files are located at `/etc/init.d` and are closer to the general bash scripts.
-
-```shell
-/etc/init.d/ntpd status
-/etc/init.d/ntpd stop
-/etc/init.d/ntpd start
-/etc/init.d/ntpd restart
-```
-
