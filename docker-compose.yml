@@ -1,0 +1,10 @@
+services:
+  mkdocs-nginx:
+    image: docker.hyperclouds.ir/nginx:alpine
+    container_name: docs_website
+    ports:
+      - "80:80"
+    volumes:
+      - ./site_build:/usr/share/nginx/html:ro
+    restart: unless-stopped
+

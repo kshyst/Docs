@@ -3,8 +3,7 @@ theme:
   name: readthedocs
   font: false
   highlightjs: false
-docs_dir: 'Docs'
-site_dir: '../site_build'
+site_dir: 'site_build'
 
 plugins:
   - exclude:
