@@ -1,23 +1,44 @@
-image: python:3.12
-
 stages:
   - build
-  - test
   - deploy
 
-before_script:
-  - curl -I https://pypi.hyperclouds.ir/simple/annotated-doc/
-  - python --version
-  - pip install -i https://pypi.hyperclouds.ir/simple --upgrade pip
-  - pip install -r requirements.txt -i https://pypi.hyperclouds.ir/simple --extra-index-url https://mirror-pypi.runflare.com/simple --timeout 100 --retries 3
-#  - pip config --user set global.index https://mirror-pypi.runflare.com/simple
-#  - pip config --user set global.index-url https://mirror-pypi.runflare.com/simple
-#  - pip config --user set global.trusted-host mirror-pypi.runflare.com
-
-deploy_and_build_job:
+build_job:
+  image: python:3.12
   stage: build
+
+  before_script:
+    - python --version
+    - pip install -i https://pypi.hyperclouds.ir/simple -extra-index-url https://mirror-pypi.runflare.com/simple --timeout 100 --retries 3 --upgrade pip
+    - pip install -r requirements.txt -i https://pypi.hyperclouds.ir/simple --extra-index-url https://mirror-pypi.runflare.com/simple --timeout 100 --retries 3
+  #  - pip config --user set global.index https://mirror-pypi.runflare.com/simple
+  #  - pip config --user set global.index-url https://mirror-pypi.runflare.com/simple
+  #  - pip config --user set global.trusted-host mirror-pypi.runflare.com
+
   script:
     - echo "Building project..."
     - mkdocs build
-    - echo "Deploying app"
-    - mv site_build/* /var/www/docs
+    -
+  artifacts:
+    paths:
+      - site_build/
+    expire_in: 1 hour
+
+deploy_job:
+  image: alpine:latest
+  stage: deploy
+
+  dependencies: build_job
+
+  variables:
+    # This tells Ansible to skip the (yes/no) SSH prompt
+    ANSIBLE_HOST_KEY_CHECKING: "False"
+
+  before_script:
+    - apk add --no-cache openssh-client ansible rsync
+    - eval $(ssh-agent -s)
+    
+    # Decode the Base64 variable and add it to the SSH agent
+    - echo "$SSH_PRIVATE_KEY" | base64 -d | ssh-add -
+
+  script:
+    - ansible-playbook -i ansible/inventory.ini ansible/playbook.yml

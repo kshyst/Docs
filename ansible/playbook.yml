@@ -7,3 +7,15 @@
     app_dir: /var/www/docs
 
   tasks:
+    - name: Ensure application directory exists
+      file:
+        path: "{{ app_dir }}"
+        state: directory
+        mode: '0755'
+
+    - name: Copy built website to www
+      copy:
+        src: site_build/*
+        dest: "{{ app_dir }}"
+        owner: www-data
+        group: www-data
