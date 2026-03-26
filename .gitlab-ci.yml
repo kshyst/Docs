@@ -1,0 +1,28 @@
+image: python:3.12
+
+stages:
+  - build
+  - test
+  - deploy
+
+before_script:
+  - python --version
+  - pip install --upgrade pip
+  - pip install -r requirements.txt
+
+build_job:
+  stage: build
+  script:
+    - echo "Building project..."
+    - mkdocs build
+
+test_job:
+  stage: test
+  script:
+    - echo "Running tests"
+
+deploy_job:
+  stage: deploy
+  script:
+    - echo "Deploying app"
+    - mv site_build/* /var/www/docs
