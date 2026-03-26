@@ -37,7 +37,8 @@ deploy_job:
 
   before_script:
     # Adding dns servers
-    - echo "nameserver 217.218.155.155" > /etc/resolv.conf
+    - echo "nameserver 10.202.10.202" > /etc/resolv.conf
+    - echo "nameserver 217.218.155.155" >> /etc/resolv.conf
     - echo "nameserver 217.218.127.127" >> /etc/resolv.conf
     - echo "nameserver 172.26.146.34" >> /etc/resolv.conf
     - echo "nameserver 172.26.146.35" >> /etc/resolv.conf
@@ -48,10 +49,10 @@ deploy_job:
 
     - |
       cat <<EOF > /etc/apt/sources.list
-      deb https://linux-mirror.liara.ir/repository/ubuntu noble main restricted universe multiverse
-      deb https://linux-mirror.liara.ir/repository/ubuntu noble-updates main restricted universe multiverse
-      deb https://linux-mirror.liara.ir/repository/ubuntu noble-backports main restricted universe multiverse
-      deb https://linux-mirror.liara.ir/repository/ubuntu noble-security main restricted universe multiverse
+      deb http://mirror.arvancloud.ir/ubuntu/ noble main restricted universe multiverse
+      deb http://mirror.arvancloud.ir/ubuntu/ noble-updates main restricted universe multiverse
+      deb http://mirror.arvancloud.ir/ubuntu/ noble-backports main restricted universe multiverse
+      deb http://mirror.arvancloud.ir/ubuntu/ noble-security main restricted universe multiverse
       EOF
 
     - echo "Updating package list from mirrors..."
