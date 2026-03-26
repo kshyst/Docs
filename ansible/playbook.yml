@@ -1,7 +1,7 @@
 ---
 - name: Deploy docs server
   hosts: doc_servers
-  become: yes  # Run as root
+  become: no
 
   vars:
     app_dir: /var/www/docs
