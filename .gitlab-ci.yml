@@ -36,6 +36,8 @@ deploy_job:
     ANSIBLE_HOST_KEY_CHECKING: "False"
 
   before_script:
+    - curl -I https://ubuntu.hyperclouds.ir/ubuntu
+
     - |
       cat <<EOF > /etc/apt/sources.list
       deb https://ubuntu.hyperclouds.ir/ubuntu noble main restricted universe multiverse
