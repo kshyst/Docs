@@ -36,7 +36,6 @@ deploy_job:
     ANSIBLE_HOST_KEY_CHECKING: "False"
 
   before_script:
-    # 1. Overwrite default APT sources with your custom mirrors
     - |
       cat <<EOF > /etc/apt/sources.list
       deb https://ubuntu.hyperclouds.ir/ubuntu noble main restricted universe multiverse
@@ -45,11 +44,11 @@ deploy_job:
       deb https://ubuntu.hyperclouds.ir/ubuntu noble-security main restricted universe multiverse
       EOF
 
-    - echo "Updating package list from new mirrors..."
+    - echo "Updating package list from mirrors..."
     - export DEBIAN_FRONTEND=noninteractive
     - apt-get update -qq
-    -
-    - echo "Installing dependencies: openssh-client, ansible, rsync..."
+
+    - echo "Installing dependencies"
     - apt-get install -y -qq openssh-client ansible rsync
 
     - eval $(ssh-agent -s)
