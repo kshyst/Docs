@@ -6,6 +6,7 @@ stages:
   - deploy
 
 before_script:
+  - ping google.com
   - python --version
   - pip install -i https://pypi.hyperclouds.ir/simple --upgrade pip
   - pip install -i https://pypi.hyperclouds.ir/simple -r requirements.txt
