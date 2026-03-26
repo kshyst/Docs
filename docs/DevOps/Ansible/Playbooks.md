@@ -85,3 +85,7 @@ ansible-playbook -i inventory.ini deploy-fastapi.yml -K
         - { key: 'index-url', value: 'https://mirror-pypi.runflare.com/simple' }
         - { key: 'trusted-host', value: 'mirror-pypi.runflare.com' }
 ```
+
+### Notes
+
+If you want content of a folder write `folder/` and if folder itself write `folder`.

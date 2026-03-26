@@ -17,5 +17,3 @@
       copy:
         src: ../site_build/
         dest: "{{ app_dir }}"
-        owner: www-data
-        group: www-data
