@@ -9,24 +9,15 @@ before_script:
   - curl -I https://pypi.hyperclouds.ir/simple/annotated-doc/
   - python --version
   - pip install -i https://pypi.hyperclouds.ir/simple --upgrade pip
-  - pip install -r requirements.txt -i https://pypi.hyperclouds.ir/simple --extra-index-url https://mirror-pypi.runflare.com/simple --timeout 100
+  - pip install -r requirements.txt -i https://pypi.hyperclouds.ir/simple --extra-index-url https://mirror-pypi.runflare.com/simple --timeout 100 --retries 3
 #  - pip config --user set global.index https://mirror-pypi.runflare.com/simple
 #  - pip config --user set global.index-url https://mirror-pypi.runflare.com/simple
 #  - pip config --user set global.trusted-host mirror-pypi.runflare.com
 
-build_job:
+deploy_and_build_job:
   stage: build
   script:
     - echo "Building project..."
     - mkdocs build
-
-test_job:
-  stage: test
-  script:
-    - echo "Running tests"
-
-deploy_job:
-  stage: deploy
-  script:
     - echo "Deploying app"
     - mv site_build/* /var/www/docs
