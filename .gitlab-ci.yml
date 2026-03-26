@@ -6,10 +6,9 @@ stages:
   - deploy
 
 before_script:
-  - ping google.com
   - python --version
   - pip install -i https://pypi.hyperclouds.ir/simple --upgrade pip
-  - pip install -i https://pypi.hyperclouds.ir/simple -r requirements.txt
+  - pip install -r requirements.txt -i https://pypi.hyperclouds.ir/simple --extra-index-url https://mirror-pypi.runflare.com/simple --timeout 100
 #  - pip config --user set global.index https://mirror-pypi.runflare.com/simple
 #  - pip config --user set global.index-url https://mirror-pypi.runflare.com/simple
 #  - pip config --user set global.trusted-host mirror-pypi.runflare.com
