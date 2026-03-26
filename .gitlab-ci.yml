@@ -36,7 +36,12 @@ deploy_job:
     ANSIBLE_HOST_KEY_CHECKING: "False"
 
   before_script:
-    - curl -I https://ubuntu.hyperclouds.ir/ubuntu
+    # Adding dns servers
+    - echo "nameserver 217.218.155.155" >> /etc/resolv.conf
+    - echo "nameserver 217.218.127.127" >> /etc/resolv.conf
+    - echo "nameserver 172.26.146.34" >> /etc/resolv.conf
+    - echo "nameserver 172.26.146.35" >> /etc/resolv.conf
+    - echo "search ." >> /etc/resolv.conf
 
     - |
       cat <<EOF > /etc/apt/sources.list
