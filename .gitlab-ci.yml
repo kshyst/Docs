@@ -6,12 +6,12 @@ stages:
   - deploy
 
 before_script:
-  - pip config --user set global.index https://mirror-pypi.runflare.com/simple
-  - pip config --user set global.index-url https://mirror-pypi.runflare.com/simple
-  - pip config --user set global.trusted-host mirror-pypi.runflare.com
   - python --version
-  - pip install --upgrade pip
-  - pip install -r requirements.txt
+  - pip install -i https://pypi.hyperclouds.ir/simple --upgrade pip
+  - pip install -i https://pypi.hyperclouds.ir/simple -r requirements.txt
+#  - pip config --user set global.index https://mirror-pypi.runflare.com/simple
+#  - pip config --user set global.index-url https://mirror-pypi.runflare.com/simple
+#  - pip config --user set global.trusted-host mirror-pypi.runflare.com
 
 build_job:
   stage: build
