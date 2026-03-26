@@ -36,11 +36,22 @@ deploy_job:
     ANSIBLE_HOST_KEY_CHECKING: "False"
 
   before_script:
-    - ALPINE_VERSION="v$(cat /etc/alpine-release | cut -d'.' -f1,2)"
-    - echo "http://mirror-linux.runflare.com/alpine/$ALPINE_VERSION/main" > /etc/apk/repositories
-    - echo "http://mirror-linux.runflare.com/alpine/$ALPINE_VERSION/community" >> /etc/apk/repositories
+    # 1. Overwrite default APT sources with your custom mirrors
+    - |
+      cat <<EOF > /etc/apt/sources.list
+      deb https://ubuntu.hyperclouds.ir/ubuntu noble main restricted universe multiverse
+      deb https://ubuntu.hyperclouds.ir/ubuntu noble-updates main restricted universe multiverse
+      deb https://ubuntu.hyperclouds.ir/ubuntu noble-backports main restricted universe multiverse
+      deb https://ubuntu.hyperclouds.ir/ubuntu noble-security main restricted universe multiverse
+      EOF
 
-    - apk add --no-cache openssh-client ansible rsync
+    - echo "Updating package list from new mirrors..."
+    - export DEBIAN_FRONTEND=noninteractive
+    - apt-get update -qq
+    -
+    - echo "Installing dependencies: openssh-client, ansible, rsync..."
+    - apt-get install -y -qq openssh-client ansible rsync
+
     - eval $(ssh-agent -s)
     
     # Decode the Base64 variable and add it to the SSH agent
