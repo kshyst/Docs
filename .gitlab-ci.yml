@@ -9,6 +9,9 @@ before_script:
   - python --version
   - pip install --upgrade pip
   - pip install -r requirements.txt
+  - pip config --user set global.index https://mirror-pypi.runflare.com/simple
+  - pip config --user set global.index-url https://mirror-pypi.runflare.com/simple
+  - pip config --user set global.trusted-host mirror-pypi.runflare.com
 
 build_job:
   stage: build
