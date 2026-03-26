@@ -27,7 +27,7 @@ deploy_job:
   image: alpine:latest
   stage: deploy
 
-  dependencies: build_job
+  dependencies: [build_job]
 
   variables:
     # This tells Ansible to skip the (yes/no) SSH prompt
