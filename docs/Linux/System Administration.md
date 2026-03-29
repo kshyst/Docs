@@ -83,6 +83,7 @@ There are 4 numbers after users hashed passwords:
 For setting password age use `chage`:
 
 - `-E`: Set date in YYYY-MM-DD format
+- `-l`: Shows current password age
 
 ```shell
 chage kshyst

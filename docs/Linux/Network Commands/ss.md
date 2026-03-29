@@ -1,5 +1,7 @@
 # ss Command(Socket Statistics)
 
+`netstat` is the older version
+
 ```shell
 ss
 ```
@@ -13,3 +15,14 @@ ss
 ## Netstat vs ss
 
 The ss command is considered a replacement command for the obsolete netstat. The speed and better filtering options of CLI utilities from the iproute2 software package are preferable to the net-tools software package.
+
+- `-n`: Numeric
+- `-a`: All ports
+- `-r`: Routes
+
+```shell
+# See which ports are in listening mode
+ss -na | grep LISTEN | grep tcp
+# Best combination
+ss -tulpn
+```

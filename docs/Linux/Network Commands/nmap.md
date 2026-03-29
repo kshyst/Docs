@@ -60,7 +60,7 @@ Use `-d` for debugging level output. Add more d for more info.
 
 
 This screenshot shows -sT which sends ACK too
-![-sT](img/nmap1.png)
+![-sT](../../Networking/img/nmap1.png)
 
 This screenshot shows -sS which only sends SYN
-![-sS](img/nmap2.png)
+![-sS](../../Networking/img/nmap2.png)

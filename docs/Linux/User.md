@@ -2,6 +2,27 @@
 
 ## Users
 
+Check users in system
+```shell
+# You have a line for each logged in users (every single shell window is a separated login).
+w
+# More detail
+who
+# Logged out
+last
+```
+
+> there is a way to check the failed logins too: `last -f /var/log/btmp`
+
+
+Switch user
+
+```shell
+su kshyst
+# Switching to root using the sudoer user password instead of root password
+sudo su -
+```
+
 See groups and id and yourself
 
 ```shell
@@ -23,6 +44,14 @@ Assign groups to a user:
 sudo usermod -aG sudo kshyst
 ```
 
+Or edit `/etc/sudoers`
+
+How root gets the right to run all the commands: `txt root ALL=(ALL:ALL) ALL`
+
+The `ALL:ALL` means these users can run as any user and any group. The last ALL tells the sudo that these users/groups can run ALL commands.
+
+To change this file use `visudo` instead of `vi`
+
 Changing group for something:
 ```shell
 sudo chgrp postgres newfile
@@ -32,8 +61,6 @@ Users can be in many groups. Each user has a default group that is used when cre
 ```shell
 newgrp MyGroup
 ```
-
-
 
 Create User:
 
@@ -49,16 +76,15 @@ Give sudo access:
 sudo usermod -aG sudo ali
 ```
 
-Switch user:
+### user limits
+
+The resources on a Linux machine can be managed for users by the `ulimit` command. It is part of the PAM system.
 
 ```shell
-su - ali
-```
-
-Switch to root:
-
-```shell
-sudo su -
+# See all limit options
+ulimit -a
+# This will limit the CPU TIME of any process to 1 second. 
+ulimit -t 1
 ```
 
 ## Permissions

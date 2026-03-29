@@ -76,6 +76,11 @@ find . -name "*.htm" -exec mv "{} {}l" \;
 find . -empty -exec rm '{}' \; 
 ```
 
+Search for certain permissions:
+```shell
+sudo find / -perm -u+s
+```
+
 ### locate
 
 Faster find. It creates a database using `updatedb` everyday from all the files and dirs in the system. 
