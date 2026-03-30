@@ -45,7 +45,7 @@ Inside `/etc/cron.daily` an etc, you can create runnables that will run daily an
 - `/etc/cron.allow`
 - `/etc/cron.deny`
 
-users in allow can use cron and users in deny cant and others cant
+users in allow can use cron and users in deny cant and others can.
 
 This files doesn't exists at default
 
