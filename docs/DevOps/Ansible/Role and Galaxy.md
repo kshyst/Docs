@@ -48,7 +48,7 @@ When you run this playbook, Ansible will automatically look for a directory name
 In `nginx_role/defaults/main.yml`:
 
 ```yaml
-    ---
+---
     # defaults file for nginx_role
     http_port: 80
 ```
