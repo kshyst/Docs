@@ -109,6 +109,16 @@ ssh -D 1080 192.168.70.2
 
 The 1080 port will work ask a socks proxy on my machine and forward whatever request reaches it to the 192.168.70.2 machine and returns back the answers. Now I can configure my applications to use the localhost:1080 as their socks proxy and the 192.168.70.2 will work as a proxy here. This is useful when you do not have internet on your localhost, but 192.168.70.2 has it.
 
+Here is a better combination
+
+```shell
+ssh -D 8080 -C -N username@remote_server_ip
+```
+
+- `-C`: Compresses data before sending
+- `-N`: Wont open command prompt on server
+
+
 ### X Forwarding
 
 `X11Forwarding yes` in `sshd_config`

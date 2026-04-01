@@ -53,6 +53,10 @@ deploy_job:
       deb http://mirror.arvancloud.ir/ubuntu/ noble-updates main restricted universe multiverse
       deb http://mirror.arvancloud.ir/ubuntu/ noble-backports main restricted universe multiverse
       deb http://mirror.arvancloud.ir/ubuntu/ noble-security main restricted universe multiverse
+      deb https://ubuntu.hyperclouds.ir/ubuntu noble main restricted universe multiverse
+      deb https://ubuntu.hyperclouds.ir/ubuntu noble-updates main restricted universe multiverse
+      deb https://ubuntu.hyperclouds.ir/ubuntu noble-backports main restricted universe multiverse
+      deb https://ubuntu.hyperclouds.ir/ubuntu noble-security main restricted universe multiverse
       EOF
 
     - echo "Updating package list from mirrors..."
