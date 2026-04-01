@@ -8,6 +8,8 @@ dig joemama.com
 dig @8.8.8.8 google.com
 # digging a linux hostname
 dig predator
+# Only get IPs
+dig google.com +short
 ```
 
 # host

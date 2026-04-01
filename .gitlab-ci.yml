@@ -61,7 +61,8 @@ deploy_job:
 
     - echo "Updating package list from mirrors..."
     - export DEBIAN_FRONTEND=noninteractive
-    - apt-get update -qq || true
+    - apt-get update -qq -o Acquire::https::Verify-Peer=false
+    - apt-get install ca-certificates -o Acquire::https::Verify-Peer=false
 
     - echo "Installing dependencies"
     - apt-get install -y -qq openssh-client ansible rsync
