@@ -26,7 +26,7 @@ build_job:
     expire_in: 1 hour
 
 deploy_job:
-  image: ubuntu:latest
+  image: ubuntu:18.04
   stage: deploy
 
   dependencies: [build_job]
@@ -49,20 +49,15 @@ deploy_job:
 
     - |
       cat <<EOF > /etc/apt/sources.list
-      deb http://mirror.arvancloud.ir/ubuntu/ noble main restricted universe multiverse
-      deb http://mirror.arvancloud.ir/ubuntu/ noble-updates main restricted universe multiverse
-      deb http://mirror.arvancloud.ir/ubuntu/ noble-backports main restricted universe multiverse
-      deb http://mirror.arvancloud.ir/ubuntu/ noble-security main restricted universe multiverse
-      deb http://ubuntu.hyperclouds.ir/ubuntu noble main restricted universe multiverse
-      deb http://ubuntu.hyperclouds.ir/ubuntu noble-updates main restricted universe multiverse
-      deb http://ubuntu.hyperclouds.ir/ubuntu noble-backports main restricted universe multiverse
-      deb http://ubuntu.hyperclouds.ir/ubuntu noble-security main restricted universe multiverse
+      deb http://mirror.arvancloud.ir/ubuntu/ bionic main restricted universe multiverse
+      deb http://mirror.arvancloud.ir/ubuntu/ bionic-updates main restricted universe multiverse
+      deb http://mirror.arvancloud.ir/ubuntu/ bionic-backports main restricted universe multiverse
+      deb http://mirror.arvancloud.ir/ubuntu/ bionic-security main restricted universe multiverse
       EOF
 
     - echo "Updating package list from mirrors..."
     - export DEBIAN_FRONTEND=noninteractive
-    - apt-get update -qq -o Acquire::https::Verify-Peer=false
-    - apt-get install ca-certificates -o Acquire::https::Verify-Peer=false
+    - apt-get update -qq
 
     - echo "Installing dependencies"
     - apt-get install -y -qq openssh-client ansible rsync
