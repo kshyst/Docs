@@ -50,6 +50,13 @@ resolvectl status # Check the 'Current DNS Server' Section of you interface
 
 Now it will use systemd configs as the first priority
 
+To make the systemd dns not use port 53 for listening dns request, inside `/etc/systemd/resolve.conf`:
+
+```text
+[Resolve]
+DNSStubListener=no
+```
+
 ## DNS Records
 
 - `A Record`: The A (Address) record maps a hostname to one or more IPv4 addresses.
