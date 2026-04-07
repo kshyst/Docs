@@ -1,6 +1,6 @@
 server {
     listen 80;
-    server_name docs.kshyst.ir doc.kshyst.ir kshyst.ir;
+    server_name docs.kshyst.ir doc.kshyst.ir kshyst.ir kshyst.digital;
 
         location / {
         root /var/www/docs;
@@ -12,7 +12,7 @@ server {
 
 server {
         listen 443 ssl;
-        server_name docs.kshyst.ir doc.kshyst.ir kshyst.ir;
+        server_name docs.kshyst.ir doc.kshyst.ir kshyst.ir kshyst.digital;
 
         ssl_certificate /etc/ssl/certs/local_nginx.crt;
         ssl_certificate_key /etc/ssl/private/local_nginx.key;
