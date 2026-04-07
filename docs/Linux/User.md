@@ -52,6 +52,12 @@ The `ALL:ALL` means these users can run as any user and any group. The last ALL 
 
 To change this file use `visudo` instead of `vi`
 
+Add this line to `visudo` to make user a passwordless sudoer:
+
+```text
+kshyst ALL=(ALL) NOPASSWD: ALL
+```
+
 Changing group for something:
 ```shell
 sudo chgrp postgres newfile

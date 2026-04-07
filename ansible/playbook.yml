@@ -1,19 +1,42 @@
 ---
 - name: Deploy docs server
   hosts: doc_servers
-  become: no
+  become: yes
 
   vars:
     app_dir: /var/www/docs
+    nginx_path: /etc/nginx/sites-available/docs
 
   tasks:
     - name: Ensure application directory exists
       file:
         path: "{{ app_dir }}"
         state: directory
-        mode: '0755'
+        mode: "0755"
 
     - name: Copy built website to www
       copy:
         src: ../site_build/
         dest: "{{ app_dir }}"
+
+    - name: Deploy the nginx config file from template
+      template:
+        src: templates/docs.j2
+        dest: "{{ nginx_path }}"
+        owner: root
+        group: root
+        mode: "0644"
+      notify: restart nginx
+
+    - name: Link nginx config from sites available to sites enabled
+      file:
+        src: /etc/nginx/sites-available/docs
+        dest: /etc/nginx/sites-enabled/docs
+        state: link
+      notify: restart nginx
+
+  handlers:
+    - name: restart nginx
+      systemd:
+        name: nginx
+        state: restarted

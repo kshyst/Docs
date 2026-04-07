@@ -1,0 +1,27 @@
+server {
+    listen 80;
+    server_name docs.kshyst.ir doc.kshyst.ir kshyst.ir;
+
+        location / {
+        root /var/www/docs;
+        index index.html;
+        try_files $uri $uri/ =404;
+        }
+        #return 301 https://$host$request_uri;
+}
+
+server {
+        listen 443 ssl;
+        server_name docs.kshyst.ir doc.kshyst.ir kshyst.ir;
+
+        ssl_certificate /etc/ssl/certs/local_nginx.crt;
+        ssl_certificate_key /etc/ssl/private/local_nginx.key;
+
+        location / {
+
+        root /var/www/docs;
+        index index.html;
+
+        try_files $uri $uri/ =404;
+    }
+}

@@ -36,6 +36,20 @@ DNS=1.1.1.1 8.8.8.8
 FallbackDNS=9.9.9.9
 ```
 
+By default `Networkctl` changes your DNS server on certain Network Interfaces.
+
+To change it:
+
+```shell
+nmcli connection modify "Nigga Killa" ipv4.ignore-auto-dns yes
+nmcli connection modify "Nigga Killa" ipv6.ignore-auto-dns yes
+sudo systemctl restart NetworkManager
+sudo systemctl restart systemd-resolved
+resolvectl status # Check the 'Current DNS Server' Section of you interface
+```
+
+Now it will use systemd configs as the first priority
+
 ## DNS Records
 
 - `A Record`: The A (Address) record maps a hostname to one or more IPv4 addresses.
@@ -202,4 +216,14 @@ When a client sends a DNS query with an OPT record, it is essentially telling th
 ```text
 ;; OPT PSEUDOSECTION:
 ; EDNS: version: 0, flags:; udp: 4096
+```
+
+## Resolve DNS
+
+```shell
+resolvectl query snapp.ir
+
+dig snapp.ir
+
+nslookup snapp.ir
 ```
