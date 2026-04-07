@@ -15,7 +15,7 @@ build_job:
     - echo "nameserver 172.26.146.35" >> /etc/resolv.conf
     - echo "search ." >> /etc/resolv.conf
 
-    - curl -I https://pypi.hyperclouds.ir/simple
+    #- curl -I https://pypi.hyperclouds.ir/simple
     - curl -I https://mirror-pypi.runflare.com/simple
     - curl -I https://package-mirror.liara.ir/repository/pypi/
 
