@@ -79,4 +79,4 @@ deploy_job:
     - echo "$SSH_PRIVATE_KEY" | base64 -d | ssh-add -
 
   script:
-    - ansible-playbook -i ansible/inventory.ini ansible/playbook.yml
+    - ansible-playbook -i ansible/inventory.ini ansible/playbook.yml -K
