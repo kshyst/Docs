@@ -6,6 +6,7 @@ theme:
 site_dir: 'site_build'
 
 plugins:
+  - search
   - exclude:
       glob:
         - "node_modules/*"   # Stops scanning JS packages
