@@ -1,12 +1,55 @@
-site_name: kshyst docs
-theme:
-  name: readthedocs
-  font: false
-  highlightjs: false
+site_name: Kshyst Docs
 site_dir: 'site_build'
 
+theme:
+  name: material
+  font: false
+  logo: assets/kshyst.jpeg
+  highlightjs: false
+  palette:
+    # Adds a dark mode toggle button
+    - scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo            # Main header/theme color
+      accent: deep red        # Link/button hover color
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+  features:
+    - navigation.tabs          # Moves top-level sections to a top navbar
+    - navigation.tabs.sticky   # Keeps the top navbar visible when scrolling
+    - navigation.top           # Adds a "back to top" button at the bottom right
+    - navigation.indexes       # Allows clicking a section name to open an index page
+    - toc.integrate            # Merges the right-side Table of Contents into the left sidebar
+    - content.code.copy # Adds a "copy to clipboard" button on code blocks!
+
+
+markdown_extensions:
+  - admonition               # Allows info/warning boxes (!!! note)
+  - pymdownx.details         # Allows collapsible text boxes (??? note)
+  - pymdownx.highlight:      # Syntax highlighting for code blocks
+      anchor_linenums: true
+  - pymdownx.superfences     # Allows nesting blocks and tabs
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.arithmatex:
+      generic: true
+
 plugins:
-  - search
+  - search:
+      lang: en # You can change this to other languages like es, fr, ru, etc.
+      separator: '[\s\-\.]+' # Helps tokenize words better
   - exclude:
       glob:
         - "node_modules/*"   # Stops scanning JS packages
