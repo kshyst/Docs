@@ -4,7 +4,8 @@ site_dir: 'site_build'
 theme:
   name: material
   font: false
-  logo: assets/kshyst.jpeg
+  logo: assets/kshyst.png
+  favicon: assets/kshyst.png
   highlightjs: false
   palette:
     # Adds a dark mode toggle button
@@ -12,15 +13,17 @@ theme:
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
+      primary: deep orange
+      accent: amber
     - scheme: slate
-      primary: indigo            # Main header/theme color
-      accent: deep red        # Link/button hover color
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
+      primary: cyan
+      accent: cyan
 
   features:
-    - navigation.tabs          # Moves top-level sections to a top navbar
+    #- navigation.tabs          # Moves top-level sections to a top navbar
     - navigation.tabs.sticky   # Keeps the top navbar visible when scrolling
     - navigation.top           # Adds a "back to top" button at the bottom right
     - navigation.indexes       # Allows clicking a section name to open an index page
