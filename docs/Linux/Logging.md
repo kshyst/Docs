@@ -99,7 +99,7 @@ This is the newer generation of syslogs and is used in many environments. Its ma
 - `RULES`, A combination of facilities, priorities and actions tells the rsyslog what to do with each log.
 
 ```shell
-root@debian:~# cat /etc/rsyslog.conf
+cat /etc/rsyslog.conf
 # /etc/rsyslog.conf configuration file for rsyslog
 #
 # For more information install rsyslog-doc and see
@@ -228,12 +228,12 @@ It is important to know that the binary which logs the *kern category is a stand
 If you need to send something toward the `rsyslog`, you can use the `logger` tool.
 
 ```shell
-root@debian:# logger Testing my lovely tool
-root@debian:# logger local1.emerg Nothing emergent for sure
-root@debian:# tail -3 /var/log/syslog
-2023-06-30T06:05:01.325358-04:00 debian CRON[914]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
-2023-06-30T06:13:27.671410-04:00 debian root: Testing my lovely tool
-2023-06-30T06:13:45.795158-04:00 debian root: local1.emerg Nothing emergent for sure
+logger Testing my lovely tool
+logger local1.emerg Nothing emergent for sure
+tail -3 /var/log/syslog
+#2023-06-30T06:05:01.325358-04:00 debian CRON[914]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+#2023-06-30T06:13:27.671410-04:00 debian root: Testing my lovely tool
+#2023-06-30T06:13:45.795158-04:00 debian root: local1.emerg Nothing emergent for sure
 ```
 
 ### journald
@@ -315,3 +315,15 @@ journalctl -D=/mnt/var/log/journal/ec22e43962c64359b9b25cfa650b025b/
 ```
 
 You can also use the `--merge` switch to merge these logs into your machine or use `--file` to check only one specific journal file. Lastly if the exact location of journal files are not known, you can use `--root /mnt` and tell the `journalctl` to search there for journal files.
+
+Using journalctl:
+
+```shell
+journalctl # show all journal
+journalctl --no-pager # do not use less
+journalctl -n 10 # only 10 lines
+journalctl -S -1d # last 1 day
+journalctl -xe # last few logs
+journalctl -u ntp # only ntp unit
+journalctl _PID=1234
+```
