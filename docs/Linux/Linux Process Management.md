@@ -1,6 +1,6 @@
 # Process Management
 
-![arch](img/archi.png)
+![arch](../DevOps/img/archi.png)
 
 everything is possible with the shell so you dont have to use desktop
 
@@ -23,11 +23,11 @@ PID is the Process IDentifier. It is a unique number assigned to each process ru
 - Terminated
 - Zombie (Orphan)
 
-![zombie](img/zombie.png)
+![zombie](../DevOps/img/zombie.png)
 
 ### Some important commands for process management
 
-![processes](img/Process.png)
+![processes](../DevOps/img/Process.png)
 
 - `bg` : To send a process to the background
 - `fg` : To run a stopped or suspended process in the foreground
