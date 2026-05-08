@@ -94,3 +94,40 @@ server {
     }
 }
 ```
+
+## Catch All
+
+A Catch all configuration is when we want to send empty response for every request coming to our port 80 and 443 except when the domain is 
+what we set in another configuration:
+
+Write a config `/etc/nginx/sites-available/catch-all` and dont forget to link it to enabled
+
+```text
+# Catch-all for HTTP (Port 80)
+server {
+   listen 80 default_server;
+   server_name _;
+   return 444; 
+}
+
+# Catch-all for HTTPS (Port 443)
+server {
+   listen 443 ssl default_server;
+   server_name _;
+   
+   # This tells Nginx to drop the connection before even 
+   # trying to show a certificate (Requires Nginx 1.19.4 or newer)
+   ssl_reject_handshake on;
+}
+```
+
+```shell
+   sudo nginx -t
+   sudo systemctl restart nginx
+```
+
+For this to work, make sure there isnt any other config that uses `default_server`  in their `listen` part. 
+
+```shell
+grep -r "default_server" /etc/nginx/sites-enabled/*
+```
