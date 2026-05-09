@@ -1,3 +1,4 @@
+# Progressive Delivery
 
 **Progressive Delivery** is the evolution of Continuous Delivery. While CD focuses on making code _ready_ to ship, Progressive Delivery focuses on how that code is actually _exposed_ to users to minimize risk and maximize feedback.
 

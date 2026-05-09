@@ -1,0 +1,7 @@
+{
+  "project_name": "Kshyst Docs",
+  "conventions": {
+    "documentation": "MkDocs with Material theme",
+    "ci_cd": "GitLab CI with Ansible deployment"
+  }
+}
