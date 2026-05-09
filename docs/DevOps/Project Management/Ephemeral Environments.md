@@ -1,3 +1,4 @@
+# Ephemeral Environments
 
 In a microservice architecture, **Ephemeral Environments** (also known as Preview or Dynamic Environments) are short-lived, on-demand instances of your application stack.
 

@@ -1,3 +1,4 @@
+# Gitops
 
 ## 1. The Core Architecture: Pull-Based vs. Push-Based
 
