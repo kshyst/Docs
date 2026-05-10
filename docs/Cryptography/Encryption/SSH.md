@@ -25,8 +25,7 @@ A **fingerprint** is a short, unique string of characters used to identify a muc
 - **Purpose**: When you connect to a server for the first time, the client displays the server's public key fingerprint. You should verify this fingerprint against a trusted source (like the server administrator or a web dashboard) to ensure you are connecting to the correct machine.
 - **Verification**: If the fingerprint shown by your client doesn't match the expected one, it's a sign of a **Man-in-the-Middle (MITM)** attack. Someone might be intercepting your connection and presenting their own key to steal your credentials.
 
-!!! info "Checking a local key's fingerprint"
-    You can check the fingerprint of your own local public key using:
+> You can check the fingerprint of your own local public key using:
     ```bash
     ssh-keygen -lf ~/.ssh/id_ed25519.pub
     ```
@@ -70,5 +69,4 @@ GitHub uses SSH public key authentication to securely identify users during `git
 4. **Signature Verification**: GitHub sends a "challenge" (a piece of random data) to your client. Your SSH agent signs this challenge using your **private key** and sends the signature back.
 5. **Access Granted**: GitHub verifies the signature using your stored public key. If it matches, GitHub knows you possess the corresponding private key and authorizes the push/pull operation.
 
-!!! note
-    GitHub never sees your private key. The authentication happens entirely through the cryptographic proof that you own the private key corresponding to the public key you uploaded.
+> GitHub never sees your private key. The authentication happens entirely through the cryptographic proof that you own the private key corresponding to the public key you uploaded.
