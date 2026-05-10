@@ -1,154 +1,122 @@
-# Writing Dockerfile
+# Writing a Dockerfile
 
-- `FROM`: Tells docker to get certain image from registry and also we can specify the version after `:`. It defines the base layer(or base image)
-- `RUN`: Is for running bash commands.
-- `COPY`: Copies all the file next to the Dockerfile to the specified directory in our new container environment.
-- `CMD`: Tells docker what to run to start the project.
+A `Dockerfile` is a text document that contains all the commands a user could call on the command line to assemble an image.
 
-```Dockerfile
+## Basic Directives
+
+- `FROM`: Specifies the base image to build from (e.g., `FROM ubuntu:latest`). It defines the base layer.
+- `RUN`: Executes commands in a new layer on top of the current image and commits the results.
+- `COPY`: Copies files or directories from the host machine into the container's file system.
+- `CMD`: Provides defaults for an executing container. There can only be one `CMD` instruction in a `Dockerfile`.
+
+### Example Dockerfile
+
+```dockerfile
 FROM ubuntu:latest
 
+# Update and install dependencies
 RUN apt-get update && apt-get install -y python3
 
+# Set the working directory
+WORKDIR /app
+
+# Copy the application code
 COPY . /app
 
+# Start the application
 CMD ["python3", "/app/app.py"]
 ```
 
-### Creating the image
+### Building the Image
+```bash
+# Build an image from the current directory
+docker build -t my-python-app .
 
-```shell
-docker build .
+# -t: Specifies a name and optionally a tag in the 'name:tag' format
+# -f: Specifies the path to the Dockerfile if it's not named 'Dockerfile' or is in a different directory
 ```
 
-- `-t` specifies the name of the image
-- `-f` giving the exact dockerfile name and location
+## Dockerfile Instructions
 
-### Running the Container
-
-```shell
-docker run 
-```
-
-## Dockerfile Commands
-
-### Expose
-
-This expose command in dockerfile does nothing. It only has documentational purposes
-
-```Dockerfile
+### EXPOSE
+The `EXPOSE` instruction informs Docker that the container listens on the specified network ports at runtime. It serves primarily as documentation between the person who builds the image and the person who runs the container.
+```dockerfile
 EXPOSE 8080
 ```
 
-### Entrypoint and CMD
+### ENTRYPOINT vs CMD
+`ENTRYPOINT` allows you to configure a container that will run as an executable. `CMD` provides default arguments for the `ENTRYPOINT`.
 
-ENTRYPOINT is what should run after we run our container and CMD is some additional arguments added to it.
-
-```Dockerfile
+```dockerfile
 ENTRYPOINT ["python", "manage.py", "runserver"]
-CMD ["-h", "0.0.0.0", "-p", "8080"]
+CMD ["0.0.0.0:8080"]
 ```
 
-The default ENTRYPOINT for docker is :
-
-```shell
-/bin/sh -c [COMMAND]
-```
-
-Which runs the given command after it
-
-Basically if we don't give ENTRYPOINT, it will to the `/bin/sh -c` followed by whatever CMD is in our Dockerfile
-
-### Volume
-Is used to create and connect volumes
+### VOLUME
+Creates a mount point with the specified name and marks it as holding externally mounted volumes from native host or other containers.
 ```dockerfile
 VOLUME ["/data"]
 ```
 
-### User
-
-Specifies the user inside container
+### USER
+Sets the user name (or UID) and optionally the user group (or GID) to use when running the image and for any `RUN`, `CMD` and `ENTRYPOINT` instructions that follow it.
 ```dockerfile
 USER nobody
-RUN whoami
 ```
 
-This will print out nobody
-
-### Stop Signal
-
-Specifies the signal that should be used to stop the container
-
+### STOPSIGNAL
+Sets the system call signal that will be sent to the container to exit.
 ```dockerfile
 STOPSIGNAL SIGTERM
 ```
 
-### Shell
-
-Specifies the shell for container
-
-SHELL ["/bin/bash", "-c"]
-RUN echo "Hello from bash"
-
-### On Build
-
-For specifying commands that should only run when we are using this image as a base image.
-
+### SHELL
+Allows the default shell used for the shell form of commands to be overridden.
 ```dockerfile
-ONBUILD RUN echo "This will run when the image is used as a base."
+SHELL ["/bin/bash", "-c"]
 ```
 
-### Label
+### ONBUILD
+Adds a trigger instruction to the image to be executed when the image is used as the base for another build.
+```dockerfile
+ONBUILD RUN echo "This will run when this image is used as a base."
+```
 
-For giving information about the author
-
+### LABEL
+Adds metadata to an image.
 ```dockerfile
 LABEL version="1.0" description="My custom image"
 ```
 
-### Arg
-
-For setting arguments in the build time.
-
+### ARG
+Defines a variable that users can pass at build-time to the builder with the `docker build` command using the `--build-arg <varname>=<value>` flag.
 ```dockerfile
 ARG VERSION=20.04
-FROM registry.gitlab.com/qio/standard/ubuntu:${VERSION}
+FROM ubuntu:${VERSION}
 
 ARG APP_HOME=/app
 WORKDIR $APP_HOME
 ```
 
-Usage in docker commands is like:
-
-```shell
-docker build --build-arg VERSION=22.04 -t myimage .
-
-```
-
-## Using Multi-stage Build
+## Multi-stage Builds
+Multi-stage builds are useful for optimizing Dockerfiles while keeping them easy to read and maintain. They allow you to use multiple `FROM` statements in a single Dockerfile.
 
 ```dockerfile
+# Stage 1: Build
 FROM node:16 AS build
-
 WORKDIR /app
-
-COPY package.json package-lock.json ./
+COPY package*.json ./
 RUN npm install
-
 COPY . .
-
 RUN npm run build
 
+# Stage 2: Production
 FROM node:16-slim AS production
-
 WORKDIR /app
-
 ENV NODE_ENV=production
 ENV PORT=3000
-
-COPY --from=build /app/package.json /app/package-lock.json ./
+COPY --from=build /app/package*.json ./
 RUN npm install --only=production
-
 COPY --from=build /app/dist /app/dist
 
 EXPOSE 3000
@@ -159,48 +127,21 @@ HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
 CMD ["node", "dist/app.js"]
 ```
 
-In the first part it uses `node:16` for installing requirements and building the application and the `AS build` part shows the stage name.
+## Multi-platform Builds
+Using `docker buildx`, you can build your application for multiple architectures (e.g., AMD64, ARM64).
 
-The second stage we use `node:16-slim` which only has the requirements for running the application and is pretty lighter.
-
-The `ENV` will set environmental variable inside the container.
-
-Then it will copy the lock files from previous stage and then only installs the requirements needed for production. Then it copies the built application to the new stage.
-
-The `HEALTHCHECK` command will run the CMD after it to check if the container works correctly or nay
-
-## Multi-platform build
-
-Sometimes you want to build an application on multiple platforms or environments
-
-Using `docker buildx` you can build your applicaion on multiple platforms
-
-```shell
-docker buildx build --platform linux/amd64,linux/arm64,windows/amd64 -t my-app .
+```bash
+docker buildx build --platform linux/amd64,linux/arm64 -t my-app .
 ```
+> **Note**: If building for a different architecture than the host, Docker uses `QEMU` for simulation.
 
-> If you want to build on arm but your device is on amd, docker will use `QEMU` to simulate arm architecture.
+## Best Practices
 
-# Best Practices On Writing Dockerfile
-
-### Use cache build
-
-Avoid doing unnecessary changes and docker will use cache to build
-
-### Pinning base images
-
-Using exact version and Digest instead of latest
-
-A Docker image digest is a unique, cryptographic identifier (SHA-256 hash) representing the content of a Docker image. Unlike tags, which can be reused or changed, a digest is immutable and ensures that the exact same image is pulled every time. This guarantees consistency across different environments and deployments.
-
-### Using pipes
-
-Doing this will activate pipes and more debugging features
-
-```dockerfile
-RUN set -o pipefail && wget -O - https://some.site | wc -l > /number
-```
-
-### Using ENV and EXPOSE
-
-Very clear
+- **Use Build Cache**: Order your instructions from least frequent to most frequent changes to leverage Docker's layer caching.
+- **Pin Base Images**: Use specific versions or digests (SHA-256) instead of `latest` to ensure reproducibility.
+- **Use .dockerignore**: Exclude unnecessary files (like `node_modules` or `.git`) to reduce image size and build time.
+- **Minimize Layers**: Combine related `RUN` commands using `&&` and use multi-stage builds to keep the final image small.
+- **Enable Pipefail**: Use `set -o pipefail` in shell scripts to ensure that pipe failures are caught.
+  ```dockerfile
+  RUN set -o pipefail && wget -O - https://example.com | wc -l > /count
+  ```

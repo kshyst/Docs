@@ -1,23 +1,32 @@
-# Docker layers
+# Docker Layers
 
-Docker layers are changes in images from the previous layer. Every command in docker file creates a layer.
+Docker images are composed of a series of read-only layers. Each layer represents an instruction in the image's Dockerfile (e.g., `RUN`, `COPY`, `ADD`). These layers are stacked on top of each other to form the final image.
 
-Each layer contains:
+## How Layers Work
 
-- Added or deleted files 
-- Environmental variables
-- Information about the commands ran
+Docker uses a **Union File System** to combine these layers into a single coherent filesystem. Each layer only contains the differences (diffs) from the layer below it.
 
-Docker uses Copy-on-Write COW for creating layers. This will make the changes on the previous layer without copying it.
+### Copy-on-Write (CoW) Strategy
+Docker utilizes a **Copy-on-Write (CoW)** strategy for maximum efficiency.
+- If a layer needs to modify a file from a lower layer, it first copies the file to the current layer and then applies the changes.
+- This ensures that the underlying layers remain unchanged and can be shared among multiple images.
 
-Layer types:
+## Types of Layers
 
-- `Base Layers` like ubuntu, python and ... which specifies the os and environment of the container.
-- `Build Layers` these are built from `RUN` commands and are mostly for installing packages and changing the system files.
-- `Copy Layers` built from `ADD` and `COPY` commands
-- `Environmental Layers` built from `ENV` command. The envs specified will only be available to the layers after this.
-- `Command layers` built by `CMD` and `ENTRYPOINT`
+- **Base Layer**: The initial layer of the image, typically an operating system like `ubuntu` or `alpine`.
+- **Build Layers**: Created by `RUN` instructions, these layers usually involve installing packages or compiling code.
+- **Data Layers**: Created by `COPY` or `ADD` instructions, these layers add files from the host machine to the image.
+- **Metadata Layers**: Instructions like `ENV`, `EXPOSE`, and `LABEL` add metadata to the image rather than files to the filesystem.
+- **Executable Layers**: `CMD` and `ENTRYPOINT` specify what process should run when a container is started from the image.
 
-## How layers work
+## Benefits of Layering
 
-Each layer is built and stored separately and when something changes, only the corresponding layer will change and others are used from cache.  
+- **Storage Efficiency**: Multiple images can share the same base and intermediate layers, significantly reducing disk usage.
+- **Faster Builds**: When you modify a Dockerfile and rebuild the image, Docker only rebuilds the layers that have changed and reuses the rest from the cache.
+- **Faster Pulls**: When pulling an image, Docker only downloads the layers that you don't already have on your local machine.
+
+## Viewing Image Layers
+You can inspect the layers of an image using the `docker history` command:
+```bash
+docker history my-image:latest
+```

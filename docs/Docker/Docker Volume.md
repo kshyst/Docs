@@ -1,136 +1,102 @@
-# Docker Volume
+# Docker Volumes
 
-In docker we usually need the data of a container even after it stopped
+By default, data created inside a Docker container is stored in a writable container layer. If the container is deleted, this data is lost. Docker volumes provide a mechanism for persisting data beyond the lifecycle of a container.
 
-![img](img/container-layers.webp)
+![volumes](img/container-layers.webp)
 
-Without defining volume for a container it is stateless
+## Persistent Data in Docker
 
-For example running redis with saving data:
+Without a volume, a container is stateless. For example, if you run a Redis container and save data, that data will disappear once the container is removed.
 
-```shell
-docker run --rm --name redis -d redis --appendonly yes
-```
+### Using Volumes with `docker run`
 
-This only tells redis to save data but not the docker container
+To persist data, you can use the `-v` or `--mount` flag.
 
-For that we need docker volume
-
-```shell
+```bash
+# Using a named volume 'redis_data'
 docker run --rm --name redis -v redis_data:/data -d redis --appendonly yes
 ```
 
-set data, then run again. even with different container name shows saved data.
+In this example, the data stored in `/data` inside the container will be persisted in a Docker-managed volume named `redis_data`.
 
-The `--appendonly yes` will save the redis data in `appendonlydir` and for this dir to not get deleted we need to create a docker volume so the data wouldn't get lost.
-
-By default, read and write is open to the container. We can restrict it by using `wo` and `ro`
-
-```shell
-docker run --rm --name redis -v redis_data:/data:ro -d redis --appendonly yes
+### Read-Only Volumes
+You can restrict a container to read-only access by adding `:ro` to the volume mapping:
+```bash
+docker run --rm --name redis -v redis_data:/data:ro -d redis
 ```
 
-### Anonymous volume
-
-We don't give it a name and kaboom! it's anonymous. like this:
-
-```shell
-docker run --rm --name redis -v /data -d redis --appendonly yes
+### Anonymous Volumes
+If you don't specify a name for the volume, Docker creates an anonymous volume with a random hash as its name.
+```bash
+docker run --rm -v /data redis
 ```
 
-### `--mount`
+## Mounting Types
 
-Using this we can specify type, target and source
+### Docker Volumes
+Managed by Docker and stored in a part of the host filesystem (`/var/lib/docker/volumes/` on Linux). They are the best way to persist data in Docker.
 
-- type: volume or bind
-- source: source dir on the host machine
-- destination, dst, target: dir inside container
+### Bind Mounts
+Map a file or directory on the host machine to a directory in the container.
+- **Usage**: Good for development (e.g., mounting source code into a container).
+- **Control**: Bind mounts are dependent on the directory structure of the host.
 
-```shell
-docker run --mount type=volume,target=/app/data,source=my-volume redis
-```
+### tmpfs Mounts
+Stored in the host's system memory (RAM) and never written to the host's filesystem.
+- **Usage**: Good for sensitive data or temporary files that require high performance.
 
-### Multiple storage
+## Volume Commands
 
-use multiple -v or --mount
-
-## Commands
-
-### ls
-
-Lists all volumes
-
-It only lists docker volumes. If we map the data to a specific directory on our system, it will not show up here.
-
-```shell
+### List Volumes
+```bash
 docker volume ls
 ```
 
-### create
-
-```shell
+### Create a Volume
+```bash
 docker volume create \
   --driver local \
   --label environment=production \
-  --label app=webapp \
-  --opt type=tmpfs \
-  --opt device=tmpfs \
-  --opt o=size=100m \
   my_volume
 ```
 
-ls would be:
-
-```shell
-docker volume inspect my_volume                                                                                                          ─╯
-[
-    {
-        "CreatedAt": "2025-10-04T19:13:33+03:30",
-        "Driver": "local",
-        "Labels": {
-            "app": "webapp",
-            "environment": "production"
-        },
-        "Mountpoint": "/var/lib/docker/volumes/my_volume/_data",
-        "Name": "my_volume",
-        "Options": {
-            "device": "tmpfs",
-            "o": "size=100m",
-            "type": "tmpfs"
-        },
-        "Scope": "local"
-    }
-]
+### Inspect a Volume
+```bash
+docker volume inspect my_volume
 ```
 
-### prune and rm
+### Remove Volumes
+```bash
+# Remove a specific volume
+docker volume rm my_volume
 
-same same
+# Remove all unused volumes
+docker volume prune
+```
 
-## Bind Mounting
+## Advanced Mounting Examples
 
-Literally mounting on a folder in hosts machine. Every read and write is visible to both sides.
-
-Difference is, docker volumes are only accessible through docker engine but bind mounted storage nein.
-
-## TMPFS
-
-Temporarily File System.
-
-```shell
+### Bind Mounting source code
+```bash
 docker run -d \
-  --name myapp \
+  --name dev-app \
+  -v $(pwd)/src:/app/src \
+  myapp
+```
+
+### Using `tmpfs` for performance
+```bash
+docker run -d \
+  --name cache-app \
   --tmpfs /app/cache:size=100m,mode=1777 \
   nginx:alpine
 ```
 
-The mode 1777 means everyone can write but only owner can delete
-
-You can also use `--mount` to use tmpfs
-
-```shell
+### Using `--mount` (Recommended)
+The `--mount` flag is more explicit and verbose than `-v`.
+```bash
 docker run -d \
-  --name myapp2 \
-  --mount type=tmpfs,destination=/app/cache,tmpfs-size=100m \
-  nginx:alpine
+  --name my-app \
+  --mount type=volume,source=my-vol,target=/app/data \
+  nginx
 ```

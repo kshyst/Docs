@@ -1,14 +1,28 @@
-# Lifecycle
+# Container Lifecycle
+
+Understanding the lifecycle of a Docker container is crucial for managing applications effectively. A container moves through several states from creation to deletion.
 
 ![cycle](img/docker-cycle.png)
 
 ![cycle](img/docker-cycle2.jpg)
 
+## Container States
 
-## States
+- **Created**: The container has been created from an image, but it has not been started yet. No processes are running inside it.
+- **Running**: The container is active and its main process is executing. In this state, you can view logs, execute commands, and interact with the container.
+- **Paused**: All processes in the container are suspended (frozen). The container remains in memory, but it does not consume CPU cycles. You can use the `unpause` command to resume it.
+- **Stopped**: The container's main process has been terminated. The container still exists in the Docker engine's storage, and its state (including its filesystem) is preserved. It can be restarted.
+- **Deleted/Removed**: The container and its associated metadata are completely removed from the system. Any data not stored in a volume is lost.
 
-- `Created`: When we create a container but not yet run it. There is no process in the container.
-- `Running`: When running and has processes and being able to see logs, run commands and ... . From this state we can pause and stop the container. Pausing is for small time.
-- `Paused`: Freezes all processes in the container and stays in the storage. We can use `unpause` command to run it again.
-- `Stopped`: If we turn the container off with `kill` or `stop` command
-- `Deleted`: Completely removed from system with `rm` command.
+## Lifecycle Commands
+
+| Action | Command | Resulting State |
+| :--- | :--- | :--- |
+| Create | `docker create` | Created |
+| Start | `docker start` | Running |
+| Run | `docker run` | Created -> Running |
+| Pause | `docker pause` | Paused |
+| Unpause | `docker unpause` | Running |
+| Stop | `docker stop` | Stopped |
+| Kill | `docker kill` | Stopped (Forceful) |
+| Remove | `docker rm` | Deleted |

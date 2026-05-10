@@ -1,48 +1,43 @@
-# Hypervisors
+# Hypervisors and Virtualization
 
-If we wish to run multiple operating systems on a single machine we need to distribute resources across these systems
+To run multiple operating systems on a single physical machine, we need to efficiently distribute hardware resources (CPU, RAM, storage) across these systems. This is achieved through virtualization.
 
-![hy](img/1.png)
+![hypervisor](img/1.png)
 
-## What is hypervisor
+## What is a Hypervisor?
 
-A software or sometimes a hardware that distributes resource and acts like receptionist in hotel:
+A hypervisor (or Virtual Machine Monitor, VMM) is software, firmware, or hardware that creates and runs virtual machines (VMs). It acts like a resource manager:
 
-VMs only share the same hardware.
+- **Host Machine**: The physical server.
+- **Hypervisor**: The "receptionist" that manages and distributes resources.
+- **Guest OS**: The individual operating systems running as VMs.
 
-- hotel : server
-- rooms : hardwares
-- guests : operating systems
+## Types of Hypervisors
 
-## Bare Metal
+### Type 1: Bare Metal
+These hypervisors run directly on the host's hardware to control the hardware and manage guest operating systems.
+- **Examples**: VMware ESXi, Microsoft Hyper-V, Xen.
 
-Runs directly on the hardware and there is no middle software.
+![bare-metal](img/2.png)
 
-VMware ESXi, Microsoft Hyper-V, Xen
+### Type 2: Hosted
+These hypervisors run on a conventional operating system (the host OS) just like other computer programs.
+- **Examples**: Oracle VirtualBox, VMware Workstation, Parallels Desktop.
 
-![hy](img/2.png)
+![hosted](img/3.png)
 
-## Hosted
+## Docker vs. Hypervisors
 
-Runs on top of the OS
+It is important to understand that **Docker is not a hypervisor**. While hypervisors virtualize the hardware, Docker virtualizes the operating system.
 
-VirtualBox, VMware Workstation, Parallels Desktop
+- **Hypervisor**: Each VM includes a full copy of an operating system, the application, and necessary binaries and libraries. This makes VMs heavy and slow to start.
+- **Docker**: Containers share the host system's kernel and isolate the application processes from the rest of the system. This makes containers lightweight and extremely fast to start.
 
-![hy](img/3.png)
+### Platform Compatibility
+Since Docker containers share the host kernel:
+- You cannot run a native Windows container directly on a Linux kernel.
+- However, tools like **WSL 2** (Windows Subsystem for Linux) allow Windows to run a Linux kernel, enabling Linux containers to run on Windows machines.
 
-## Hypervisor Usages
+![docker-arch](img/4.png)
 
-- Azure and AWS use hyper visors to create VPS
-- Test on different operating systems
-
-## Docker
-
-Docker is not a hypervisor. It containerizes. It uses operating systems kernel and make isolated places for apps to run on and this is being done by **Docker Engine**.
-
-So...
-
-We cannot run a windows container on a linux machine but because of WSL we can run a linux machine on windows
-
-![hy](img/4.png)
-
-![hy](img/5.png)
+![docker-vs-vm](img/5.png)

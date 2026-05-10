@@ -1,6 +1,8 @@
 # Docker Compose
 
-## Example of docker compose file
+Docker Compose is a tool for defining and running multi-container Docker applications. With Compose, you use a YAML file to configure your application's services, networks, and volumes.
+
+## Example Docker Compose File
 
 ```yaml
 version: '3.8'
@@ -53,134 +55,86 @@ networks:
   blog-net:
 ```
 
-### Some Explaining
+## Key Configuration Directives
 
-```yml
-version: '3.8'
+- `version`: The version of the Docker Compose file format.
+- `services`: Defines the different containers that make up your application.
+- `image`: Specifies the image to start the container from.
+- `ports`: Defines port mappings between the host and the container (`host:container`).
+- `environment`: Sets environment variables inside the container.
+- `volumes`: Defines mount points for persistent data.
+- `restart`: Configures the restart policy (e.g., `always`, `no`, `on-failure`, `unless-stopped`).
+- `logging`: Configures logging drivers and options.
+  ```yaml
+  logging:
+    driver: "json-file"
+    options:
+      max-size: "10m"
+  ```
+- `healthcheck`: Defines a command to check the health of the service.
+  ```yaml
+  healthcheck:
+    test: ["CMD", "curl", "-f", "http://localhost/health"]
+    interval: 30s
+    retries: 3
+  ```
+- `build`: Specifies configuration for building an image from a Dockerfile.
+  ```yaml
+  build:
+    context: ./path/to/context
+    dockerfile: Dockerfile.custom
+    args:
+      - APP_VERSION=1.0.0
+  ```
+- `external_links`: Connects to containers outside of the current Compose project.
+- `platform`: Specifies the target platform (e.g., `linux/amd64`).
+- `command`: Overrides the default command defined in the image.
+- `tmpfs`: Mounts a temporary file system in RAM.
+- `secrets`: Grants services access to sensitive data (secrets).
+- `ulimits`: Configures resource limits (e.g., number of processes).
+- `cpus` and `mem_limit`: Sets hard limits on CPU and memory usage.
+- `sysctls`: Configures kernel parameters for the container.
+- `pid`: Sets the PID namespace (e.g., `host` to share the host's PID stack).
+- `extra_hosts`: Adds hostname mappings to the container's `/etc/hosts` file. This is useful for accessing external services or the host machine by a custom domain name.
+  ```yaml
+  extra_hosts:
+    - "external.service.local:192.168.1.100"
+    - "api.internal:10.0.0.50"
+    # Special value to map a hostname to the host's bridge IP
+    - "host.docker.internal:host-gateway"
+  ```
 
-services:
-  web:
-    image: nginx
-    ports:
-      - "8080:80"
-    environment:
-      NODE_ENV: production
-  database:
-    image: postgres
-    environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: secret
-    volumes:
-      - db_data:/var/lib/postgresql/data
-```
+## Common Commands
 
-- `version`: the version of docker compose we are using
-- `services`: an object that defines various services we are using
-- web and database are service names.
-- image defines image, ports define list of port bindings, environment defines env variables
-- volumes define where should the volumes be stored
-- `restart:` always, no, on-failure, unless-stopped. First one always restarts when container is stopped and on-failure only restarts when container failed.
-- `logging:` 
-```    
-logging:
-  driver: "json-file"
-  options:
-  max-size: "10m"
-```
-- `healthcheck:` Lets you define a command for health checking on certain interval.
-```yaml
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost/health"]
-      interval: 30s
-      retries: 3
-```
-- `build:` Builds the specified image with the given dockerfile, context should be the path to where the dockerfile is and dockerfile is the name of the dockerfile, args are the arguments for building
-```yaml
-    build:
-      context: ./path/to/context
-      dockerfile: Dockerfile.custom
-      args:
-        - APP_VERSION=1.0.0
-```
-- `external_links:` Lets you connect to containers outside of the compose, useful when you wanna use containers on different machine
-```yaml
-    external_links:
-      - "some_external_container"
-```
-- `platform:` Specify platform
-```yml
-    platform: linux/amd64 
-```
-- `command:` Runs default command
-```yaml
-    command: ["nginx", "-g", "daemon off;"] 
-```
-- `tmpfs:` Temp storage defining
-```yaml
-    tmpfs:
-      - /tmp 
-```
-- `secrets:` Defining secrets
-```yml
-services:
-  web:
-    secrets:
-      - my_secret
-secrets:
-  my_secret:
-    file: ./my_secret.txt
-```
-- `ulimits:` Define limits on resources, nproc is the number of processing units.
-```yml
-    ulimits:
-      nproc: 1024
-```
-- `cpus:` Define number of processing units for the container
-```yml
-  cpus: "0.5"
-```
-- `mem_limit:` Limit memory
-```yaml
-    mem_limit: 512m 
-```
-- `sysctls:` Kernel parameters
-```yml
-    sysctls:
-      net.ipv4.ip_forward: 1
-```
-- `pid:` Set specific pid for the container in the host machine
-```yaml
-    pid: host 
-```
-
-## Commands
-
-### up
-
-```shell
+### Manage Stack
+```bash
+# Start the application stack
 docker compose up
+
+# Start in detached mode
+docker compose up -d
+
+# Stop and remove the stack
+docker compose down
 ```
 
-Live logs
-
-```shell
+### Logs and Debugging
+```bash
+# View live logs
 docker compose logs -f
+
+# Check configuration for errors
+docker compose config
 ```
 
-Images mentioned inside the docker compose file will be built
-
-```shell
-docker compose build
-```
-
-Running a command inside a container of a compose 
-
-```shell
+### Execute Commands
+```bash
+# Run a command inside a running service container
 docker compose exec web ls /usr/share/nginx/html
 ```
 
-Prints the yml file among with possible errors
-
-```shell
-docker compose config
+### Build Images
+```bash
+# Build or rebuild services
+docker compose build
 ```

@@ -1,93 +1,82 @@
 # Docker Networking
 
-Each container has its own network and each network has a driver.
+Docker networking allows containers to communicate with each other and with the host or external networks. Each container is assigned its own network stack, and Docker uses network drivers to manage this connectivity.
 
-Drivers have various functionalities for example some assign ip and some doesn't.
+## Core Concepts
 
-Run the `ip route` command to see network interfaces. There is an interface called docker0 and is used for docker only.
+- **Network Interface**: Docker creates a virtual interface (typically `docker0`) on the host to manage container traffic. You can view network interfaces using the `ip route` or `ip addr` command.
+- **Network Drivers**: Drivers define how the network is structured and how containers communicate.
 
-## Commands
+## Common Commands
 
-### ls
-
-listing networks
-
-```shell
+### Manage Networks
+```bash
+# List all networks
 docker network ls
+
+# Create a new network
+docker network create -d bridge my-network
+
+# Remove a network
+docker network rm my-network
+
+# Remove all unused networks
+docker network prune
 ```
 
-### create
+### Inspect and Connect
+```bash
+# Display detailed information about a network
+docker network inspect my-network
 
-creating a network 
+# Connect a running container to a network
+docker network connect my-network <container-name>
 
-```shell
-docker network create -d bridge kshyst-network
+# Disconnect a container from a network
+docker network disconnect my-network <container-name>
 ```
-
-### inspect
-
-For inspecting a network
-
-```shell
-docker network inspect kshyst-network
-```
-
-### connect
-
-```shell
-docker network connect kshyst-network <container-name>
-```
-
-### prune
-
-deleting not used networks
-
-### rm
-
-deleting
 
 ## Network Drivers
 
-### Bridge
+### Bridge (Default)
+The `bridge` driver is the default network driver. It creates a private network internal to the host so containers on that network can communicate.
 
-It is like a wire which connect 2 networks directly and is the default network for docker containers.
+![bridge](img/bridge.webp)
 
-![img](img/bridge.webp)
-
-Interfaces are defined on host.
-
-In bridge, each container gets a unique ip address, you can get this ip address by using `docker inspect [CONTAINER-ID]`.
-
-Because of this unique ip address mapping, for connecting to a network in this case we should use the NAT on the host that could cause performance issues
+- **Functionality**: Each container gets a unique internal IP address.
+- **Access**: External access is managed via Port Forwarding (NAT).
 
 ### Host
+The `host` driver removes network isolation between the container and the Docker host, allowing the container to use the host's networking directly.
 
-In this case containers don't get unique ip and will use the hosts ip and ports. so we don't use the NAT on host device.
-
-This type of driver could cause security issues due to lack of isolation between network in container and host.
+- **Performance**: High performance as it bypasses NAT.
+- **Security**: Lower isolation; the container can access any service on the host's network.
 
 ### Overlay
+The `overlay` driver creates an internal network that spans multiple Docker hosts. This is essential for multi-host clusters like Docker Swarm or Kubernetes.
 
-For networking between containers on different hosts. Usually used in kubernetes and docker-swarm. Overlay is important in load balancing and microservices.
+- **Usage**: Enables communication between containers on different physical or virtual hosts.
 
 ### Macvlan
+The `macvlan` driver allows you to assign a MAC address to a container, making it appear as a physical device on your network.
 
-Gives each container on its network a unique MAC address which makes each container appear as separate physical device.
-
-Containers on Macvlan can get their IP addresses from network that host is using.
+- **Functionality**: Containers can be assigned IPs directly from the physical network's subnet.
 
 ### IPvlan
+`ipvlan` is similar to `macvlan` but gives you more control over IPv4 and IPv6 addressing.
 
-Like Macvlan but each container is sub network of the host's network and get their ip address from host
-
-There are 2 types for this:
-
-- **L2**: Just like Macvlan 
-- **L3**: Traffic between containers and host will be directed though hosts ip address
+- **L2 Mode**: Similar to Macvlan (Layer 2).
+- **L3 Mode**: Traffic is routed via the host (Layer 3).
 
 ### None
+The `none` driver disables all networking for a container. The container only has a loopback interface.
 
-No network. Only has loopback
+## Summary Table
 
-## Default Networks
-
+| Driver | Description | Best For |
+| :--- | :--- | :--- |
+| **Bridge** | Default private network on a single host. | Standard standalone containers. |
+| **Host** | Uses the host's network stack directly. | High-performance applications. |
+| **Overlay** | Multi-host network. | Swarm services and multi-node clusters. |
+| **Macvlan** | Assigns a MAC address to containers. | Legacy apps needing direct network access. |
+| **None** | No networking. | Isolated workloads. |

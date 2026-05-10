@@ -1,58 +1,73 @@
-# YAML files
+# YAML for Docker
 
-### Indentations
+YAML (YAML Ain't Markup Language) is a human-readable data serialization language. It is commonly used for configuration files, including Docker Compose and Kubernetes manifests.
 
-Should use 2 space or 4 spaces indentations. Using **Tab** is prohibited
+## Basic Syntax Rules
 
-### Comments
+- **Indentation**: Use spaces (usually 2 or 4) for indentation. **Tabs are strictly prohibited** and will cause parsing errors.
+- **Comments**: Use the `#` symbol for comments.
 
-Using #
+## Data Types
 
-### Data types
+### Scalars
+- **Strings**: Can be unquoted, or enclosed in single (`' '`) or double (`" "`) quotes.
+- **Numbers**: Supports integers and floating-point numbers.
+- **Booleans**: Represented by `true`/`false` (or `yes`/`no`).
+- **Null**: Represented by `null` or the tilde (`~`).
 
-- strings: Using " " or ' '
-- numbers: any `float` or `int`
-- boolean: `true` or `false`
-- null: `null` or `~`
-- lists: using `-` just like in md. Nested lists are available too.
-```yml
+### Collections
+
+#### Lists (Sequences)
+Items in a list start with a hyphen (`-`).
+```yaml
 shopping_list:
   - fruits:
       - apple
       - banana
   - vegetables:
       - carrot
-      - broccoli 
+      - broccoli
 ```
-- dictionary: writing multiple key-value pairs under a key. This is used a fucking lot. Nested dicts are also available.
-```yml
+
+#### Dictionaries (Mappings)
+Mappings use a `key: value` format. They are extensively used in Docker Compose files.
+```yaml
 user:
   name: Bob
   details:
     age: 30
     skills:
       - Python
-      - Docker 
+      - Docker
 ```
-- multiline strings: using `|` or `>` .
-```yml
+
+### Advanced Features
+
+#### Multiline Strings
+- `|` (Literal): Preserves newlines.
+- `>` (Folded): Replaces newlines with spaces.
+
+```yaml
 description: |
   This is a multiline
   text block.
-  The new lines are preserved. 
+  Newlines are preserved.
 
 summary: >
   This is a folded multiline string.
-  The newlines will be replaced with spaces
-  when displayed as a single line.
+  Newlines will be replaced with spaces
+  when parsed as a single line.
 ```
-- anchors and aliases: using << and * to point to a setting and & to define a setting. & is anchor and * is alias.
-```yml
+
+#### Anchors and Aliases
+Anchors (`&`) and Aliases (`*`) allow you to reuse configuration blocks to keep your files DRY (Don't Repeat Yourself). The merge key (`<<`) can be used to import the contents of an anchor.
+
+```yaml
 defaults: &default_settings
   timeout: 30
   retries: 3
 
 production:
   <<: *default_settings
-  timeout: 60 
+  timeout: 60
 ```

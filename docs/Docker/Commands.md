@@ -1,106 +1,92 @@
-# Working with images
+# Docker Commands
 
-### Listing All the downloaded images
-```shell
+This guide covers essential Docker commands for working with images and containers.
+
+## Working with Images
+
+### Listing Images
+```bash
+# List all downloaded images
 docker image ls
-```
 
-for showing all including dangling images use `-a`
+# Show all images including dangling ones
+docker image ls -a
 
-For specifying repository
-```shell
+# Specify a repository
 docker images alpine
 ```
 
-### Pulling images
-
-```shell
+### Pulling Images
+```bash
+# Pull an image from a registry
 docker image pull IMAGE_NAME[:TAG]
-```
 
-For specifying the cpu architecture
-
-```shell
+# Specify the CPU architecture
 docker image pull --platform linux/amd64 alpine:3.21.3
 ```
 
-### Inspecting images
-
-```shell
+### Inspecting Images
+```bash
 docker image inspect redis
 ```
 
-
-### Pushing image to docker registry
-
-
-Firstly, your bitch ass needs to login
-```shell
+### Pushing Images to a Registry
+Before pushing, you must authenticate with the registry:
+```bash
 docker login
 ```
 
-specify a tag for the image
-```shell
+Tag the image appropriately:
+```bash
 docker image tag SOURCE_IMAGE TARGET_IMAGE
 ```
 
-```shell
+Push the image:
+```bash
 docker image push myrepo/myimage:1.0
 ```
 
-### Deleting image
-
-```shell
+### Deleting Images
+```bash
 docker image rm IMAGE_NAME
 ```
 
-if u try removing an image with a running container it will throw an error so use `-f`
+> **Note**: Removing an image with a running container will result in an error. Use the `-f` flag to force removal.
 
-To remove unnecessary images that are not used use:
-```shell
+To remove unused images and free up space:
+```bash
 docker image prune
 ```
 
 ![commands](img/6.png)
 
-### Saving images in tar
-
-```shell
+### Saving and Loading Images
+```bash
+# Save images to a tar archive
 docker image save -o nginx_backup.tar nginx
 docker image save -o images_backup.tar ubuntu nginx redis
+
+# Load images from a tar archive
+docker image load -i FILE_NAME.tar
 ```
 
-### Tagging images
-
-Setting tag or specifying version before pushing to registry
-
-```shell
+### Tagging Images
+```bash
 docker image tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]
 docker image tag ubuntu:20.04 myrepo/ubuntu:latest
 docker image tag nginx myrepo/nginx:v2.0
 ```
 
-### Load images
-
-```shell
-docker image load -i FILE_NAME.tar
-```
-
-### Importing images
-
-Creates an image from a tar file or an URL. Unlike in `docker image load` the importing package doesn't need to be an image.
-
-```shell
+### Importing Images
+Creates an image from a tar file or a URL. Unlike `docker image load`, the imported package doesn't necessarily need to be a Docker image.
+```bash
 docker image import myfilesystem.tar myimage:1.0
 docker image import -c "CMD ['bash']" myfilesystem.tar myimage:latest
 docker image import http://example.com/filesystem.tar myimage:latest
 ```
 
-### Searching 
-
-Searches for images in docker registry
-
-```shell
+### Searching for Images
+```bash
 docker search php
 docker search --filter=stars=3 php
 docker search --limit=1 php
@@ -109,195 +95,154 @@ docker search --filter is-official=true mongo
 
 ![commands](img/7.png)
 
-# Working with Containers
+## Working with Containers
 
-These are same
-
-```shell
+### Listing Containers
+The following commands are equivalent:
+```bash
 docker container ls
 docker ps
 ```
 
-### Running containers
-This creates and run a new container 
-
-```shell
+### Running Containers
+The `run` command creates and starts a new container.
+```bash
 docker container run nginx
 docker container run -d -p 8080:80 nginx
 docker container run -d --name mynginx -e ENV_VAR=production nginx
 ```
 
-- `--name` for specifying container's name
-- `-d` for running in background
-- `-e` for setting env variables
-- `-v` for setting volume
-- `-p` for mapping ports first one is host and second one is inside the container
-- `--rm` will remove the running instance of the container and it's resources once it stopped
+- `--name`: Specify a name for the container.
+- `-d`: Run the container in the background (detached mode).
+- `-e`: Set environment variables.
+- `-v`: Mount a volume.
+- `-p`: Map ports (host_port:container_port).
+- `--rm`: Automatically remove the container and its resources when it stops.
 
-> Any argument before the image name will be passed as image setting and any argument after image name will be passed as flags for ENTRYPOINT
+> **Tip**: Arguments before the image name are passed as Docker settings, while arguments after the image name are passed as flags for the `ENTRYPOINT`.
 
-### Logging containers
-
-```shell
+### Viewing Logs
+```bash
 docker container logs mycontainer
 docker container logs -f mycontainer
 docker container logs --tail 10 mycontainer
 ```
 
-- `-f` for live logging
-- `--tail` only shows certain amount of last lines
-- `-t` adds timestamps to logs
+- `-f`: Live streaming of logs.
+- `--tail`: Show a specific number of recent log lines.
+- `-t`: Add timestamps to logs.
 
-### Stopping
-
-Dockers sends SIGTERM to all processes in the container before stopping it. By using `-t` we can specify time before sending SIGKILL
-
-```shell
+### Stopping Containers
+Docker sends a `SIGTERM` signal to processes in the container before stopping. Use `-t` to specify a grace period before sending `SIGKILL`.
+```bash
 docker container stop mycontainer
 docker container stop container1 container2
 ```
 
-### Removing 
-
-```shell
+### Removing Containers
+```bash
 docker container rm mycontainer
-docker container rm container1 container2
 docker container rm -f mycontainer
+docker container rm -v mycontainer
 ```
 
-- `-f` for forcing running
-- `-v` also removes the volumes connected to the container
+- `-f`: Force removal of a running container.
+- `-v`: Remove the volumes associated with the container.
 
-### Stats
-
-```shell
+### Monitoring Performance
+```bash
 docker container stats
 docker container stats mycontainer
 docker container stats --no-stream
 ```
 
-### Exec 
-
-```shell
-docker container exec
-```
-
-- `-i` for interactive
-- `-t` for specifying TTY
-
-```shell
+### Executing Commands
+```bash
+# Run a command in a running container
 docker container exec -it mycontainer bash
 docker container exec mycontainer ls /app
 ```
 
+- `-i`: Interactive mode.
+- `-t`: Allocate a pseudo-TTY.
+
 ![](img/8.png)
 
-### Attach
+### Attaching to Containers
+Connects the I/O of your terminal to a running container. To detach without stopping the container, use `CTRL + P` followed by `CTRL + Q`.
 
-Connects the I/O of 2 containers. To exit without stop use `CTRL + Q` and `CTRL + P`
-
-### Commiting container
-
-Creates an image from the current state of the container
-
-- `-m` for message
-- `a` for author
-
-```shell
+### Committing Changes
+Creates a new image from the current state of a container.
+```bash
+# -m: Commit message, -a: Author
 docker container commit mycontainer myimage:latest
 ```
 
-### Copying file 
-
-```shell
+### Copying Files
+```bash
 docker container cp mycontainer:/path/to/file /local/path
 docker container cp /local/path mycontainer:/path/to/file
 ```
 
-### Diff
-
-Shows list of deleted and changed and added files in container
-
-```shell
+### File System Changes
+Shows the list of deleted, changed, and added files in a container.
+```bash
 docker container diff mycontainer
 ```
 
-### Kill
-
-Sends SIGKILL by default and can change the killing signal with `-s`.
-
-```shell
+### Killing Containers
+Sends a `SIGKILL` by default. You can specify a different signal with `-s`.
+```bash
 docker container kill -s SIGTERM mycontainer
 ```
 
-### Port
-
-Shows the ports
-
-```shell
+### Port Mapping and Processes
+```bash
+# Show port mappings
 docker container port mycontainer
-```
 
-### Top
-
-It's like `ps` in linux
-
-```shell
+# List processes running in the container
 docker container top mycontainer
 ```
 
-### Update
-
-Can update the resources allocated to a container
-
-```shell
+### Updating Resources
+Update the resources allocated to a container on the fly.
+```bash
 docker container update --memory 512m --cpus 1 mycontainer
 ```
 
-### Wait
-
-This waits until a container stops and prints the output.
-
-```shell
+### Waiting for Containers
+Wait until a container stops and print its exit code.
+```bash
 docker container wait mycontainer
 ```
 
 ![](img/9.png)
 
-## Additional Docker Commands
+## Additional Tools
 
-### Scout
-
-For checking out an image for possible vulnerabilities and security concerns.
-
-```shell
-docker scout [OPTIONS] IMAGE
+### Docker Scout
+Analyzes images for vulnerabilities and security concerns.
+```bash
 docker scout ubuntu:latest
 ```
 
-### Plugin 
-
-For managing plugins
-
-```shell
-docker plugin [OPTIONS] COMMAND
+### Plugins
+Manage Docker plugins.
+```bash
 docker plugin install <plugin-name>
 ```
 
-### Init
-
-Creating isolated environments for running the containers faster
-
-```shell
-docker init [OPTIONS] IMAGE
+### Docker Init
+Initializes a project with Dockerfile, docker-compose, and .dockerignore files.
+```bash
+docker init
 ```
 
-### Debug
-
-Debuging the container
-
-```shell
-docker debug [OPTIONS] CONTAINER
+### Docker Debug
+Debugs a running container.
+```bash
+docker debug CONTAINER
 ```
 
 ![m](img/10.png)
