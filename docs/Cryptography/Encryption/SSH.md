@@ -17,6 +17,20 @@ ED25519 is the public-key algorithm used for digital signature generation and ve
 
 In this case, the user must authenticate the server, i.e., confirm the server’s identity by checking the public key signature. Once you answer with “yes”, the SSH client will record this **public key signature for this host**. In the future, it will connect you silently **unless this host replies with a different public key**.
 
+## SSH Key Fingerprints
+
+A **fingerprint** is a short, unique string of characters used to identify a much longer public key. Because public keys (like RSA 4096-bit keys) are too long for humans to easily compare, SSH uses a cryptographic hash of the public key to create a fingerprint.
+
+- **Format**: Modern SSH clients typically show fingerprints using the **SHA256** hash algorithm (e.g., `SHA256:lLzhZc...`).
+- **Purpose**: When you connect to a server for the first time, the client displays the server's public key fingerprint. You should verify this fingerprint against a trusted source (like the server administrator or a web dashboard) to ensure you are connecting to the correct machine.
+- **Verification**: If the fingerprint shown by your client doesn't match the expected one, it's a sign of a **Man-in-the-Middle (MITM)** attack. Someone might be intercepting your connection and presenting their own key to steal your credentials.
+
+!!! info "Checking a local key's fingerprint"
+    You can check the fingerprint of your own local public key using:
+    ```bash
+    ssh-keygen -lf ~/.ssh/id_ed25519.pub
+    ```
+
 ## Authenticating the Client
 
 Normally the user uses username and password. But it's lame.
@@ -43,3 +57,18 @@ The permissions must be set up correctly to use a private SSH key; otherwise, yo
 
 ### Keys Trusted by the Remote Host
 The `~/.ssh` folder is the default place to store these keys for OpenSSH. The authorized_keys (note the US English spelling) file in this directory holds public keys that are allowed access to the server if key authentication is enabled. By default on many Linux distributions, key authentication is enabled as it is more secure than using a password to authenticate. Only key authentication should be accepted if you want to allow SSH access for the root user.
+
+## Case Study: GitHub Authentication
+
+GitHub uses SSH public key authentication to securely identify users during `git push` and `git pull` operations. This removes the need to enter your username and password for every interaction.
+
+### The Authentication Flow
+
+1. **Key Generation**: You generate an SSH key pair (e.g., using `ssh-keygen -t ed25519`) on your local machine.
+2. **Public Key Upload**: You copy the content of your **public key** (e.g., `~/.ssh/id_ed25519.pub`) and add it to your GitHub account under **Settings > SSH and GPG keys**.
+3. **The Challenge**: When you run `git push`, your Git client connects to `git@github.com`. GitHub looks up the public keys associated with your account.
+4. **Signature Verification**: GitHub sends a "challenge" (a piece of random data) to your client. Your SSH agent signs this challenge using your **private key** and sends the signature back.
+5. **Access Granted**: GitHub verifies the signature using your stored public key. If it matches, GitHub knows you possess the corresponding private key and authorizes the push/pull operation.
+
+!!! note
+    GitHub never sees your private key. The authentication happens entirely through the cryptographic proof that you own the private key corresponding to the public key you uploaded.
