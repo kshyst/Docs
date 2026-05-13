@@ -1,27 +1,77 @@
 # Playbooks
 
-A playbook template to use:
+**Playbooks** are the building blocks of Ansible. They are YAML files that describe the desired state of your systems. Unlike ad-hoc commands, playbooks are version-controlled and can manage complex multi-tier deployments.
 
-`deploy-fastapi.yml`:
+## Playbook Structure
+
+A playbook consists of one or more **plays**. A play maps a group of hosts to a set of tasks.
+
+```yaml
+---
+- name: Setup Web Servers
+  hosts: webservers
+  become: yes  # Elevate privileges to root
+
+  tasks:
+    - name: Ensure Apache is installed
+      apt:
+        name: apache2
+        state: present
+
+    - name: Ensure Apache is running
+      service:
+        name: apache2
+        state: started
+```
+
+### Key Components
+
+- **name**: A description of the play or task.
+- **hosts**: Specifies the managed nodes from the **Inventory**.
+- **become**: Enables privilege escalation.
+- **tasks**: A list of modules to execute.
+- **handlers**: Special tasks that only run when notified by another task (e.g., restarting a service after a config change).
+
+## Advanced Features
+
+### Loops
+Loops allow you to perform a task multiple times with different values.
+
+```yaml
+- name: Configure Pip Mirror
+  command: "pip config set global.{{ item.key }} {{ item.value }}"
+  loop:
+    - { key: 'index-url', value: 'https://mirror-pypi.runflare.com/simple' }
+    - { key: 'trusted-host', value: 'mirror-pypi.runflare.com' }
+```
+
+### Gathering Facts
+By default, Ansible runs the `setup` module at the start of every play to gather **Facts** about the managed nodes (OS, IP, CPU, etc.).
+
+```yaml
+- name: Show the operating system
+  debug:
+    msg: "This server is running {{ ansible_distribution }} {{ ansible_distribution_version }}"
+```
+
+## Practical Example: FastAPI Deployment
+
+This example demonstrates a comprehensive deployment strategy including dependencies, directories, and systemd services.
 
 ```yaml
 ---
 - name: Deploy FastAPI Application
   hosts: api_servers
-  become: yes  # Run as root
+  become: yes
 
-  # Define variables for our project
   vars:
     app_dir: /opt/fastapi_app
     app_port: 8000
 
   tasks:
-    - name: Update apt cache and install system dependencies
+    - name: Install system dependencies
       apt:
-        name:
-          - python3
-          - python3-pip
-          - python3-venv
+        name: [python3, python3-pip, python3-venv]
         state: present
         update_cache: yes
 
@@ -31,61 +81,37 @@ A playbook template to use:
         state: directory
         mode: '0755'
 
-    - name: Copy FastAPI app (main.py) to server
+    - name: Copy application files
       copy:
         src: files/main.py
         dest: "{{ app_dir }}/main.py"
 
-    - name: Copy requirements.txt to server
-      copy:
-        src: files/requirements.txt
-        dest: "{{ app_dir }}/requirements.txt"
-
-    - name: Create virtual environment and install dependencies
+    - name: Install Python dependencies
       pip:
         requirements: "{{ app_dir }}/requirements.txt"
         virtualenv: "{{ app_dir }}/venv"
-        virtualenv_command: python3 -m venv
 
-    - name: Template the systemd service file
+    - name: Configure systemd service
       template:
         src: templates/fastapi.service.j2
         dest: /etc/systemd/system/fastapi.service
+      notify: Reload systemd
 
-    - name: Reload systemd daemon to recognize new service
+  handlers:
+    - name: Reload systemd
       systemd:
         daemon_reload: yes
-
-    - name: Enable and start FastAPI service
-      systemd:
         name: fastapi
         state: restarted
-        enabled: yes
-
-    - name: Open firewall port for FastAPI (UFW)
-      ufw:
-        rule: allow
-        port: "{{ app_port }}"
-        proto: tcp
 ```
 
-Use `-K` to always be asked for password when become : yes
+## Running Playbooks
 
-```shell
-ansible-playbook -i inventory.ini deploy-fastapi.yml -K
+Execute a playbook using the `ansible-playbook` command:
+
+```bash
+ansible-playbook -i inventory.ini site.yml -K
 ```
 
-### Writing loops
-
-
-```yaml
-    - name: Configure Pip Mirror
-      command: "pip config set global.{{ item.key }} {{ item.value }}"
-      loop:
-        - { key: 'index-url', value: 'https://mirror-pypi.runflare.com/simple' }
-        - { key: 'trusted-host', value: 'mirror-pypi.runflare.com' }
-```
-
-### Notes
-
-If you want content of a folder write `folder/` and if folder itself write `folder`.
+!!! note
+    If you run the same playbook twice, Ansible will report `ok` for tasks where the state is already met, demonstrating **Idempotency**.
