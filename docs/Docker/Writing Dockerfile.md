@@ -138,7 +138,7 @@ docker buildx build --platform linux/amd64,linux/arm64 -t my-app .
 ## Best Practices
 
 - **Use Build Cache**: Order your instructions from least frequent to most frequent changes to leverage Docker's layer caching.
-- **Pin Base Images**: Use specific versions or digests (SHA-256) instead of `latest` to ensure reproducibility.
+- **Pin Base Images**: Use specific versions or [digests (SHA-256)](Docker%20Digests.md) instead of `latest` to ensure reproducibility.
 - **Use .dockerignore**: Exclude unnecessary files (like `node_modules` or `.git`) to reduce image size and build time.
 - **Minimize Layers**: Combine related `RUN` commands using `&&` and use multi-stage builds to keep the final image small.
 - **Enable Pipefail**: Use `set -o pipefail` in shell scripts to ensure that pipe failures are caught.

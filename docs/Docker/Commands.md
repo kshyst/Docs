@@ -12,6 +12,9 @@ docker image ls
 # Show all images including dangling ones
 docker image ls -a
 
+# Show images with their [digests](Docker%20Digests.md)
+docker image ls --digests
+
 # Specify a repository
 docker images alpine
 ```

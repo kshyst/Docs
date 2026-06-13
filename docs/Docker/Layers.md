@@ -11,6 +11,8 @@ Docker utilizes a **Copy-on-Write (CoW)** strategy for maximum efficiency.
 - If a layer needs to modify a file from a lower layer, it first copies the file to the current layer and then applies the changes.
 - This ensures that the underlying layers remain unchanged and can be shared among multiple images.
 
+The unique combination of these layers is identified by a [Docker Digest](Docker%20Digests.md), which serves as an immutable fingerprint of the image content.
+
 ## Types of Layers
 
 - **Base Layer**: The initial layer of the image, typically an operating system like `ubuntu` or `alpine`.

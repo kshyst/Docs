@@ -6,7 +6,7 @@ Docker is a platform that allows you to automate the deployment, scaling, and ma
 
 ## Core Concepts
 
-- **Image**: A read-only template that contains the application code, libraries, and dependencies required to run an application. We use images to build containers.
+- **Image**: A read-only template that contains the application code, libraries, and dependencies required to run an application. Images can be identified by tags or [digests](Docker%20Digests.md). We use images to build containers.
 - **Container**: A lightweight, standalone, and executable package of software that includes everything needed to run an application. It is a running instance of an image.
 - **Docker Engine**: The core software that handles and controls containers on your host system.
 - **Docker Hub / Registry**: An online service (registry) for storing and sharing Docker images.
