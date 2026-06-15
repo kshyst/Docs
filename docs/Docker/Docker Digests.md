@@ -60,3 +60,9 @@ CMD ["npm", "start"]
 
 !!! tip
     While using digests is great for stability, remember that you won't automatically receive security patches. You should have a process to regularly update your digests when new base image versions are released.
+
+## Troubleshooting: Digest Mismatches
+
+In modern Docker builds (BuildKit/Buildx), you might encounter situations where your local digest doesn't match the registry digest even if no code has changed. This is often caused by **Attestations** and the use of **Manifest Lists**.
+
+If you are experiencing "infinite recreation loops" in tools like Watchtower or WUD, see [Docker Attestations & Manifest Mismatches](Docker%20Attestations.md).

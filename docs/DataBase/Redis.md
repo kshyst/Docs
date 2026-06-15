@@ -15,5 +15,24 @@ redis-cli
 
 ## Commands Guide
 
-[Geek for Geeks](https://www.geeksforgeeks.org/complete-guide-to-redis-commands/)
+### Retrieving All Values
+The command to get "everything" from a key depends on its **Data Type**:
+
+| Type | Command | Description |
+| :--- | :--- | :--- |
+| **String** | `GET key` | Returns the single value stored at the key. |
+| **Hash** | `HGETALL key` | Returns all fields and values in the hash. |
+| **List** | `LRANGE key 0 -1` | Returns all elements in the list (from first to last). |
+| **Set** | `SMEMBERS key` | Returns all unique members of the set. |
+| **Sorted Set** | `ZRANGE key 0 -1` | Returns all members in the sorted set, ordered by score. |
+
+### General Key Operations
+- `KEYS *`: List all keys in the database (⚠️ **Do not use in production**).
+- `SCAN 0`: Iteratively list keys (Safer alternative to `KEYS`).
+- `TYPE key`: Check the data type of a key.
+- `EXISTS key`: Check if a key exists.
+
+## Useful Links
+- [Complete Guide to Redis Commands](https://www.geeksforgeeks.org/complete-guide-to-redis-commands/)
+- [Redis Official Documentation](https://redis.io/commands/)
 

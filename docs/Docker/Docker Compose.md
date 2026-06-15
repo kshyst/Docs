@@ -2,6 +2,8 @@
 
 Docker Compose is a tool for defining and running multi-container Docker applications. With Compose, you use a YAML file to configure your application's services, networks, and volumes.
 
+> **Note**: This guide focuses on **Compose v2** (e.g., `docker compose`). For a comparison with the legacy Python-based version, see [Docker v1 vs. v2](Docker%20v1%20vs%20v2.md).
+
 ## Example Docker Compose File
 
 ```yaml
