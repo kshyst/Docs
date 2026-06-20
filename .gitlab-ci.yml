@@ -7,25 +7,9 @@ build_job:
   stage: build
 
   before_script:
-    - echo "nameserver 10.202.10.202" > /etc/resolv.conf
-    - echo "nameserver 185.98.113.113" >> /etc/resolv.conf
-    - echo "nameserver 217.218.155.155" >> /etc/resolv.conf
-    - echo "nameserver 217.218.127.127" >> /etc/resolv.conf
-    - echo "nameserver 172.26.146.34" >> /etc/resolv.conf
-    - echo "nameserver 172.26.146.35" >> /etc/resolv.conf
-    - echo "nameserver 87.107.110.110" >> /etc/resolv.conf
-    - echo "nameserver 87.107.110.109" >> /etc/resolv.conf
-    - echo "search ." >> /etc/resolv.conf
-
-    - set +e
-    - curl -I https://pypi.hyperclouds.ir/simple
-    - curl -I https://mirror-pypi.runflare.com/simple
-    - curl -I https://package-mirror.liara.ir/repository/pypi/simple
-    - set -e
-
     - python --version
-    - pip install -i https://package-mirror.liara.ir/repository/pypi/simple --upgrade pip
-    - pip install -r requirements.txt -i https://package-mirror.liara.ir/repository/pypi/simple --extra-index-url https://mirror-pypi.runflare.com/simple --timeout 100 --retries 3
+    - pip install --upgrade pip
+    - pip install -r requirements.txt --timeout 100 --retries 3
   #  - pip config --user set global.index https://mirror-pypi.runflare.com/simple
   #  - pip config --user set global.index-url https://mirror-pypi.runflare.com/simple
   #  - pip config --user set global.trusted-host mirror-pypi.runflare.com
