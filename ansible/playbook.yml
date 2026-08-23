@@ -19,6 +19,12 @@
         src: ../site_build/
         dest: "{{ app_dir }}"
 
+    - name: Ensure nginx config exists
+      file:
+        path: "{{ nginx_path }}"
+        state: file
+        mode: "0755"
+
     - name: Deploy the nginx config file from template
       template:
         src: templates/docs.j2

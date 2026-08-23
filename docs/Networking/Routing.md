@@ -1,7 +1,27 @@
-# Routing Protocols
+# Routing
 
-- **OSPF (Open Shortest Path First)**: Every router on network share information about  the network topology and the most efficient path for data transmissions. In this protocol, routers exchange updates about the state of their connected links and networks. This way each router has a complete map of the network and can determine the best routes.
-- **EIGRP (Enhanced Interior Gateway Routing Protocol)**: Built by cisco, it combines aspects of different routing algorithm. Every router shares what network they can reach and the cost(like bandwidth or delay) associated with those routes.
-- **BGP (Border Gateway Protocol)**: Primary routing protocol used in internet. It allows different networks(Like ISPs) to exchange routing information and establish paths for data to travel between these networks. BGP helps ensure data can route efficiently across multiple networks.
-- **RIP (Routing Information Protocol)**: Simple routing protocol in small networks. Routers using RIP share information about the networks they can reach and number of hops(routers) required to get there. As a result each router builds a routing table based on this information and then chooses the route with fewest hops to reach dest.
+Routing is the process of selecting a path for packets between networks. Routers can learn routes from directly connected interfaces, static configuration, or dynamic routing protocols.
 
+Dynamic routing protocols fall into two broad operational categories:
+
+- **Interior Gateway Protocols (IGPs)** exchange routes inside one administrative domain. Common examples are OSPF, IS-IS, RIP, and EIGRP.
+- **Border Gateway Protocol (BGP)** exchanges policy-controlled reachability. eBGP operates between autonomous systems, while iBGP distributes BGP routes inside one autonomous system.
+
+## Routing Protocol Guides
+
+- [BGP fundamentals](Routing%20Protocols/BGP.md)
+- [External BGP (eBGP)](Routing%20Protocols/eBGP.md)
+- [Internal BGP (iBGP)](Routing%20Protocols/iBGP.md)
+- [Interior Gateway Protocols (IGPs)](Routing%20Protocols/IGP.md)
+- [BGP and IGP overview](Routing%20Protocols/index.md)
+
+## Route Selection Layers
+
+When forwarding a packet, a router generally:
+
+1. chooses the route with the longest matching prefix;
+2. if identical prefixes come from different sources, applies its protocol or administrative preference;
+3. if one protocol offers multiple paths, applies that protocol's metric and tie-breakers;
+4. programs the selected next hop into the forwarding table.
+
+A routing protocol's best path is not necessarily usable: its next hop must also resolve through the routing table.
